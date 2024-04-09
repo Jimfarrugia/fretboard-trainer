@@ -12,13 +12,22 @@ export default function Header() {
         </h1>
       </Link>
       <div className="flex gap-4 text-sm">
-        <Link href="/about" className="underline hover:text-dark-hover">
+        <Link
+          href="/about"
+          className="underline text-light-link hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+        >
           About
         </Link>
-        <Link href="/tips" className="underline hover:text-dark-hover">
+        <Link
+          href="/tips"
+          className="underline text-light-link hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+        >
           Tips
         </Link>
-        <Link href="/signin" className="underline hover:text-dark-hover">
+        <Link
+          href="/signin"
+          className="underline text-light-link hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+        >
           Sign In
         </Link>
         <ThemeToggle />
