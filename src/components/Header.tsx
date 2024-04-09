@@ -1,11 +1,13 @@
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
+import { IoSchoolOutline } from "react-icons/io5";
 
 export default function Header() {
   return (
     <nav className="flex justify-between items-center my-6">
       <Link href="/">
-        <h1 className="font-bold text-xl text-dark-heading">
+        <h1 className="flex items-center gap-2 font-bold text-xl text-light-heading dark:text-dark-heading">
+          <IoSchoolOutline className="text-2xl" />
           Fretboard Trainer
         </h1>
       </Link>
