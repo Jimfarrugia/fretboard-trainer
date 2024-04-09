@@ -1,7 +1,11 @@
+import History from "@/components/History";
+import Leaderboard from "@/components/Leaderboard";
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      hello world
+    <main>
+      <History />
+      <Leaderboard />
     </main>
   );
 }
