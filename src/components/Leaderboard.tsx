@@ -4,14 +4,14 @@ import { HiOutlineLightBulb } from "react-icons/hi";
 export default function Leaderboard() {
   return (
     <>
-      <div className="sm:flex sm:justify-between sm:items-center pt-12 pb-8">
-        <h2 className="font-bold text-lg mb-1 sm:mb-0 text-light-heading dark:text-dark-heading">
+      <div className="pb-8 pt-12 sm:flex sm:items-center sm:justify-between">
+        <h2 className="mb-1 text-lg font-bold text-light-heading dark:text-dark-heading sm:mb-0">
           Leaderboard
         </h2>
-        <p className="flex gap-1 items-center text-xs">
+        <p className="flex items-center gap-1 text-xs">
           <HiOutlineLightBulb className="text-lg text-light-highlight dark:text-dark-highlight" />
           <Link
-            className="font-bold underline text-light-link hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+            className="font-bold text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
             href="signin"
           >
             Sign in
@@ -19,10 +19,10 @@ export default function Leaderboard() {
           to publish your scores.
         </p>
       </div>
-      <table className="table-auto w-full text-xs">
+      <table className="w-full table-auto text-xs">
         <thead className="text-left text-light-heading dark:text-dark-heading">
           <tr className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg">
-            <th className="p-2 hidden sm:table-cell">Date</th>
+            <th className="hidden p-2 sm:table-cell">Date</th>
             <th className="p-2">Username</th>
             <th className="p-2">Instrument</th>
             <th className="p-2">Tuning</th>
@@ -31,7 +31,7 @@ export default function Leaderboard() {
         </thead>
         <tbody>
           <tr className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg">
-            <td className="px-2 py-4 hidden sm:table-cell">2024-07-29</td>
+            <td className="hidden px-2 py-4 sm:table-cell">2024-07-29</td>
             <td className="px-2 py-4">SRV_FAN</td>
             <td className="px-2 py-4">Guitar</td>
             <td className="px-2 py-4">E Standard</td>

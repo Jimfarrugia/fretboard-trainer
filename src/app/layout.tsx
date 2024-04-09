@@ -23,7 +23,7 @@ export default function RootLayout({
         className={`${inter.className} bg-light-bg text-light-body dark:bg-dark-bg dark:text-dark-body`}
       >
         <Providers>
-          <div className="container mx-auto max-w-md sm:max-w-4xl px-4">
+          <div className="container mx-auto max-w-md px-4 sm:max-w-4xl">
             <Header />
             {children}
             <Footer />
