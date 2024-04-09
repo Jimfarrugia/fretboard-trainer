@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { FiSun, FiMoon } from "react-icons/fi";
 
 export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
@@ -9,13 +11,26 @@ export default function ThemeToggle() {
 
   useEffect(() => setMounted(true), []);
 
-  if (!mounted) return <p>Loading theme toggle...</p>;
+  if (!mounted)
+    return (
+      <div className="text-lg">
+        <AiOutlineLoading3Quarters />
+      </div>
+    );
 
   if (resolvedTheme === "light") {
-    return <button onClick={() => setTheme("dark")}>Dark Theme</button>;
+    return (
+      <button className="text-lg">
+        <FiMoon onClick={() => setTheme("dark")} />
+      </button>
+    );
   }
 
   if (resolvedTheme === "dark") {
-    return <button onClick={() => setTheme("light")}>Light Theme</button>;
+    return (
+      <button className="text-lg">
+        <FiSun onClick={() => setTheme("light")} />
+      </button>
+    );
   }
 }
