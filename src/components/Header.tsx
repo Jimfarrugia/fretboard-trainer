@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Header() {
   return (
@@ -18,6 +19,7 @@ export default function Header() {
         <Link href="/signin" className="underline hover:text-dark-hover">
           Sign In
         </Link>
+        <ThemeToggle />
       </div>
     </nav>
   );

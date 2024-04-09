@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Providers } from "./providers";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./globals.css";
@@ -17,13 +18,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-dark-bg text-dark-body`}>
-        <div className="container mx-auto max-w-md sm:max-w-4xl px-4">
-          <Header />
-          {children}
-          <Footer />
-        </div>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${inter.className} bg-light-bg text-light-body dark:bg-dark-bg dark:text-dark-body`}
+      >
+        <Providers>
+          <div className="container mx-auto max-w-md sm:max-w-4xl px-4">
+            <Header />
+            {children}
+            <Footer />
+          </div>
+        </Providers>
       </body>
     </html>
   );
