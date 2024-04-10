@@ -4,7 +4,7 @@ import { IoSchoolOutline } from "react-icons/io5";
 
 export default function Header() {
   return (
-    <nav className="my-6 flex items-center justify-between">
+    <nav className="flex items-center justify-between pb-12 pt-8">
       <Link href="/">
         <h1 className="flex items-center gap-2 text-xl font-bold text-light-heading dark:text-dark-heading">
           <IoSchoolOutline className="text-2xl" />
