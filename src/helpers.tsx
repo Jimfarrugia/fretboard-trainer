@@ -47,3 +47,10 @@ export function hideNoteLabels() {
     span.classList.remove("clicked", "correct", "incorrect");
   });
 }
+
+// Parse scores from localStorage and return as an array of objects
+// or return an empty array if no scores exist in localStorage
+export const parseScoreHistory = () => {
+  const scores = localStorage.getItem("scores");
+  return scores ? JSON.parse(scores) : [];
+};
