@@ -4,7 +4,19 @@ import { BsStopwatch } from "react-icons/bs";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { FaMedal } from "react-icons/fa6";
 import Fretboard from "./Fretboard";
-import { randomNote, notes, hideNoteLabels } from "@/helpers";
+import {
+  randomNote,
+  notes,
+  hideNoteLabels,
+  parseScoreHistory,
+} from "@/helpers";
+
+interface Score {
+  score: number;
+  instrument: string;
+  tuning: string;
+  date: string;
+}
 
 export default function Game() {
   const [gameInProgress, setGameInProgress] = useState(false);
@@ -12,7 +24,16 @@ export default function Game() {
   const [challenge, setChallenge] = useState("");
   const [timer, setTimer] = useState(60);
   const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
+  const [newHighScore, setNewHighScore] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+
+  // Find and set high score from scores in local storage
+  useEffect(() => {
+    if (parseScoreHistory().length > 0) {
+      setHighScore(Math.max(...parseScoreHistory().map((s: Score) => s.score)));
+    }
+  }, []);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined;
@@ -31,6 +52,26 @@ export default function Game() {
     return () => clearInterval(interval);
   }, [timer, gameInProgress]);
 
+  useEffect(() => {
+    const saveScore = () => {
+      const newScore = {
+        score,
+        instrument: "Guitar",
+        tuning: "Standard E",
+        date: new Date().toISOString(),
+      };
+      const updatedScores = [...parseScoreHistory(), newScore];
+      localStorage.setItem("scores", JSON.stringify(updatedScores));
+    };
+    if (gameOver) {
+      saveScore();
+      if (score > highScore) {
+        setHighScore(score);
+        setNewHighScore(true);
+      }
+    }
+  }, [gameOver, score, highScore]);
+
   const newChallenge = (previousChallenge: string) => {
     // remove previous challenge note from eligible notes for next challenge
     const eligibleNotes = notes.filter((note) => note !== previousChallenge);
@@ -41,15 +82,11 @@ export default function Game() {
     setGameOver(false);
     setGameInProgress(true);
     setScore(0);
+    setNewHighScore(false);
     setTimer(10);
     newChallenge(challenge);
   };
 
-  // TODO: save the score to localStorage when game ends
-  const saveScore = () => {};
-
-  // TODO: get high score from localStorage
-  // TODO: print congrats msg in end game card if new high score
   // TODO: pass 'strings[]' to Fretboard as a prop
 
   return (
@@ -108,6 +145,9 @@ export default function Game() {
               </span>{" "}
               points.
             </p>
+            {newHighScore && (
+              <p className="mb-8">Congratulations on your new high score!</p>
+            )}
             <button
               type="button"
               className="rounded-md bg-light-link p-3 font-normal text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-heading hover:dark:text-dark-body"
@@ -153,7 +193,7 @@ export default function Game() {
         </div>
         {/* high score */}
         <div className={`flex items-center gap-1 ${gameOver && "opacity-25"}`}>
-          <span>0</span>
+          <span>{highScore}</span>
           <FaMedal className="text-xl" />
         </div>
       </div>
