@@ -1,0 +1,478 @@
+:root {
+  --failure-color: #eb5757;
+  --success-color: #27ae60;
+}
+
+.light {
+  --text-color: #ffffff;
+  --string-color: #3a61c7;
+  --fret-color: #2d2474;
+  --dot-color: #2d2474;
+  --board-color: #f1cd88;
+}
+
+.dark {
+  --text-color: #2c2e31;
+  --string-color: #d1d0c5;
+  --fret-color: #646669;
+  --dot-color: #646669;
+  --board-color: #2c2e31;
+}
+
+.fretboard-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 1em 0;
+  padding-bottom: 21.79%; /* 170px / 780px * 100% = 21.79% (Aspect Ratio) */
+}
+
+.fretboard {
+  background-color: var(--board-color);
+  border-radius: 0.4em;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.frets {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.fret {
+  position: absolute;
+  height: 100%;
+  border-left: 0.3em solid var(--fret-color);
+}
+
+span.clicked {
+  display: block !important;
+}
+span.correct {
+  background: var(--success-color) !important;
+}
+span.incorrect {
+  background: var(--failure-color) !important;
+}
+
+/* Dot placement */
+
+.dot {
+  position: absolute;
+  background: var(--dot-color);
+  border-radius: 100%;
+  height: 10%;
+  width: 2.179%;
+}
+.fret-markers > .dot {
+  top: calc(50% - 5%); /* subtract 50% of height */
+}
+.fret-markers > .dot:nth-child(1) {
+  left: 22.4%;
+}
+.fret-markers > .dot:nth-child(2) {
+  left: 38.65%;
+}
+.fret-markers > .dot:nth-child(3) {
+  left: 53.15%;
+}
+.fret-markers > .dot:nth-child(4) {
+  left: 66.1%;
+}
+.fret-markers > .dot:nth-child(5) {
+  left: 96.65%;
+}
+.fret-marker-double .dot {
+  left: 82.95%;
+}
+.fret-marker-double .dot:first-child {
+  top: calc(25% - 5%); /* subtract 50% of height */
+}
+.fret-marker-double .dot:last-child {
+  top: calc(75% - 5%); /* subtract 50% of height */
+}
+
+/* Nut */
+
+.nut {
+  background: var(--fret-color);
+  border-radius: 0.4em 0 0 0.4em;
+  width: 1.5%;
+  height: 100%;
+  position: absolute;
+}
+.nut .string button span {
+  float: right;
+  left: 0;
+  z-index: 2;
+  padding: 0.25em 0.5em;
+}
+
+/* Strings  */
+
+.string {
+  position: relative;
+  width: 100%;
+  height: 16.672%;
+}
+.string hr {
+  background: var(--string-color);
+  position: absolute;
+  top: 46%;
+  width: calc(100% + 0.3em);
+  z-index: 1;
+  height: 8%;
+  border: none;
+  pointer-events: none;
+}
+.string:nth-child(2) hr {
+  height: 10%;
+  top: 45%;
+}
+.string:nth-child(3) hr {
+  height: 12%;
+  top: 44%;
+}
+.string:nth-child(4) hr {
+  height: 14%;
+  top: 43%;
+}
+.string:nth-child(5) hr {
+  height: 16%;
+  top: 42%;
+}
+.string:nth-child(6) hr {
+  height: 18%;
+  top: 41%;
+}
+
+/* Buttons */
+
+.string button {
+  display: block;
+  background: none;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+}
+.string button:disabled {
+  cursor: auto;
+}
+.string button span {
+  text-align: center;
+  font-weight: bold;
+  color: var(--text-color);
+  position: relative;
+  left: 22.5%;
+  width: 55%;
+  min-width: fit-content;
+  z-index: 1;
+  margin: 0;
+  padding: 0.25em;
+  border-radius: 0.2em;
+  display: none;
+}
+
+/* Note label placement */
+
+.fret:nth-child(n + 4) .string button span {
+  width: 60%;
+  left: 20%;
+}
+.fret:nth-child(n + 7) .string button span {
+  width: 70%;
+  left: 15%;
+}
+.fret:nth-child(n + 10) .string button span {
+  width: 80%;
+  left: 10%;
+}
+.fret:nth-child(n + 13) .string button span {
+  width: 100%;
+  left: 0;
+}
+
+/*	Fret spacing	*/
+
+.fret:nth-child(1) {
+  left: 1.5%;
+  width: calc(9.677% - 1.5%);
+  border: none;
+}
+.fret:nth-child(2) {
+  left: 9.677%;
+  width: calc(18.814% - 9.677%);
+}
+.fret:nth-child(3) {
+  left: 18.814%;
+  width: calc(27.446% - 18.814%);
+}
+.fret:nth-child(4) {
+  left: 27.446%;
+  width: calc(35.602% - 27.446%);
+}
+.fret:nth-child(5) {
+  left: 35.602%;
+  width: calc(43.29% - 35.602%);
+}
+.fret:nth-child(6) {
+  left: 43.29%;
+  width: calc(50.507% - 43.29%);
+}
+.fret:nth-child(7) {
+  left: 50.507%;
+  width: calc(57.357% - 50.507%);
+}
+.fret:nth-child(8) {
+  left: 57.357%;
+  width: calc(63.805% - 57.357%);
+}
+.fret:nth-child(9) {
+  left: 63.805%;
+  width: calc(69.909% - 63.805%);
+}
+.fret:nth-child(10) {
+  left: 69.909%;
+  width: calc(75.673% - 69.909%);
+}
+.fret:nth-child(11) {
+  left: 75.673%;
+  width: calc(81.117% - 75.673%);
+}
+.fret:nth-child(12) {
+  left: 81.117%;
+  width: calc(86.364% - 81.117%);
+}
+.fret:nth-child(13) {
+  left: 86.364%;
+  width: calc(91.052% - 86.364%);
+}
+.fret:nth-child(14) {
+  left: 91.052%;
+  width: calc(95.431% - 91.052%);
+}
+.fret:nth-child(15) {
+  left: 95.431%;
+  width: calc(100% - 95.431%);
+  border-right: 0.3em solid var(--fret-color);
+  border-radius: 0 0.4em 0.4em 0;
+}
+
+/*******************************************/
+/**						 Mobile Styles							**/
+/*******************************************/
+
+@media screen and (max-width: 639px) {
+  .page-wrapper {
+    max-width: 450px;
+  }
+
+  .fretboard-wrapper {
+    padding-bottom: 0;
+    width: 45%;
+    margin: 1em auto;
+  }
+
+  .fretboard-wrapper::before {
+    content: "";
+    display: block;
+    padding-top: 310.11%; /* This is the aspect ratio (552px / 178px * 100) */
+  }
+
+  .fret {
+    left: 0 !important;
+    border-left: none;
+    border-top: 0.3em solid var(--fret-color);
+    width: 100% !important;
+    display: flex;
+    flex-direction: row-reverse; /* reverse the order of the strings (maintain right-handed layout) */
+  }
+
+  /* Dot placement */
+
+  .dot {
+    height: 3.1%;
+    width: 10%;
+  }
+  .fret-markers > .dot {
+    top: 0;
+    left: calc(50% - 5%) !important; /* subtract 50% of width */
+  }
+  .fret-markers > .dot:nth-child(1) {
+    top: 25.55%;
+  }
+  .fret-markers > .dot:nth-child(2) {
+    top: 44.52%;
+  }
+  .fret-markers > .dot:nth-child(3) {
+    top: 61.35%;
+  }
+  .fret-markers > .dot:nth-child(4) {
+    top: 76.3%;
+  }
+  .fret-markers > .dot:nth-child(5) {
+    display: none;
+  }
+  .fret-marker-double .dot {
+    top: 95.4% !important;
+  }
+  .fret-marker-double .dot:first-child {
+    left: calc(27.5% - 5%); /* subtract 50% of width */
+  }
+  .fret-marker-double .dot:last-child {
+    left: calc(72.5% - 5%); /* subtract 50% of width */
+  }
+
+  /* Nut */
+
+  .nut {
+    border-radius: 0.4em 0.4em 0 0;
+    height: 1.75%;
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse; /* reverse the order of the strings (maintain right-handed layout) */
+  }
+  .nut .string button span {
+    padding: 0.25em;
+    float: none;
+    bottom: 110%;
+    display: none;
+  }
+
+  /* Strings  */
+
+  .string {
+    height: 100%;
+    width: 16.672%;
+  }
+  .string hr {
+    top: 0 !important;
+    left: 46%;
+    height: calc(100% + 0.285em) !important;
+    width: 8%;
+  }
+  .string:nth-child(2) hr {
+    width: 10%;
+    left: 45%;
+  }
+  .string:nth-child(3) hr {
+    width: 12%;
+    left: 44%;
+  }
+  .string:nth-child(4) hr {
+    width: 14%;
+    left: 43%;
+  }
+  .string:nth-child(5) hr {
+    width: 16%;
+    left: 42%;
+  }
+  .string:nth-child(6) hr {
+    width: 18%;
+    left: 41%;
+  }
+
+  /* Buttons */
+
+  .string button span {
+    left: 10% !important;
+    width: 80% !important;
+  }
+
+  /*	Fret spacing	*/
+
+  .fret:nth-child(1) {
+    top: 1.5%;
+    height: calc(11.23% - 1.5%);
+  }
+  .fret:nth-child(2) {
+    top: 11.23%;
+    height: calc(21.83% - 11.23%);
+  }
+  .fret:nth-child(3) {
+    top: 21.83%;
+    height: calc(31.79% - 21.83%);
+  }
+  .fret:nth-child(4) {
+    top: 31.79%;
+    height: calc(41.3% - 31.79%);
+  }
+  .fret:nth-child(5) {
+    top: 41.3%;
+    height: calc(50.17% - 41.3%);
+  }
+  .fret:nth-child(6) {
+    top: 50.17%;
+    height: calc(58.54% - 50.17%);
+  }
+  .fret:nth-child(7) {
+    top: 58.54%;
+    height: calc(66.44% - 58.54%);
+  }
+  .fret:nth-child(8) {
+    top: 66.44%;
+    height: calc(74.01% - 66.44%);
+  }
+  .fret:nth-child(9) {
+    top: 74.01%;
+    height: calc(81.03% - 74.01%);
+  }
+  .fret:nth-child(10) {
+    top: 81.03%;
+    height: calc(87.69% - 81.03%);
+  }
+  .fret:nth-child(11) {
+    top: 87.69%;
+    height: calc(93.92% - 87.69%);
+  }
+  .fret:nth-child(12) {
+    top: 93.92%;
+    height: calc(100% - 93.92%);
+    border-bottom: 0.3em solid var(--fret-color);
+    border-radius: 0 0 0.4em 0.4em;
+  }
+  .fret:nth-child(n + 13) {
+    display: none;
+  }
+}
+
+/*******************************************/
+/**						 	 Debugging 								**/
+/*******************************************/
+
+/* .string {
+	background: yellow;
+  
+  &:nth-child(even) {
+    background: violet;
+  }
+} */
+
+/* .string button {
+	background: green;
+} */
+/* 
+.string button span {
+  background: orange;
+  display: block;
+}
+.nut .string button span {
+  background: darkmagenta;
+  display: block;
+}
+.fret:nth-child(n + 4) .string button span {
+  background: blue;
+}
+.fret:nth-child(n + 7) .string button span {
+  background: green;
+}
+.fret:nth-child(n + 10) .string button span {
+  background: magenta;
+}
+.fret:nth-child(n + 13) .string button span {
+  background: teal;
+} */
