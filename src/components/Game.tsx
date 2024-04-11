@@ -17,7 +17,7 @@ export default function Game() {
   const [allowSkip, setAllowSkip] = useState(false);
   const [challenge, setChallenge] = useState("");
   const [timer, setTimer] = useState(60);
-  const [score, setScore] = useState(0);
+  const [currentScore, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [newHighScore, setNewHighScore] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -55,17 +55,17 @@ export default function Game() {
     return () => clearInterval(interval);
   }, [timer, gameInProgress]);
 
-  // Save the score to local storage
+  // Save the currentScore to local storage
   const saveScore = useCallback(() => {
     const newScore = {
-      points: score,
+      points: currentScore,
       instrument: "Guitar",
       tuning: "Standard E",
       timestamp: new Date().toISOString(),
     };
     const updatedScores = [...parseScoreHistory(), newScore];
     localStorage.setItem("scores", JSON.stringify(updatedScores));
-  }, [score]);
+  }, [currentScore]);
 
   useEffect(() => {
     if (gameOver) {
@@ -85,11 +85,11 @@ export default function Game() {
 
   // Update high score if needed as current score changes
   useEffect(() => {
-    if (score > highScore) {
-      setHighScore(score);
+    if (currentScore > highScore) {
+      setHighScore(currentScore);
       setNewHighScore(true);
     }
-  }, [score, highScore]);
+  }, [currentScore, highScore]);
 
   // TODO: pass 'strings[]' to Fretboard as a prop
 
@@ -134,7 +134,7 @@ export default function Game() {
         <div
           className={`flex ${!gameInProgress && !gameOver && "hidden"} items-center gap-1`}
         >
-          <span>{score}</span>
+          <span>{currentScore}</span>
           <FaRegCircleCheck className="text-xl" />
         </div>
       </div>
@@ -145,7 +145,7 @@ export default function Game() {
             <p className="mb-6 text-xl font-bold">
               You scored{" "}
               <span className="text-light-link dark:text-dark-highlight">
-                {score}
+                {currentScore}
               </span>{" "}
               points.
             </p>
@@ -166,7 +166,7 @@ export default function Game() {
           gameInProgress={gameInProgress}
           gameOver={gameOver}
           challenge={challenge}
-          score={score}
+          score={currentScore}
           setScore={setScore}
           setAllowSkip={setAllowSkip}
           newChallenge={newChallenge}
