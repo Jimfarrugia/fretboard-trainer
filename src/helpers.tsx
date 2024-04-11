@@ -68,3 +68,8 @@ export const sortScoresByTimestamp = (scores: Score[]) => {
     return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
   });
 };
+
+// Find highest score in scores array
+export const findHighScore = (scores: Score[]) => {
+  return Math.max(...scores.map((s: Score) => s.points));
+};
