@@ -1,8 +1,29 @@
+"use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { HiOutlineLightBulb } from "react-icons/hi";
+import { dateFromTimestamp } from "@/helpers";
+
+interface Score {
+  points: number;
+  instrument: string;
+  tuning: string;
+  timestamp: string;
+}
 
 export default function History() {
-  return (
+  const [scoreHistory, setScoreHistory] = useState<Score[]>([]);
+
+  useEffect(() => {
+    const scores = localStorage.getItem("scores");
+    if (scores) {
+      setScoreHistory(JSON.parse(scores));
+    }
+  }, []);
+
+  return !scoreHistory.length ? (
+    <></>
+  ) : (
     <>
       <div className="pb-8 pt-12 sm:flex sm:items-center sm:justify-between">
         <h2 className="mb-1 text-lg font-bold text-light-heading dark:text-dark-heading sm:mb-0">
@@ -29,12 +50,19 @@ export default function History() {
           </tr>
         </thead>
         <tbody>
-          <tr className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg">
-            <td className="px-2 py-4">2024-07-29</td>
-            <td className="px-2 py-4">Guitar</td>
-            <td className="px-2 py-4">E Standard</td>
-            <td className="px-2 py-4">40</td>
-          </tr>
+          {scoreHistory.map((score) => (
+            <tr
+              key={`score-${score.timestamp}`}
+              className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg"
+            >
+              <td className="px-2 py-4">
+                {dateFromTimestamp(score.timestamp)}
+              </td>
+              <td className="px-2 py-4">{score.instrument}</td>
+              <td className="px-2 py-4">{score.tuning}</td>
+              <td className="px-2 py-4">{score.points}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </>
