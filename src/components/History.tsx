@@ -3,13 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { dateFromTimestamp } from "@/helpers";
-
-interface Score {
-  points: number;
-  instrument: string;
-  tuning: string;
-  timestamp: string;
-}
+import { Score } from "@/interfaces";
 
 export default function History() {
   const [scoreHistory, setScoreHistory] = useState<Score[]>([]);

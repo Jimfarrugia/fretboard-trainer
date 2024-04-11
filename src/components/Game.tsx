@@ -10,13 +10,7 @@ import {
   hideNoteLabels,
   parseScoreHistory,
 } from "@/helpers";
-
-interface Score {
-  points: number;
-  instrument: string;
-  tuning: string;
-  timestamp: string;
-}
+import { Score } from "@/interfaces";
 
 export default function Game() {
   const [gameInProgress, setGameInProgress] = useState(false);
