@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { BsStopwatch } from "react-icons/bs";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { FaMedal } from "react-icons/fa6";
@@ -12,10 +12,10 @@ import {
 } from "@/helpers";
 
 interface Score {
-  score: number;
+  points: number;
   instrument: string;
   tuning: string;
-  date: string;
+  timestamp: string;
 }
 
 export default function Game() {
@@ -28,13 +28,22 @@ export default function Game() {
   const [newHighScore, setNewHighScore] = useState(false);
   const [gameOver, setGameOver] = useState(false);
 
+  const newChallenge = (previousChallenge: string) => {
+    // remove previous challenge note from eligible notes for next challenge
+    const eligibleNotes = notes.filter((note) => note !== previousChallenge);
+    setChallenge(randomNote(eligibleNotes));
+  };
+
   // Find and set high score from scores in local storage
   useEffect(() => {
     if (parseScoreHistory().length > 0) {
-      setHighScore(Math.max(...parseScoreHistory().map((s: Score) => s.score)));
+      setHighScore(
+        Math.max(...parseScoreHistory().map((s: Score) => s.points)),
+      );
     }
   }, []);
 
+  // Countdown the timer and end the game when time runs out
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined;
     if (gameInProgress && timer > 0) {
@@ -52,32 +61,25 @@ export default function Game() {
     return () => clearInterval(interval);
   }, [timer, gameInProgress]);
 
-  useEffect(() => {
-    const saveScore = () => {
-      const newScore = {
-        score,
-        instrument: "Guitar",
-        tuning: "Standard E",
-        date: new Date().toISOString(),
-      };
-      const updatedScores = [...parseScoreHistory(), newScore];
-      localStorage.setItem("scores", JSON.stringify(updatedScores));
+  // Save the score to local storage
+  const saveScore = useCallback(() => {
+    const newScore = {
+      points: score,
+      instrument: "Guitar",
+      tuning: "Standard E",
+      timestamp: new Date().toISOString(),
     };
+    const updatedScores = [...parseScoreHistory(), newScore];
+    localStorage.setItem("scores", JSON.stringify(updatedScores));
+  }, [score]);
+
+  useEffect(() => {
     if (gameOver) {
       saveScore();
-      if (score > highScore) {
-        setHighScore(score);
-        setNewHighScore(true);
-      }
     }
-  }, [gameOver, score, highScore]);
+  }, [gameOver, saveScore]);
 
-  const newChallenge = (previousChallenge: string) => {
-    // remove previous challenge note from eligible notes for next challenge
-    const eligibleNotes = notes.filter((note) => note !== previousChallenge);
-    setChallenge(randomNote(eligibleNotes));
-  };
-
+  // Start a new game
   const startGame = () => {
     setGameOver(false);
     setGameInProgress(true);
@@ -86,6 +88,14 @@ export default function Game() {
     setTimer(10);
     newChallenge(challenge);
   };
+
+  // Update high score if needed as current score changes
+  useEffect(() => {
+    if (score > highScore) {
+      setHighScore(score);
+      setNewHighScore(true);
+    }
+  }, [score, highScore]);
 
   // TODO: pass 'strings[]' to Fretboard as a prop
 
