@@ -1,21 +1,15 @@
 "use client";
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { dateFromTimestamp, sortScoresByTimestamp } from "@/helpers";
+import { useScores } from "@/context/ScoresContext";
 import { Score } from "@/interfaces";
 
 export default function History() {
-  const [scoreHistory, setScoreHistory] = useState<Score[]>([]);
+  const { scores } = useScores();
+  const sortedScores = sortScoresByTimestamp(scores);
 
-  useEffect(() => {
-    const scores = localStorage.getItem("scores");
-    if (scores) {
-      setScoreHistory(sortScoresByTimestamp(JSON.parse(scores)));
-    }
-  }, []);
-
-  return !scoreHistory.length ? (
+  return !sortedScores.length ? (
     <></>
   ) : (
     <>
@@ -44,7 +38,7 @@ export default function History() {
           </tr>
         </thead>
         <tbody>
-          {scoreHistory.map((score) => (
+          {scores.map((score) => (
             <tr
               key={`score-${score.timestamp}`}
               className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg"

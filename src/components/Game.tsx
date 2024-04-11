@@ -1,16 +1,12 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { BsStopwatch } from "react-icons/bs";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { FaMedal } from "react-icons/fa6";
 import Fretboard from "./Fretboard";
-import {
-  randomNote,
-  notes,
-  hideNoteLabels,
-  parseScoreHistory,
-} from "@/helpers";
+import { randomNote, notes, hideNoteLabels } from "@/helpers";
 import { Score } from "@/interfaces";
+import { useScores } from "@/context/ScoresContext";
 
 export default function Game() {
   const [gameInProgress, setGameInProgress] = useState(false);
@@ -21,6 +17,7 @@ export default function Game() {
   const [highScore, setHighScore] = useState(0);
   const [newHighScore, setNewHighScore] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const { scores, addScore } = useScores();
 
   const newChallenge = (previousChallenge: string) => {
     // remove previous challenge note from eligible notes for next challenge
@@ -28,14 +25,12 @@ export default function Game() {
     setChallenge(randomNote(eligibleNotes));
   };
 
-  // Find and set high score from scores in local storage
+  // Find highest score in scores array and set high score
   useEffect(() => {
-    if (parseScoreHistory().length > 0) {
-      setHighScore(
-        Math.max(...parseScoreHistory().map((s: Score) => s.points)),
-      );
+    if (scores.length > 0) {
+      setHighScore(Math.max(...scores.map((s: Score) => s.points)));
     }
-  }, []);
+  }, [scores]);
 
   // Countdown the timer and end the game when time runs out
   useEffect(() => {
@@ -55,23 +50,19 @@ export default function Game() {
     return () => clearInterval(interval);
   }, [timer, gameInProgress]);
 
-  // Save the currentScore to local storage
-  const saveScore = useCallback(() => {
-    const newScore = {
-      points: currentScore,
-      instrument: "Guitar",
-      tuning: "Standard E",
-      timestamp: new Date().toISOString(),
-    };
-    const updatedScores = [...parseScoreHistory(), newScore];
-    localStorage.setItem("scores", JSON.stringify(updatedScores));
-  }, [currentScore]);
-
+  // save the new score in scores context
   useEffect(() => {
     if (gameOver) {
-      saveScore();
+      const newScore = {
+        points: currentScore,
+        instrument: "Guitar",
+        tuning: "Standard E",
+        timestamp: new Date().toISOString(),
+      };
+      addScore(newScore);
     }
-  }, [gameOver, saveScore]);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameOver]);
 
   // Start a new game
   const startGame = () => {
