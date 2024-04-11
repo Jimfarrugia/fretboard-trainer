@@ -1,13 +1,25 @@
 "use client";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { HiOutlineLightBulb } from "react-icons/hi";
-import { dateFromTimestamp, sortScoresByTimestamp } from "@/helpers";
+import { FaMedal } from "react-icons/fa6";
+import {
+  dateFromTimestamp,
+  sortScoresByTimestamp,
+  findHighScore,
+} from "@/helpers";
 import { useScores } from "@/context/ScoresContext";
-import { Score } from "@/interfaces";
 
 export default function History() {
+  const [highScore, setHighScore] = useState(0);
   const { scores } = useScores();
   const sortedScores = sortScoresByTimestamp(scores);
+
+  useEffect(() => {
+    if (scores.length > 0) {
+      setHighScore(findHighScore(scores));
+    }
+  }, [scores]);
 
   return !sortedScores.length ? (
     <></>
@@ -48,7 +60,14 @@ export default function History() {
               </td>
               <td className="px-2 py-4">{score.instrument}</td>
               <td className="px-2 py-4">{score.tuning}</td>
-              <td className="px-2 py-4">{score.points}</td>
+              <td className="px-2 py-4">
+                <div className="flex items-center gap-1">
+                  {score.points}
+                  {score.points === highScore && (
+                    <FaMedal className="text-md text-light-highlight dark:text-dark-highlight" />
+                  )}
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>
