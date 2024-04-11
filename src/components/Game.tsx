@@ -4,8 +4,7 @@ import { BsStopwatch } from "react-icons/bs";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { FaMedal } from "react-icons/fa6";
 import Fretboard from "./Fretboard";
-import { randomNote, notes, hideNoteLabels } from "@/helpers";
-import { Score } from "@/interfaces";
+import { randomNote, notes, hideNoteLabels, findHighScore } from "@/helpers";
 import { useScores } from "@/context/ScoresContext";
 
 export default function Game() {
@@ -28,7 +27,7 @@ export default function Game() {
   // Find highest score in scores array and set high score
   useEffect(() => {
     if (scores.length > 0) {
-      setHighScore(Math.max(...scores.map((s: Score) => s.points)));
+      setHighScore(findHighScore(scores));
     }
   }, [scores]);
 
@@ -70,7 +69,7 @@ export default function Game() {
     setGameInProgress(true);
     setScore(0);
     setNewHighScore(false);
-    setTimer(10);
+    setTimer(5);
     newChallenge(challenge);
   };
 
