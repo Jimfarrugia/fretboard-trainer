@@ -1,3 +1,5 @@
+import { Score } from "./interfaces";
+
 export const notes = [
   "A",
   "A#",
@@ -58,4 +60,11 @@ export const parseScoreHistory = () => {
 // get date from timestamp
 export const dateFromTimestamp = (isoDate: string) => {
   return isoDate.split("T")[0];
+};
+
+// Sort scores by timestamp (most recent first)
+export const sortScoresByTimestamp = (scores: Score[]) => {
+  return scores.sort((a, b) => {
+    return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+  });
 };

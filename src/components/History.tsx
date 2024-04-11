@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { HiOutlineLightBulb } from "react-icons/hi";
-import { dateFromTimestamp } from "@/helpers";
+import { dateFromTimestamp, sortScoresByTimestamp } from "@/helpers";
 import { Score } from "@/interfaces";
 
 export default function History() {
@@ -11,7 +11,7 @@ export default function History() {
   useEffect(() => {
     const scores = localStorage.getItem("scores");
     if (scores) {
-      setScoreHistory(JSON.parse(scores));
+      setScoreHistory(sortScoresByTimestamp(JSON.parse(scores)));
     }
   }, []);
 
