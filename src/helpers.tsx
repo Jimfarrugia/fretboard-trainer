@@ -54,3 +54,8 @@ export const parseScoreHistory = () => {
   const scores = localStorage.getItem("scores");
   return scores ? JSON.parse(scores) : [];
 };
+
+// get date from timestamp
+export const dateFromTimestamp = (isoDate: string) => {
+  return isoDate.split("T")[0];
+};
