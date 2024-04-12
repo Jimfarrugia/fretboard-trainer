@@ -1,9 +1,13 @@
+import { auth } from "@/auth";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
+import SignOut from "./SignOut";
 import { IoSchoolOutline } from "react-icons/io5";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 
-export default function Header() {
+export default async function Header() {
+  const session = await auth();
+
   return (
     <nav className="flex items-center justify-between pb-6 pt-4 sm:pb-12 sm:pt-8">
       <Link href="/">
@@ -13,7 +17,7 @@ export default function Header() {
         </h1>
       </Link>
       <div className="flex items-center gap-2 text-sm sm:gap-6">
-        <div className="hidden gap-6 sm:flex">
+        <div className="hidden items-center gap-6 sm:flex">
           <Link
             href="/about"
             className="text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
@@ -26,12 +30,16 @@ export default function Header() {
           >
             Tips
           </Link>
-          <Link
-            href="/signin"
-            className="text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
-          >
-            Sign In
-          </Link>
+          {session?.user ? (
+              <SignOut />
+          ) : (
+            <Link
+              href="/api/auth/signin"
+              className="text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+            >
+              Sign In
+            </Link>
+          )}
         </div>
         <ThemeToggle />
         <div className="dropdown dropdown-end sm:hidden">
