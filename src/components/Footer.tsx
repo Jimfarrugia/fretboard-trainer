@@ -1,17 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
+import logo from "@/../public/jflogo-white.svg";
 
 export default function Footer() {
   return (
-    <nav className="mt-16 flex items-center justify-between bg-light-darkerBg px-4 py-6 text-sm dark:bg-dark-darkerBg">
-      <div>
-        <Link
-          href="https://jimfarrugia.com.au"
-          className="text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
-        >
-          Jim Farrugia
-        </Link>
-      </div>
-      <div className="flex gap-4">
+    <footer className="footer footer-center mt-12 rounded bg-light-darkerBg px-4 py-10 dark:bg-dark-darkerBg">
+      <nav className="grid grid-flow-col gap-6">
         <Link
           href="/about"
           className="text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
@@ -30,7 +24,16 @@ export default function Footer() {
         >
           Sign In
         </Link>
-      </div>
-    </nav>
+      </nav>
+      <p>
+        <Image src={logo} alt={"123"} className="w-24 dark:opacity-20" />
+        <Link
+          href="https://jimfarrugia.com.au"
+          className="pt-2 text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+        >
+          Jim Farrugia
+        </Link>
+      </p>
+    </footer>
   );
 }
