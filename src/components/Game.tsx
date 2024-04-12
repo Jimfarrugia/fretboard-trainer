@@ -113,7 +113,7 @@ export default function Game() {
           ) : (
             <button
               type="button"
-              className="rounded-md bg-light-darkerBg p-3 text-lg font-normal hover:bg-light-hover hover:text-light-bg dark:bg-dark-darkerBg dark:hover:bg-dark-hover hover:dark:text-dark-bg"
+              className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg"
               onClick={startGame}
             >
               START
@@ -144,7 +144,7 @@ export default function Game() {
             )}
             <button
               type="button"
-              className="rounded-md bg-light-link p-3 font-normal text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-heading hover:dark:text-dark-body"
+              className="btn btn-primary border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
               onClick={startGame}
             >
               Play again
@@ -162,12 +162,12 @@ export default function Game() {
           newChallenge={newChallenge}
         />
       </div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between pt-2">
         {/* settings btn */}
         <div>
           <button
             type="button"
-            className="rounded-md bg-light-darkerBg p-3 hover:bg-light-hover hover:text-light-bg dark:bg-dark-darkerBg dark:hover:bg-dark-hover hover:dark:text-dark-bg"
+            className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg"
           >
             Settings
           </button>
@@ -176,7 +176,7 @@ export default function Game() {
         <div>
           <button
             type="button"
-            className={`${(gameInProgress && allowSkip) || "hidden"} rounded-md bg-light-darkerBg p-3 hover:bg-light-hover hover:text-light-bg dark:bg-dark-darkerBg dark:hover:bg-dark-hover hover:dark:text-dark-bg`}
+            className={`${(gameInProgress && allowSkip) || "hidden"} btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg`}
             onClick={() => {
               hideNoteLabels();
               newChallenge(challenge);
