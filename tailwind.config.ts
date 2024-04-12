@@ -35,7 +35,7 @@ const config: Config = {
       bronze: "#C59162",
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
   darkMode: "class",
 };
 export default config;
