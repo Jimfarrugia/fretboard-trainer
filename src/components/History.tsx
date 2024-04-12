@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { FaMedal } from "react-icons/fa6";
+import { FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft } from "react-icons/fa";
 import {
   dateFromTimestamp,
   sortScoresByTimestamp,
@@ -11,9 +13,19 @@ import {
 import { useScores } from "@/context/ScoresContext";
 
 export default function History() {
-  const [highScore, setHighScore] = useState(0);
   const { scores } = useScores();
+  const [highScore, setHighScore] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7;
   const sortedScores = sortScoresByTimestamp(scores);
+  const paginatedScores = sortedScores.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
+  const totalPages = Math.ceil(scores.length / itemsPerPage);
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) =>
+    (i + 1).toString(),
+  );
 
   useEffect(() => {
     if (scores.length > 0) {
@@ -50,7 +62,7 @@ export default function History() {
           </tr>
         </thead>
         <tbody>
-          {scores.map((score) => (
+          {paginatedScores.map((score) => (
             <tr
               key={`score-${score.timestamp}`}
               className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg"
@@ -72,6 +84,51 @@ export default function History() {
           ))}
         </tbody>
       </table>
+      <div className="mt-4 flex justify-center gap-1 text-sm">
+        <button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+          className={`${
+            currentPage === 1
+              ? "text-light-darkerBg dark:text-dark-heading"
+              : "text-light-link hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+          } mr-1.5 text-xs`}
+        >
+          <FaChevronLeft />
+        </button>
+        {pageNumbers.map((pageNumber) => {
+          const parsedPageNumber = parseInt(pageNumber);
+          if (Math.abs(parsedPageNumber - currentPage) <= 2) {
+            return (
+              <button
+                key={pageNumber}
+                disabled={currentPage === parsedPageNumber}
+                className={`${
+                  currentPage === parsedPageNumber
+                    ? "bg-light-darkerBg text-light-heading dark:bg-dark-darkerBg dark:text-dark-body"
+                    : "text-light-link hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+                } rounded-full px-3 py-1.5`}
+                onClick={() => setCurrentPage(parsedPageNumber)}
+              >
+                {pageNumber}
+              </button>
+            );
+          } else {
+            return null;
+          }
+        })}
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((prev) => prev + 1)}
+          className={`${
+            currentPage === totalPages
+              ? "text-light-darkerBg dark:text-dark-heading"
+              : "text-light-link hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+          } ml-1.5 text-xs`}
+        >
+          <FaChevronRight />
+        </button>
+      </div>
     </>
   );
 }
