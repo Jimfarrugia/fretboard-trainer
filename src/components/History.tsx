@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { FaMedal } from "react-icons/fa6";
@@ -13,6 +14,7 @@ import {
 import { useScores } from "@/context/ScoresContext";
 
 export default function History() {
+  const session = useSession();
   const { scores } = useScores();
   const [highScore, setHighScore] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,16 +43,18 @@ export default function History() {
         <h2 className="mb-1 text-lg font-bold text-light-heading dark:text-dark-heading sm:mb-0">
           History
         </h2>
-        <p className="flex items-center gap-1 text-xs">
-          <HiOutlineLightBulb className="text-lg text-light-highlight dark:text-dark-highlight" />
-          <Link
-            className="font-bold text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
-            href="signin"
-          >
-            Sign in
-          </Link>{" "}
-          to save your history.
-        </p>
+        {!session.data && (
+          <p className="flex items-center gap-1 text-xs">
+            <HiOutlineLightBulb className="text-lg text-light-highlight dark:text-dark-highlight" />
+            <Link
+              className="font-bold text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+              href="/api/auth/signin"
+            >
+              Sign in
+            </Link>{" "}
+            to save your history.
+          </p>
+        )}
       </div>
       <table className="w-full table-auto text-xs">
         <thead className="text-left text-light-heading dark:text-dark-heading">
