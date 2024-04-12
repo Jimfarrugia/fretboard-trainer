@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import Link from "next/link";
 import Image from "next/image";
 import SignOut from "./SignOut";
+import UserModal from "./UserModal";
 import logo from "@/../public/jflogo-white.svg";
 
 export default async function Footer() {
@@ -23,7 +24,16 @@ export default async function Footer() {
           Tips
         </Link>
         {session?.user ? (
+          <div className="flex items-center gap-4">
             <SignOut />
+            {session.user.name && session.user.image && (
+              <UserModal
+                name={session.user.name}
+                email={session.user.email ?? ""}
+                image={session.user.image}
+              />
+            )}
+          </div>
         ) : (
           <Link
             href="/api/auth/signin"

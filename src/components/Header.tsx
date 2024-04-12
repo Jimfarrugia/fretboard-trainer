@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
+import UserModal from "./UserModal";
 import SignOut from "./SignOut";
 import { IoSchoolOutline } from "react-icons/io5";
 import { HiOutlineDotsVertical } from "react-icons/hi";
@@ -31,7 +32,16 @@ export default async function Header() {
             Tips
           </Link>
           {session?.user ? (
+            <>
               <SignOut />
+              {session.user.name && session.user.image && (
+                <UserModal
+                  name={session.user.name}
+                  email={session.user.email ?? ""}
+                  image={session.user.image}
+                />
+              )}
+            </>
           ) : (
             <Link
               href="/api/auth/signin"
