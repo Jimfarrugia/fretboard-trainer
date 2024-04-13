@@ -6,6 +6,8 @@ import { FaMedal } from "react-icons/fa6";
 import Fretboard from "./Fretboard";
 import { randomNote, notes, hideNoteLabels, findHighScore } from "@/helpers";
 import { useScores } from "@/context/ScoresContext";
+import { useSession } from "next-auth/react";
+import { createScore } from "@/actions/createScore";
 
 export default function Game() {
   const [gameInProgress, setGameInProgress] = useState(false);
@@ -17,6 +19,7 @@ export default function Game() {
   const [newHighScore, setNewHighScore] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const { scores, addScore } = useScores();
+  const session = useSession();
 
   const newChallenge = (previousChallenge: string) => {
     // remove previous challenge note from eligible notes for next challenge
@@ -49,7 +52,7 @@ export default function Game() {
     return () => clearInterval(interval);
   }, [timer, gameInProgress]);
 
-  // save the new score in scores context
+  // save the new score
   useEffect(() => {
     if (gameOver) {
       const newScore = {
@@ -58,7 +61,13 @@ export default function Game() {
         tuning: "Standard E",
         timestamp: new Date().toISOString(),
       };
+      // Add score to context
       addScore(newScore);
+      if (session.data?.user?.email) {
+        const userEmail = session.data.user.email;
+        // Create score in db
+        createScore(userEmail, newScore);
+      }
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameOver]);
@@ -69,7 +78,7 @@ export default function Game() {
     setGameInProgress(true);
     setScore(0);
     setNewHighScore(false);
-    setTimer(5);
+    setTimer(2);
     newChallenge(challenge);
   };
 
