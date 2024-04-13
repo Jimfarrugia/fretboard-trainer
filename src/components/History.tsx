@@ -12,14 +12,18 @@ import {
   findHighScore,
 } from "@/helpers";
 import { useScores } from "@/context/ScoresContext";
+import { pushLocalScores } from "@/actions/pushLocalScores";
+import { Score } from "@/interfaces";
 
-export default function History() {
+export default function History({ userScores }: { userScores: Score[] }) {
   const session = useSession();
   const { scores } = useScores();
   const [highScore, setHighScore] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
-  const sortedScores = sortScoresByTimestamp(scores);
+  const sortedScores = sortScoresByTimestamp(
+    (userScores.length && userScores) || scores,
+  );
   const paginatedScores = sortedScores.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
@@ -29,11 +33,26 @@ export default function History() {
     (i + 1).toString(),
   );
 
+  // Set high score
   useEffect(() => {
-    if (scores.length > 0) {
+    if (userScores.length) {
+      setHighScore(findHighScore(userScores));
+    }
+    if (!userScores.length && scores.length) {
       setHighScore(findHighScore(scores));
     }
-  }, [scores]);
+  }, [userScores, scores]);
+
+  // Push any unsaved local scores to database
+  useEffect(() => {
+    if (localStorage.getItem("scores") && session.data?.user?.email) {
+      const localScores = JSON.parse(localStorage.getItem("scores") || "[]");
+      const userEmail = session.data.user.email;
+      if (localScores.length > 0) {
+        pushLocalScores(userEmail, localScores);
+      }
+    }
+  }, [scores, session.data?.user?.email]);
 
   return !sortedScores.length ? (
     <></>
