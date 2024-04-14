@@ -35,13 +35,10 @@ export default function History({ userScores }: { userScores: Score[] }) {
 
   // Set high score
   useEffect(() => {
-    if (userScores.length) {
-      setHighScore(findHighScore(userScores));
+    if (sortedScores.length) {
+      setHighScore(findHighScore(sortedScores));
     }
-    if (!userScores.length && scores.length) {
-      setHighScore(findHighScore(scores));
-    }
-  }, [userScores, scores]);
+  }, [sortedScores]);
 
   // Push any unsaved local scores to database
   useEffect(() => {
@@ -96,7 +93,7 @@ export default function History({ userScores }: { userScores: Score[] }) {
               <td className="px-2 py-4">
                 <div className="flex items-center gap-1">
                   {score.points}
-                  {score.points === highScore && (
+                  {score.points === highScore && score.points > 0 && (
                     <FaMedal className="text-md text-light-highlight dark:text-dark-highlight" />
                   )}
                 </div>
