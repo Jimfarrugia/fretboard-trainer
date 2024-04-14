@@ -1,13 +1,11 @@
 "use server";
 import { db } from "@/lib/db";
 
-export async function getUserScores(userEmail: string) {
-  const userWithScores = await db.user.findUnique({
-    where: { email: userEmail },
-    include: { scores: true },
-  });
-  if (!userWithScores) {
-    throw new Error("User does not exist in the database.");
+export async function getUserScores(userId: string) {
+  try {
+    return await db.score.findMany({ where: { userId } });
+  } catch (e) {
+    console.error("Failed to find user's scores in database.");
+    return [];
   }
-  return userWithScores.scores;
 }

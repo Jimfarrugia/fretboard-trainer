@@ -6,9 +6,8 @@ import { getUserScores } from "@/actions/getUserScores";
 
 export default async function Home() {
   const session = await auth();
-  const userScores = session
-    ? await getUserScores(session?.user?.email || "")
-    : [];
+  const userId = session?.user?.id;
+  const userScores = userId ? await getUserScores(userId) : [];
 
   return (
     <main>
