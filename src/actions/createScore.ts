@@ -2,7 +2,7 @@
 import { db } from "@/lib/db";
 
 export async function createScore(
-  userEmail: string,
+  userId: string,
   score: {
     points: number;
     instrument: string;
@@ -10,11 +10,10 @@ export async function createScore(
     timestamp: string;
   },
 ) {
-  const user = await db.user.findUnique({
-    where: { email: userEmail },
-  });
-  if (!user) {
-    throw new Error("User does not exist in the database.");
+  try {
+    const userScores = await db.score.create({ data: { userId, ...score } });
+    return userScores;
+  } catch (e) {
+    console.error("Failed to create score in database.", e);
   }
-  await db.score.create({ data: { userId: user.id, ...score } });
 }

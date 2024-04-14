@@ -63,10 +63,9 @@ export default function Game() {
       };
       // Add score to context
       addScore(newScore);
-      if (session.data?.user?.email) {
-        const userEmail = session.data.user.email;
-        // Create score in db
-        createScore(userEmail, newScore);
+      if (session?.data?.user?.id) {
+        // Add score to database
+        createScore(session.data.user.id, newScore);
       }
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
