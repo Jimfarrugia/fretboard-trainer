@@ -35,7 +35,7 @@ const config: Config = {
       bronze: "#C59162",
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [require("@tailwindcss/typography"), require("daisyui")],
   darkMode: "class",
 };
 export default config;
