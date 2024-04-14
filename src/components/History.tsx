@@ -62,7 +62,7 @@ export default function History({ userScores }: { userScores: Score[] }) {
             <HiOutlineLightBulb className="text-lg text-light-highlight dark:text-dark-highlight" />
             <Link
               className="font-bold text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
-              href="/api/auth/signin"
+              href="/auth/signin"
             >
               Sign in
             </Link>{" "}

@@ -36,10 +36,10 @@ export default async function Footer() {
           </div>
         ) : (
           <Link
-            href="/api/auth/signin"
+            href="/auth/signin"
             className="text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
           >
-            Sign In
+            Sign in
           </Link>
         )}
       </nav>

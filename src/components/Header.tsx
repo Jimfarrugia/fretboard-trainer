@@ -44,10 +44,10 @@ export default async function Header() {
             </>
           ) : (
             <Link
-              href="/api/auth/signin"
+              href="/auth/signin"
               className="text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
             >
-              Sign In
+              Sign in
             </Link>
           )}
         </div>
@@ -71,7 +71,7 @@ export default async function Header() {
               <Link href="/tips">Tips</Link>
             </li>
             <li>
-              <Link href="/sign-in">Sign in</Link>
+              <Link href="/auth/signin">Sign in</Link>
             </li>
           </ul>
         </div>

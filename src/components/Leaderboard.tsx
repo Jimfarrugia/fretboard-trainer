@@ -12,7 +12,7 @@ export default function Leaderboard() {
           <HiOutlineLightBulb className="text-lg text-light-highlight dark:text-dark-highlight" />
           <Link
             className="font-bold text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
-            href="signin"
+            href="/auth/signin"
           >
             Sign in
           </Link>{" "}
