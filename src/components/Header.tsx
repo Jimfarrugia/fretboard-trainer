@@ -71,7 +71,11 @@ export default async function Header() {
               <Link href="/tips">Tips</Link>
             </li>
             <li>
-              <Link href="/auth/signin">Sign in</Link>
+              {session?.user ? (
+                <SignOut underline={false} />
+              ) : (
+                <Link href="/auth/signin">Sign in</Link>
+              )}
             </li>
           </ul>
         </div>
