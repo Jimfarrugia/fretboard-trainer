@@ -1,14 +1,10 @@
-import { auth } from "@/auth";
 import Link from "next/link";
-import ThemeToggle from "./ThemeToggle";
-import UserModal from "./UserModal";
-import SignOut from "./SignOut";
 import { IoSchoolOutline } from "react-icons/io5";
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import ThemeToggle from "./ThemeToggle";
+import HeaderAuth from "./HeaderAuth";
 
-export default async function Header() {
-  const session = await auth();
-
+export default function Header() {
   return (
     <nav className="flex items-center justify-between pb-6 pt-4 sm:pb-12 sm:pt-8">
       <Link href="/">
@@ -31,26 +27,7 @@ export default async function Header() {
           >
             Tips
           </Link>
-          {session?.user ? (
-            <>
-              <SignOut />
-              {session.user.name && session.user.image && (
-                <UserModal
-                  name={session.user.name}
-                  email={session.user.email ?? ""}
-                  image={session.user.image}
-                  priority
-                />
-              )}
-            </>
-          ) : (
-            <Link
-              href="/auth/signin"
-              className="text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
-            >
-              Sign in
-            </Link>
-          )}
+          <HeaderAuth includeUserModal />
         </div>
         <ThemeToggle />
         <div className="dropdown dropdown-end sm:hidden">
@@ -72,11 +49,7 @@ export default async function Header() {
               <Link href="/tips">Tips</Link>
             </li>
             <li>
-              {session?.user ? (
-                <SignOut underline={false} />
-              ) : (
-                <Link href="/auth/signin">Sign in</Link>
-              )}
+              <HeaderAuth />
             </li>
           </ul>
         </div>
