@@ -39,6 +39,7 @@ export default async function Header() {
                   name={session.user.name}
                   email={session.user.email ?? ""}
                   image={session.user.image}
+                  priority
                 />
               )}
             </>

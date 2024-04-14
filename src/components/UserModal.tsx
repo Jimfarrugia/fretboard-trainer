@@ -9,11 +9,18 @@ interface UserModalProps {
   name: string;
   image: string;
   email: string;
+  priority?: boolean;
 }
 
 // Closes when clicking outside the modal or pressing ESC
-export default function UserModal(props: UserModalProps) {
-  const { name, image, email } = props;
+export default function UserModal({
+  name,
+  image,
+  email,
+  priority = false,
+}: UserModalProps) {
+  const buttonImgSize = 24;
+  const modalImgSize = 64;
 
   return (
     <div className="flex items-center gap-4">
@@ -23,11 +30,12 @@ export default function UserModal(props: UserModalProps) {
         }
       >
         <Image
-          src={image}
-          alt={name}
-          width={24}
-          height={24}
+          src={image.replace("=s96", `=s${buttonImgSize}`)}
+          alt={`${name} profile image`}
+          width={buttonImgSize}
+          height={buttonImgSize}
           className="rounded-full"
+          priority={priority}
         />
       </button>
       <dialog id="user-modal" className="modal">
@@ -35,11 +43,12 @@ export default function UserModal(props: UserModalProps) {
           <div className="flex flex-col items-center gap-4">
             <p className="text-lg font-bold">You are signed in as:</p>
             <Image
-              src={image}
-              alt={name}
-              width={64}
-              height={64}
+              src={image.replace("=s96", `=s${modalImgSize}`)}
+              alt={`${name} profile image`}
+              width={modalImgSize}
+              height={modalImgSize}
               className="rounded-full"
+              loading="lazy"
             />
             <p>{name}</p>
             <p>{email}</p>
