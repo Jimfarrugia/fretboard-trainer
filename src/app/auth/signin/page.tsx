@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { auth, signIn } from "@/auth";
 import { redirect } from "next/navigation";
+import googleLogo from "@/../public/google-logo.svg";
 
 export default async function SignInPage() {
   const session = await auth();
@@ -33,7 +34,7 @@ export default async function SignInPage() {
                 <Image
                   height={24}
                   width={24}
-                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                  src={googleLogo}
                   loading="lazy"
                   alt="google logo"
                 />
