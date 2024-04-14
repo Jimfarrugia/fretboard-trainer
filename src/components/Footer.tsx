@@ -44,7 +44,12 @@ export default async function Footer() {
         )}
       </nav>
       <p>
-        <Image src={logo} alt={"123"} className="w-24 dark:opacity-20" />
+        <Image
+          src={logo}
+          alt={"Jim Farrugia logo"}
+          className="w-24 dark:opacity-20"
+          loading="lazy"
+        />
         <Link
           href="https://jimfarrugia.com.au"
           className="pt-2 text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
