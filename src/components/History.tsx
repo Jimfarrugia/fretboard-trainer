@@ -45,14 +45,12 @@ export default function History({ userScores }: { userScores: Score[] }) {
 
   // Push any unsaved local scores to database
   useEffect(() => {
-    if (localStorage.getItem("scores") && session.data?.user?.email) {
-      const localScores = JSON.parse(localStorage.getItem("scores") || "[]");
-      const userEmail = session.data.user.email;
-      if (localScores.length > 0) {
-        pushLocalScores(userEmail, localScores);
-      }
+    const userId = session?.data?.user?.id;
+    const localScores = JSON.parse(localStorage.getItem("scores") || "[]");
+    if (userId && localScores.length) {
+      pushLocalScores(userId, localScores);
     }
-  }, [scores, session.data?.user?.email]);
+  }, [scores, session.data?.user?.id]);
 
   return !sortedScores.length ? (
     <></>
