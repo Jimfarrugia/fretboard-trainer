@@ -3,7 +3,8 @@ import { db } from "@/lib/db";
 
 export async function getUserScores(userId: string) {
   try {
-    return await db.score.findMany({ where: { userId } });
+    const userScores = await db.score.findMany({ where: { userId } });
+    return userScores;
   } catch (e) {
     console.error("Failed to find user's scores in database.");
     return [];
