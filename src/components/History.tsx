@@ -10,6 +10,8 @@ import {
   dateFromTimestamp,
   sortScoresByTimestamp,
   findHighScore,
+  parseLocalStorageScores,
+  setLocalStorageScores,
 } from "@/helpers";
 import { useScores } from "@/context/ScoresContext";
 import { pushLocalScores } from "@/actions/pushLocalScores";
@@ -17,6 +19,7 @@ import { Score } from "@/interfaces";
 
 export default function History({ userScores }: { userScores: Score[] }) {
   const session = useSession();
+  const userId = session?.data?.user?.id;
   const { scores } = useScores();
   const [highScore, setHighScore] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,12 +45,37 @@ export default function History({ userScores }: { userScores: Score[] }) {
 
   // Push any unsaved local scores to database
   useEffect(() => {
-    const userId = session?.data?.user?.id;
-    const localScores = JSON.parse(localStorage.getItem("scores") || "[]");
+    const localScores = parseLocalStorageScores();
     if (userId && localScores.length) {
       pushLocalScores(userId, localScores);
     }
-  }, [scores, session.data?.user?.id]);
+  }, [userId]);
+
+  // Make sure all userScores are saved in local storage
+  useEffect(() => {
+    const localScores = parseLocalStorageScores();
+    // check if any userScores scores are not saved in local storage
+    if (userScores.length > localScores.length) {
+      const scoresNotInLocalStorage = userScores.filter(
+        (userScore) =>
+          !localScores.find(
+            (localScore: Score) => localScore.timestamp === userScore.timestamp,
+          ),
+      );
+      // if any scores are not yet saved in local storage, save them
+      if (scoresNotInLocalStorage.length > 0) {
+        // only save necessary fields
+        const scoresToSave = scoresNotInLocalStorage.map((userScore) => ({
+          points: userScore.points,
+          instrument: userScore.instrument,
+          tuning: userScore.tuning,
+          timestamp: userScore.timestamp,
+          userId,
+        }));
+        setLocalStorageScores([...localScores, ...scoresToSave]);
+      }
+    }
+  }, [userScores, userId]);
 
   return !sortedScores.length ? (
     <></>

@@ -3,4 +3,5 @@ export interface Score {
   instrument: string;
   tuning: string;
   timestamp: string;
+  userId?: string;
 }
