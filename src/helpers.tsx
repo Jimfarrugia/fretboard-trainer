@@ -52,10 +52,14 @@ export function hideNoteLabels() {
 
 // Parse scores from localStorage and return as an array of objects
 // or return an empty array if no scores exist in localStorage
-export const parseScoreHistory = () => {
+export const parseLocalStorageScores = () => {
   const scores = localStorage.getItem("scores");
   return scores ? JSON.parse(scores) : [];
 };
+
+// Save scores to localStorage
+export const setLocalStorageScores = (scores: Score[]) =>
+  localStorage.setItem("scores", JSON.stringify(scores));
 
 // get date from timestamp
 export const dateFromTimestamp = (isoDate: string) => {
