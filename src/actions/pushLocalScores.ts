@@ -14,9 +14,12 @@ export async function pushLocalScores(userId: string, localScores: Score[]) {
       },
     });
     // filter out local scores which have a timestamp that is found in matchingScores
+    // also filter out local scores which have a different userId from the current user
     const scoresNotInDatabase = localScores.filter(
       (localScore) =>
-        !matchingScores.find((s) => s.timestamp === localScore.timestamp),
+        !matchingScores.find(
+          (s) => s.timestamp === localScore.timestamp || s.userId !== userId,
+        ),
     );
     // if no scores to push, return
     if (!scoresNotInDatabase.length) {

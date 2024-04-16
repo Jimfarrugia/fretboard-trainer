@@ -20,6 +20,7 @@ export default function Game() {
   const [gameOver, setGameOver] = useState(false);
   const { scores, addScore } = useScores();
   const session = useSession();
+  const userId = session?.data?.user?.id;
 
   const newChallenge = (previousChallenge: string) => {
     // remove previous challenge note from eligible notes for next challenge
@@ -61,11 +62,13 @@ export default function Game() {
         tuning: "Standard E",
         timestamp: new Date().toISOString(),
       };
-      // Add score to context
-      addScore(newScore);
-      if (session?.data?.user?.id) {
-        // Add score to database
-        createScore(session.data.user.id, newScore);
+      if (userId) {
+        // add score to context + local storage
+        addScore({ userId, ...newScore });
+        // add score to the database
+        createScore(userId, newScore);
+      } else {
+        addScore(newScore);
       }
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,7 +80,7 @@ export default function Game() {
     setGameInProgress(true);
     setScore(0);
     setNewHighScore(false);
-    setTimer(2);
+    setTimer(15);
     newChallenge(challenge);
   };
 
@@ -93,9 +96,6 @@ export default function Game() {
 
   return (
     <div>
-      {/* {gameInProgress && (
-        <button onClick={() => setGameInProgress(false)}>STOP</button>
-      )} */}
       <div
         className={`flex items-center ${gameInProgress || gameOver ? "justify-between" : "justify-around"} pb-2 ${gameOver && "opacity-25"}`}
       >
