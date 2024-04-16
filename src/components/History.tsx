@@ -34,7 +34,7 @@ export default function History() {
   }, [userId]);
 
   // Push any unsaved local scores to database
-  useEffect(() => {
+  useCallback(() => {
     const localScores = parseLocalStorageScores();
     if (userId && localScores.length) {
       pushLocalScores(userId, localScores);
@@ -42,7 +42,7 @@ export default function History() {
   }, [userId]);
 
   // Make sure all userScores are saved in local storage
-  useEffect(() => {
+  useCallback(() => {
     const localScores = parseLocalStorageScores();
     // check if any userScores scores are not saved in local storage
     if (userScores.length > localScores.length) {
