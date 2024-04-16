@@ -5,8 +5,8 @@ interface FretboardProps {
   gameInProgress: boolean;
   gameOver: boolean;
   challenge: string;
-  score: number;
-  setScore: (newScore: number) => void;
+  currentScore: number;
+  setCurrentScore: (newScore: number) => void;
   setAllowSkip: (newScore: boolean) => void;
   newChallenge: (previousChallenge: string) => void;
 }
@@ -15,8 +15,8 @@ export default function Fretboard({
   gameInProgress,
   gameOver,
   challenge,
-  score,
-  setScore,
+  currentScore,
+  setCurrentScore,
   setAllowSkip,
   newChallenge,
 }: FretboardProps) {
@@ -31,7 +31,7 @@ export default function Fretboard({
     const span = e.currentTarget.querySelector("span");
     if (value === challenge) {
       if (span) span.classList.add("clicked", "correct");
-      setScore(score + 1);
+      setCurrentScore(currentScore + 1);
       setAllowSkip(false);
       newChallenge(challenge);
     } else {

@@ -14,11 +14,11 @@ export default function Game() {
   const [allowSkip, setAllowSkip] = useState(false);
   const [challenge, setChallenge] = useState("");
   const [timer, setTimer] = useState(60);
-  const [currentScore, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(0);
+  const [currentScore, setCurrentScore] = useState(0);
   const [newHighScore, setNewHighScore] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const { scores, addScore } = useScores();
+  const highScore = findHighScore(scores);
   const session = useSession();
   const userId = session?.data?.user?.id;
 
@@ -27,13 +27,6 @@ export default function Game() {
     const eligibleNotes = notes.filter((note) => note !== previousChallenge);
     setChallenge(randomNote(eligibleNotes));
   };
-
-  // Find highest score in scores array and set high score
-  useEffect(() => {
-    if (scores.length > 0) {
-      setHighScore(findHighScore(scores));
-    }
-  }, [scores]);
 
   // Countdown the timer and end the game when time runs out
   useEffect(() => {
@@ -78,16 +71,15 @@ export default function Game() {
   const startGame = () => {
     setGameOver(false);
     setGameInProgress(true);
-    setScore(0);
+    setCurrentScore(0);
     setNewHighScore(false);
     setTimer(15);
     newChallenge(challenge);
   };
 
-  // Update high score if needed as current score changes
+  // Update newHighScore if needed as current score changes
   useEffect(() => {
     if (currentScore > highScore) {
-      setHighScore(currentScore);
       setNewHighScore(true);
     }
   }, [currentScore, highScore]);
@@ -164,8 +156,8 @@ export default function Game() {
           gameInProgress={gameInProgress}
           gameOver={gameOver}
           challenge={challenge}
-          score={currentScore}
-          setScore={setScore}
+          currentScore={currentScore}
+          setCurrentScore={setCurrentScore}
           setAllowSkip={setAllowSkip}
           newChallenge={newChallenge}
         />
