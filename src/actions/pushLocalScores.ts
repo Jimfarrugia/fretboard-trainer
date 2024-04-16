@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 export async function pushLocalScores(userId: string, localScores: Score[]) {
   try {
-    // find all scores in the database where the timestamp matches the timestamp of a locally saved score
+    // Find all scores in the database where the timestamp matches the timestamp of a locally saved score
     const matchingScores = await db.score.findMany({
       where: {
         userId,
@@ -14,26 +14,29 @@ export async function pushLocalScores(userId: string, localScores: Score[]) {
         },
       },
     });
-    // filter out local scores which have a timestamp that is found in matchingScores
-    // also filter out local scores which have a different userId from the current user
-    const scoresNotInDatabase = localScores.filter(
-      (localScore) =>
-        !matchingScores.find(
-          (s) => s.timestamp === localScore.timestamp || s.userId !== userId,
-        ),
-    );
-    // if no scores to push, return
+    // Filter-out local scores which are already in the database or owned by another user
+    const scoresNotInDatabase = localScores.filter((localScore) => {
+      // Check if score timestamp is equal to any timestamp found in matchingScores
+      const timestampMatches = matchingScores.some(
+        (matchingScore) => matchingScore.timestamp === localScore.timestamp,
+      );
+      // Check if userId matches current user
+      const userIdMatches = localScore.userId === userId;
+      // Keep the scores if timestamp is unique and userId matches current user or if there is no userId in localScore
+      return !timestampMatches && (userIdMatches || !localScore.userId);
+    });
+    // If no scores to push, return
     if (!scoresNotInDatabase.length) {
       return;
     }
-    // add the userId to each score
+    // Add the userId to each score
     const scoresToPush = scoresNotInDatabase.map((score) => ({
       ...score,
       userId,
     }));
-    // push the new scores to the database
+    // Push the new scores to the database
     await db.score.createMany({ data: scoresToPush });
-    // update the frontend to show the pushed scores
+    // Update the frontend to show the pushed scores
     revalidatePath("/");
   } catch (e) {
     console.error("Failed to push local scores to database...", e);
