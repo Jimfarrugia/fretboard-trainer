@@ -86,7 +86,6 @@ export default function History({ userScores }: { userScores: Score[] }) {
 }
 
 function HistoryTable({ scores }: { scores: Score[] }) {
-  const [highScore, setHighScore] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
   const paginatedScores = scores.slice(
@@ -97,13 +96,7 @@ function HistoryTable({ scores }: { scores: Score[] }) {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) =>
     (i + 1).toString(),
   );
-
-  // Set high score
-  useEffect(() => {
-    if (scores.length) {
-      setHighScore(findHighScore(scores));
-    }
-  }, [scores]);
+  const highScore = findHighScore(scores);
 
   return (
     <>
