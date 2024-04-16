@@ -21,27 +21,9 @@ export default function History({ userScores }: { userScores: Score[] }) {
   const session = useSession();
   const userId = session?.data?.user?.id;
   const { scores } = useScores();
-  const [highScore, setHighScore] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
   const sortedScores = sortScoresByTimestamp(
     (userScores.length && userScores) || scores,
   );
-  const paginatedScores = sortedScores.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
-  const totalPages = Math.ceil(scores.length / itemsPerPage);
-  const pageNumbers = Array.from({ length: totalPages }, (_, i) =>
-    (i + 1).toString(),
-  );
-
-  // Set high score
-  useEffect(() => {
-    if (sortedScores.length) {
-      setHighScore(findHighScore(sortedScores));
-    }
-  }, [sortedScores]);
 
   // Push any unsaved local scores to database
   useEffect(() => {
@@ -98,6 +80,33 @@ export default function History({ userScores }: { userScores: Score[] }) {
           </p>
         )}
       </div>
+      <HistoryTable scores={sortedScores} />
+    </>
+  );
+}
+
+function HistoryTable({ scores }: { scores: Score[] }) {
+  const [highScore, setHighScore] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7;
+  const paginatedScores = scores.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
+  const totalPages = Math.ceil(scores.length / itemsPerPage);
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) =>
+    (i + 1).toString(),
+  );
+
+  // Set high score
+  useEffect(() => {
+    if (scores.length) {
+      setHighScore(findHighScore(scores));
+    }
+  }, [scores]);
+
+  return (
+    <>
       <table className="w-full table-auto text-xs">
         <thead className="text-left text-light-heading dark:text-dark-heading">
           <tr className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg">
