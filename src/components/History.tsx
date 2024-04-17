@@ -11,7 +11,7 @@ import {
   sortScoresByTimestamp,
   findHighScore,
   parseLocalStorageScores,
-  setLocalStorageScores,
+  saveRemoteScoresLocally,
 } from "@/helpers";
 import { Score } from "@/interfaces";
 import { useScores } from "@/context/ScoresContext";
@@ -44,27 +44,9 @@ export default function History() {
 
   // Make sure all userScores are saved in local storage
   useEffect(() => {
-    const localScores = parseLocalStorageScores();
-    // check if any userScores scores are not saved in local storage
-    if (userScores.length > localScores.length) {
-      const scoresNotInLocalStorage = userScores.filter(
-        (userScore) =>
-          !localScores.find(
-            (localScore: Score) => localScore.timestamp === userScore.timestamp,
-          ),
-      );
-      // if any scores are not yet saved in local storage, save them
-      if (scoresNotInLocalStorage.length > 0) {
-        // only save necessary fields
-        const scoresToSave = scoresNotInLocalStorage.map((userScore) => ({
-          points: userScore.points,
-          instrument: userScore.instrument,
-          tuning: userScore.tuning,
-          timestamp: userScore.timestamp,
-          userId,
-        }));
-        setLocalStorageScores([...localScores, ...scoresToSave]);
-      }
+    if (userScores.length && userId) {
+      const localScores = parseLocalStorageScores();
+      saveRemoteScoresLocally(localScores, userId);
     }
   }, [userScores, userId]);
 
