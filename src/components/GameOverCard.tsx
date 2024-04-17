@@ -36,6 +36,7 @@ export default function GameOverCard({
         <button
           type="button"
           className="btn btn-circle absolute right-1 top-1 scale-50 border-none bg-light-darkerBg text-light-heading hover:bg-light-link hover:text-light-bg dark:bg-dark-bg dark:text-dark-link hover:dark:bg-error hover:dark:text-dark-darkerBg"
+          style={{ marginRight: "-0.5rem", marginTop: "-0.5rem" }}
           onClick={() => setGameOver(false)}
         >
           <IoClose className="text-3xl" />
