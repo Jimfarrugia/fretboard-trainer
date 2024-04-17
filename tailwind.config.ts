@@ -33,6 +33,8 @@ const config: Config = {
       gold: "#E0B53E",
       silver: "#C8CEDE",
       bronze: "#C59162",
+      error: "#eb5757",
+      success: "#27ae60",
     },
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
