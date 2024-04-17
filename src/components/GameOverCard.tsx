@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MdReplay } from "react-icons/md";
 import { IoIosSend } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import PublishScoreForm from "./PublishScoreForm";
+import { getScoreRanking } from "@/actions/getScoreRanking";
+import { ordinal } from "@/helpers";
 
 export default function GameOverCard({
   currentScore,
@@ -18,6 +20,15 @@ export default function GameOverCard({
   userId: string | undefined;
 }) {
   const [showForm, setShowForm] = useState(false);
+  const [rank, setRank] = useState(0);
+
+  useEffect(() => {
+    if (currentScore > 0) {
+      getScoreRanking(currentScore)
+        .then((rank) => setRank(rank || 0))
+        .catch((e) => console.error("Failed to get score ranking.", e));
+    }
+  }, [currentScore]);
 
   return (
     <div className="absolute z-20 mt-2 rounded-lg border-2 border-light-heading bg-light-bg p-8 text-center dark:border-dark-heading dark:bg-dark-darkerBg">
@@ -50,7 +61,7 @@ export default function GameOverCard({
           )}
           <button
             type="button"
-            className="btn btn-primary border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
+            className="btn btn-primary mb-6 border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
             onClick={startGame}
           >
             <MdReplay className="text-lg" />
@@ -58,10 +69,12 @@ export default function GameOverCard({
           </button>
           {userId && (
             <>
-              <p className="mt-6 font-bold">
-                You achieved the Xth highest score!
-              </p>
-              <p className="my-6">
+              {rank > 0 && (
+                <p className="mb-6 font-bold">
+                  You achieved the {ordinal(rank)} highest score!
+                </p>
+              )}
+              <p className="mb-6">
                 Would you like to publish your score to the leaderboard?
               </p>
               <button
