@@ -62,13 +62,13 @@ export default function GameOverCard({
           )}
           <button
             type="button"
-            className="btn btn-primary mb-6 border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
+            className={`btn btn-primary ${userId && currentScore > 0 ? "mb-6" : ""} border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg`}
             onClick={startGame}
           >
             <MdReplay className="text-lg" />
             Play again
           </button>
-          {userId && (
+          {userId && currentScore > 0 && (
             <>
               {rank > 0 && (
                 <p className="mb-6 font-bold">
