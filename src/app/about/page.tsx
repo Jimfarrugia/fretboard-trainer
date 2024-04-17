@@ -39,10 +39,10 @@ export default function AboutPage() {
       <p>
         Open up the game’s settings to select your preferred instrument and
         tuning.
-        <p>
-          You can also select whether you’d like to include sharps or flats or
-          both or neither.
-        </p>
+      </p>
+      <p>
+        You can also select whether you’d like to include sharps or flats or
+        both or neither.
       </p>
     </div>
   );
