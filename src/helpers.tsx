@@ -61,6 +61,35 @@ export const parseLocalStorageScores = () => {
 export const setLocalStorageScores = (scores: Score[]) =>
   localStorage.setItem("scores", JSON.stringify(scores));
 
+// Save database scores to localStorage
+export const saveRemoteScoresLocally = (
+  remoteScores: Score[],
+  userId: string,
+) => {
+  const localScores = parseLocalStorageScores();
+  // check if any userScores scores are not saved in local storage
+  if (remoteScores.length > localScores.length) {
+    const scoresNotInLocalStorage = remoteScores.filter(
+      (remoteScore) =>
+        !localScores.find(
+          (localScore: Score) => localScore.timestamp === remoteScore.timestamp,
+        ),
+    );
+    // if any scores are not yet saved in local storage, save them
+    if (scoresNotInLocalStorage.length > 0) {
+      // only save necessary fields
+      const remoteScoresToSave = scoresNotInLocalStorage.map((remoteScore) => ({
+        points: remoteScore.points,
+        instrument: remoteScore.instrument,
+        tuning: remoteScore.tuning,
+        timestamp: remoteScore.timestamp,
+        userId,
+      }));
+      setLocalStorageScores([...localScores, ...remoteScoresToSave]);
+    }
+  }
+};
+
 // get date from timestamp
 export const dateFromTimestamp = (isoDate: string) => {
   return isoDate.split("T")[0];
