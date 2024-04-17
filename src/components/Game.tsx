@@ -74,7 +74,7 @@ export default function Game() {
     setGameInProgress(true);
     setCurrentScore(0);
     setNewHighScore(false);
-    setTimer(15);
+    setTimer(20);
     newChallenge(challenge);
   };
 
@@ -135,7 +135,9 @@ export default function Game() {
           <GameOverCard
             currentScore={currentScore}
             newHighScore={newHighScore}
+            setGameOver={setGameOver}
             startGame={startGame}
+            userId={userId}
           />
         )}
         {/* Fretboard */}
