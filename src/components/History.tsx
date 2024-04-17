@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { useState, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { FaMedal } from "react-icons/fa6";
 import { FaChevronRight } from "react-icons/fa";
@@ -27,22 +27,23 @@ export default function History() {
     (userScores.length && userScores) || scores,
   );
 
-  useCallback(() => {
-    if (userId) {
-      getUserScores(userId).then((res) => setUserScores(res));
-    }
-  }, [userId]);
-
   // Push any unsaved local scores to database
-  useCallback(() => {
+  useEffect(() => {
     const localScores = parseLocalStorageScores();
     if (userId && localScores.length) {
       pushLocalScores(userId, localScores);
     }
   }, [userId]);
 
+  // Fetch userScores from database
+  useEffect(() => {
+    if (userId) {
+      getUserScores(userId).then((res) => setUserScores(res));
+    }
+  }, [userId]);
+
   // Make sure all userScores are saved in local storage
-  useCallback(() => {
+  useEffect(() => {
     const localScores = parseLocalStorageScores();
     // check if any userScores scores are not saved in local storage
     if (userScores.length > localScores.length) {
