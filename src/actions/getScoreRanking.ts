@@ -1,6 +1,5 @@
 "use server";
 import { db } from "@/lib/db";
-import { Score } from "@/interfaces";
 
 export async function getScoreRanking(points: number) {
   try {
