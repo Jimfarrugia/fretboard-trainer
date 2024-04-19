@@ -5,11 +5,13 @@ import { FaRegCircleCheck } from "react-icons/fa6";
 import { FaMedal } from "react-icons/fa6";
 import Fretboard from "./Fretboard";
 import GameOverCard from "./GameOverCard";
+import GameSettings from "./GameSettings";
 import { notes } from "@/lib/constants";
 import { randomNote, hideNoteLabels, findHighScore } from "@/lib/helpers";
 import { useScores } from "@/context/ScoresContext";
 import { useSession } from "next-auth/react";
 import { createScore } from "@/actions/createScore";
+import { IoClose } from "react-icons/io5";
 
 export default function Game() {
   const [gameInProgress, setGameInProgress] = useState(false);
@@ -20,6 +22,7 @@ export default function Game() {
   const [newHighScore, setNewHighScore] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const { scores, addScore } = useScores();
+  const [showSettings, setShowSettings] = useState(false);
   const highScore = findHighScore(scores);
   const session = useSession();
   const userId = session?.data?.user?.id;
@@ -86,10 +89,8 @@ export default function Game() {
     }
   }, [currentScore, highScore]);
 
-  // TODO: pass 'strings[]' to Fretboard as a prop
-
   return (
-    <div>
+    <>
       <div
         className={`flex items-center ${gameInProgress || gameOver ? "justify-between" : "justify-around"} pb-2 ${gameOver && "opacity-25"}`}
       >
@@ -152,14 +153,16 @@ export default function Game() {
           newChallenge={newChallenge}
         />
       </div>
-      <div className="flex items-start justify-between pt-2">
+      <div className="flex items-start justify-between pb-4 pt-2">
         {/* settings btn */}
         <div>
           <button
             type="button"
             className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg"
+            onClick={() => setShowSettings(!showSettings)}
           >
-            Settings
+            {showSettings && <IoClose className="text-xl" />}
+            {showSettings ? "Hide Settings" : "Settings"}
           </button>
         </div>
         {/* skip btn */}
@@ -181,6 +184,8 @@ export default function Game() {
           <FaMedal className="text-xl" />
         </div>
       </div>
-    </div>
+      {/* Settings */}
+      {showSettings && <GameSettings />}
+    </>
   );
 }
