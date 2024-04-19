@@ -103,6 +103,9 @@ span.incorrect {
   height: 100%;
   position: absolute;
 }
+.nut .string hr {
+  width: 100%;
+}
 .nut .string button span {
   float: right;
   left: 0;
@@ -336,6 +339,9 @@ span.incorrect {
     display: flex;
     flex-direction: row-reverse; /* reverse the order of the strings (maintain right-handed layout) */
   }
+  .nut .string hr {
+    height: 100% !important;
+  }
   .nut .string button span {
     padding: 0.25em;
     float: none;
@@ -353,7 +359,12 @@ span.incorrect {
     top: 0 !important;
     left: 46%;
     height: calc(100% + 0.285em) !important;
-    width: 8%;
+    width: 8% !important;
+  }
+  .fret:nth-child(1) .string hr {
+    /* fix overlap with nut strings */
+    top: 0.075rem !important;
+    height: calc(100% + 0.15rem) !important;
   }
   .string:nth-child(2) hr {
     width: 10%;
@@ -463,6 +474,7 @@ span.incorrect {
 .nut .string button span {
   background: darkmagenta;
   display: block;
+  opacity: 100%;
 }
 .fret:nth-child(n + 4) .string button span {
   background: blue;
