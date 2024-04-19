@@ -22,7 +22,7 @@ export default function Fretboard({
   setAllowSkip,
   newChallenge,
 }: FretboardProps) {
-  const { tuning } = useSettings();
+  const { tuning, enabledStrings } = useSettings();
   const [isLoading, setIsLoading] = useState(true);
   const frets = Array.from({ length: 15 }, (_, index) => index);
   const fretboard = generateFretboard(tuning.strings, 15);
@@ -70,52 +70,60 @@ export default function Fretboard({
               </div>
             </div>
             <div className="nut">
-              {tuning.strings.map((string, stringIndex) => (
-                <div key={`string-${stringIndex + 1}`} className="string">
-                  <hr />
-                  <button
-                    value={fretboard[stringIndex][0]}
-                    disabled={!gameInProgress}
-                    onClick={handleClick}
-                  >
-                    <span
-                      onClick={(e) => {
-                        // trigger button if span is clicked
-                        e.stopPropagation();
-                        (e.target as HTMLElement).closest("button")?.click();
-                      }}
+              {tuning.strings.map((string, stringIndex) => {
+                const stringEnabled = enabledStrings[stringIndex];
+                return (
+                  <div key={`string-${stringIndex + 1}`} className="string">
+                    <hr className={`${stringEnabled ? "" : "opacity-10"}`} />
+                    <button
+                      value={fretboard[stringIndex][0]}
+                      disabled={!gameInProgress || !stringEnabled}
+                      onClick={handleClick}
                     >
-                      {fretboard[stringIndex][0]}
-                    </span>
-                  </button>
-                </div>
-              ))}
+                      <span
+                        onClick={(e) => {
+                          // trigger button if span is clicked
+                          e.stopPropagation();
+                          (e.target as HTMLElement).closest("button")?.click();
+                        }}
+                      >
+                        {fretboard[stringIndex][0]}
+                      </span>
+                    </button>
+                  </div>
+                );
+              })}
             </div>
             <div className="frets">
               {frets.map((fret, fretIndex) => (
                 <div key={`fret-${fretIndex + 1}`} className="fret">
-                  {tuning.strings.map((string, stringIndex) => (
-                    <div key={`string-${stringIndex + 1}`} className="string">
-                      <hr />
-                      <button
-                        value={fretboard[stringIndex][fretIndex + 1]}
-                        disabled={!gameInProgress}
-                        onClick={handleClick}
-                      >
-                        <span
-                          onClick={(e) => {
-                            // trigger button if span is clicked
-                            e.stopPropagation();
-                            (e.target as HTMLElement)
-                              .closest("button")
-                              ?.click();
-                          }}
+                  {tuning.strings.map((string, stringIndex) => {
+                    const stringEnabled = enabledStrings[stringIndex];
+                    return (
+                      <div key={`string-${stringIndex + 1}`} className="string">
+                        <hr
+                          className={`${stringEnabled ? "" : "opacity-10"}`}
+                        />
+                        <button
+                          value={fretboard[stringIndex][fretIndex + 1]}
+                          disabled={!gameInProgress || !stringEnabled}
+                          onClick={handleClick}
                         >
-                          {fretboard[stringIndex][fretIndex + 1]}
-                        </span>
-                      </button>
-                    </div>
-                  ))}
+                          <span
+                            onClick={(e) => {
+                              // trigger button if span is clicked
+                              e.stopPropagation();
+                              (e.target as HTMLElement)
+                                .closest("button")
+                                ?.click();
+                            }}
+                          >
+                            {fretboard[stringIndex][fretIndex + 1]}
+                          </span>
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
               ))}
             </div>
