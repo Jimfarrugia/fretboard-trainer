@@ -28,6 +28,7 @@ export default function Game() {
   const highScore = findHighScore(scores);
   const session = useSession();
   const userId = session?.data?.user?.id;
+  const [isStartDisabled, setIsStartDisabled] = useState(false);
 
   const newChallenge = (previousChallenge: string) => {
     // remove previous challenge note from eligible notes for next challenge
@@ -118,8 +119,9 @@ export default function Game() {
           ) : (
             <button
               type="button"
-              className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg"
+              className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg disabled:text-light-body disabled:opacity-40 dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg"
               onClick={startGame}
+              disabled={isStartDisabled}
             >
               START
             </button>
@@ -187,7 +189,7 @@ export default function Game() {
         </div>
       </div>
       {/* Settings */}
-      {showSettings && <GameSettings />}
+      {showSettings && <GameSettings setIsStartDisabled={setIsStartDisabled} />}
     </>
   );
 }

@@ -1,9 +1,15 @@
+import { useState } from "react";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useSettings } from "@/context/SettingsContext";
 import { tunings, instruments } from "@/lib/constants";
 import { Instrument } from "@/lib/types";
 import { capitalize } from "@/lib/helpers";
 
-export default function GameSettings() {
+export default function GameSettings({
+  setIsStartDisabled,
+}: {
+  setIsStartDisabled: (isStartDisabled: boolean) => void;
+}) {
   const {
     instrument,
     setInstrument,
@@ -16,6 +22,7 @@ export default function GameSettings() {
     flats,
     setFlats,
   } = useSettings();
+  const [error, setError] = useState("");
 
   const handleChangeTuning = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedTuningName = e.target.value;
@@ -26,13 +33,31 @@ export default function GameSettings() {
   };
 
   const handleChangeEnabledStrings = (index: number) => {
+    setError("");
+    setIsStartDisabled(false);
     const updatedEnabledStrings = [...enabledStrings];
     updatedEnabledStrings[index] = !updatedEnabledStrings[index];
+    const isAllDisabled =
+      updatedEnabledStrings.filter((string) => string === false).length ===
+      enabledStrings.length;
+    if (isAllDisabled) {
+      setError("You can't disable every string.");
+      setIsStartDisabled(true);
+    }
     setEnabledStrings(updatedEnabledStrings);
   };
 
   return (
     <>
+      {error && (
+        <div
+          role="alert"
+          className="alert alert-error bg-error text-light-bg dark:text-dark-darkerBg"
+        >
+          <IoIosCloseCircleOutline className="text-2xl" />
+          <span>{error}</span>
+        </div>
+      )}
       <div className="mb-6 mt-2 flex gap-4">
         {/* Instrument */}
         <label className="form-control w-1/2 max-w-xs">
