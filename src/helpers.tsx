@@ -1,19 +1,5 @@
 import { Score } from "./interfaces";
-
-export const notes = [
-  "A",
-  "A#",
-  "B",
-  "C",
-  "C#",
-  "D",
-  "D#",
-  "E",
-  "F",
-  "F#",
-  "G",
-  "G#",
-];
+import { notes } from "@/lib/constants";
 
 // Choose a random note from notes array
 export function randomNote(notes: string[]) {
