@@ -49,6 +49,7 @@
 
 span.clicked {
   display: block !important;
+  opacity: 100% !important;
 }
 span.correct {
   background: var(--success-color) !important;
@@ -111,6 +112,10 @@ span.incorrect {
   left: 0;
   z-index: 2;
   padding: 0.25em 0.5em;
+  /* Nut button spans are invisibile but still displayed (clickable) */
+  /* (Allows larger area to click in nut) */
+  display: block;
+  opacity: 0;
 }
 
 /* Strings  */
