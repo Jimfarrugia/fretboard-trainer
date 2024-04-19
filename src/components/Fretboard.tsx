@@ -74,7 +74,9 @@ export default function Fretboard({
                 const stringEnabled = enabledStrings[stringIndex];
                 return (
                   <div key={`string-${stringIndex + 1}`} className="string">
-                    <hr className={`${stringEnabled ? "" : "opacity-10"}`} />
+                    <hr
+                      className={`${stringEnabled ? "" : "opacity-40 dark:opacity-10"}`}
+                    />
                     <button
                       value={fretboard[stringIndex][0]}
                       disabled={!gameInProgress || !stringEnabled}
@@ -102,7 +104,7 @@ export default function Fretboard({
                     return (
                       <div key={`string-${stringIndex + 1}`} className="string">
                         <hr
-                          className={`${stringEnabled ? "" : "opacity-10"}`}
+                          className={`${stringEnabled ? "" : "opacity-40 dark:opacity-10"}`}
                         />
                         <button
                           value={fretboard[stringIndex][fretIndex + 1]}
