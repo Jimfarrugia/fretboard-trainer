@@ -15,7 +15,7 @@ export interface Score {
 
 export interface Tuning {
   name: string;
-  notes: string[];
+  strings: string[];
 }
 
 export type Instrument = (typeof instruments)[number];
