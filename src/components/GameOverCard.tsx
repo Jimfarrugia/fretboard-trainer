@@ -35,7 +35,7 @@ export default function GameOverCard({
       <div>
         <button
           type="button"
-          className="btn btn-circle absolute right-1 top-1 scale-50 border-none bg-light-darkerBg text-light-heading hover:bg-light-link hover:text-light-bg dark:bg-dark-bg dark:text-dark-link hover:dark:bg-error hover:dark:text-dark-darkerBg"
+          className="btn btn-circle absolute right-1 top-1 scale-50 border-none bg-light-darkerBg text-light-heading hover:bg-error hover:text-light-bg dark:bg-dark-bg dark:text-dark-link hover:dark:bg-error hover:dark:text-dark-darkerBg"
           style={{ marginRight: "-0.5rem", marginTop: "-0.5rem" }}
           onClick={() => setGameOver(false)}
         >
