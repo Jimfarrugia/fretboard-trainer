@@ -88,7 +88,7 @@ export default function PublishScoreForm({
             <div className="flex justify-center gap-4 sm:gap-6">
               <button
                 type="button"
-                className="btn btn-primary border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-error dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
+                className="btn btn-primary border-0 bg-error text-light-bg hover:bg-light-hover hover:text-light-bg dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
                 onClick={() => setShowForm(false)}
               >
                 Cancel
