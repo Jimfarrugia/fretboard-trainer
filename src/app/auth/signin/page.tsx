@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 import signInWithGoogle from "@/actions/signInWithGoogle";
 import googleLogo from "@/../public/google-logo.svg";
 
