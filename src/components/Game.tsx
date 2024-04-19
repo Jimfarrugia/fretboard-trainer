@@ -12,8 +12,10 @@ import { useScores } from "@/context/ScoresContext";
 import { useSession } from "next-auth/react";
 import { createScore } from "@/actions/createScore";
 import { IoClose } from "react-icons/io5";
+import { useSettings } from "@/context/SettingsContext";
 
 export default function Game() {
+  const { tuning, instrument } = useSettings();
   const [gameInProgress, setGameInProgress] = useState(false);
   const [allowSkip, setAllowSkip] = useState(false);
   const [challenge, setChallenge] = useState("");
@@ -56,8 +58,8 @@ export default function Game() {
     if (gameOver) {
       const newScore = {
         points: currentScore,
-        instrument: "Guitar",
-        tuning: "Standard E",
+        tuning: tuning.name,
+        instrument: instrument as string,
         timestamp: new Date().toISOString(),
       };
       if (userId) {
