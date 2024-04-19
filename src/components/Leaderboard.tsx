@@ -1,5 +1,5 @@
 import { FaMedal } from "react-icons/fa6";
-import { dateFromTimestamp } from "@/helpers";
+import { dateFromTimestamp } from "@/lib/helpers";
 import { getTopScores } from "@/actions/getTopScores";
 import LeaderboardHeader from "./LeaderboardHeader";
 

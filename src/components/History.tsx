@@ -12,8 +12,8 @@ import {
   findHighScore,
   parseLocalStorageScores,
   saveRemoteScoresLocally,
-} from "@/helpers";
-import { Score } from "@/interfaces";
+} from "@/lib/helpers";
+import { Score } from "@/lib/interfaces";
 import { useScores } from "@/context/ScoresContext";
 import { pushLocalScores } from "@/actions/pushLocalScores";
 import { getUserScores } from "@/actions/getUserScores";

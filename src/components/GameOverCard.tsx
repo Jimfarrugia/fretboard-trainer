@@ -4,7 +4,7 @@ import { IoIosSend } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import PublishScoreForm from "./PublishScoreForm";
 import { getScoreRanking } from "@/actions/getScoreRanking";
-import { ordinal } from "@/helpers";
+import { ordinal } from "@/lib/helpers";
 
 export default function GameOverCard({
   currentScore,

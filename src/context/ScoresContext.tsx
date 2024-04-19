@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { Score } from "@/interfaces";
+import { Score } from "@/lib/interfaces";
 
 interface ScoresContextType {
   scores: Score[];

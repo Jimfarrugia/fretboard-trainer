@@ -6,7 +6,7 @@ import { FaMedal } from "react-icons/fa6";
 import Fretboard from "./Fretboard";
 import GameOverCard from "./GameOverCard";
 import { notes } from "@/lib/constants";
-import { randomNote, hideNoteLabels, findHighScore } from "@/helpers";
+import { randomNote, hideNoteLabels, findHighScore } from "@/lib/helpers";
 import { useScores } from "@/context/ScoresContext";
 import { useSession } from "next-auth/react";
 import { createScore } from "@/actions/createScore";

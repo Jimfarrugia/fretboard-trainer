@@ -1,4 +1,4 @@
-import { generateFretboard, hideNoteLabels } from "@/helpers";
+import { generateFretboard, hideNoteLabels } from "@/lib/helpers";
 import "./Fretboard.css";
 
 interface FretboardProps {
