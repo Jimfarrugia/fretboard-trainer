@@ -99,3 +99,8 @@ export const ordinal = (n: number) => {
   const v = n % 100;
   return n + (s[(v - 20) % 10] || s[v] || s[0]);
 };
+
+// Capitalize the first letter of a string
+export const capitalize = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
