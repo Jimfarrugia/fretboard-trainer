@@ -1,3 +1,5 @@
+import { instruments } from "@/lib/constants";
+
 export interface Score {
   id?: string;
   createdAt?: Date;
@@ -10,3 +12,10 @@ export interface Score {
   username?: string | null;
   userId?: string;
 }
+
+export interface Tuning {
+  name: string;
+  notes: string[];
+}
+
+export type Instrument = (typeof instruments)[number];
