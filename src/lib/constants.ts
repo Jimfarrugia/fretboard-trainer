@@ -16,7 +16,7 @@ export const notes = [
 export const instruments = ["guitar", "bass"] as const;
 
 export const tunings = [
-  { name: "E Standard", notes: ["E", "A", "D", "G", "B", "E"] },
-  { name: "Drop D", notes: ["D", "A", "D", "G", "B", "E"] },
-  { name: "D Standard", notes: ["D", "G", "C", "F", "A", "D"] },
+  { name: "E Standard", strings: ["E", "B", "G", "D", "A", "E"] },
+  { name: "Drop D", strings: ["E", "B", "G", "D", "A", "D"] },
+  { name: "D Standard", strings: ["D", "A", "F", "C", "G", "D"] },
 ];
