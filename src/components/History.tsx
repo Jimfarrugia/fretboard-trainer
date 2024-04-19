@@ -13,7 +13,7 @@ import {
   parseLocalStorageScores,
   saveRemoteScoresLocally,
 } from "@/lib/helpers";
-import { Score } from "@/lib/interfaces";
+import { Score } from "@/lib/types";
 import { useScores } from "@/context/ScoresContext";
 import { pushLocalScores } from "@/actions/pushLocalScores";
 import { getUserScores } from "@/actions/getUserScores";

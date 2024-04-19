@@ -1,4 +1,4 @@
-import { Score } from "./interfaces";
+import { Score } from "./types";
 import { notes } from "@/lib/constants";
 
 // Choose a random note from notes array
