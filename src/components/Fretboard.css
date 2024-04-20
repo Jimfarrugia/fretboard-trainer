@@ -360,6 +360,10 @@ span.incorrect {
     height: 100%;
     width: 16.672%;
   }
+  .fret:nth-child(4) .string {
+    /* fix tiny gap in strings on 4th fret */
+    height: calc(100% + 0.0021rem) !important;
+  }
   .string hr {
     top: 0 !important;
     left: 46%;
