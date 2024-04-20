@@ -12,6 +12,7 @@ import {
   findHighScore,
   parseLocalStorageScores,
   saveRemoteScoresLocally,
+  capitalize,
 } from "@/lib/helpers";
 import { Score } from "@/lib/types";
 import { useScores } from "@/context/ScoresContext";
@@ -109,7 +110,7 @@ function HistoryTable({ scores }: { scores: Score[] }) {
               <td className="px-2 py-4">
                 {dateFromTimestamp(score.timestamp)}
               </td>
-              <td className="px-2 py-4">{score.instrument}</td>
+              <td className="px-2 py-4">{capitalize(score.instrument)}</td>
               <td className="px-2 py-4">{score.tuning}</td>
               <td className="px-2 py-4">
                 <div className="flex items-center gap-1">

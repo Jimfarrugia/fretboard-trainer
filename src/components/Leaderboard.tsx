@@ -1,5 +1,5 @@
 import { FaMedal } from "react-icons/fa6";
-import { dateFromTimestamp } from "@/lib/helpers";
+import { dateFromTimestamp, capitalize } from "@/lib/helpers";
 import { getTopScores } from "@/actions/getTopScores";
 import LeaderboardHeader from "./LeaderboardHeader";
 
@@ -37,7 +37,7 @@ export default async function Leaderboard() {
                 {dateFromTimestamp(score.timestamp)}
               </td>
               <td className="px-2 py-4">{score.username || "Anonymous"}</td>
-              <td className="px-2 py-4">{score.instrument}</td>
+              <td className="px-2 py-4">{capitalize(score.instrument)}</td>
               <td className="px-2 py-4">{score.tuning}</td>
               <td className="px-2 py-4">
                 <div className="flex items-center gap-1">
