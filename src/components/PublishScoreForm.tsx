@@ -1,8 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import { MdReplay } from "react-icons/md";
+import { useSession } from "next-auth/react";
 import { publishScore } from "@/actions/publishScore";
 import { updateUsername } from "@/actions/updateUsername";
+
+export interface SessionUser {
+  createdAt?: Date;
+  email?: string;
+  emailVerified: boolean | null;
+  id?: string;
+  image?: string;
+  name?: string;
+  updatedAt?: Date;
+  username?: string;
+}
 
 export default function PublishScoreForm({
   userId,
@@ -13,10 +25,18 @@ export default function PublishScoreForm({
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
   startGame: () => void;
 }) {
-  const [username, setUsername] = useState("");
+  const session = useSession();
+  const [username, setUsername] = useState<string>("");
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const user = session?.data?.user as SessionUser;
+
+  useEffect(() => {
+    if (user?.username) {
+      setUsername(user.username);
+    }
+  }, [user]);
 
   const isValidUsername = (string: string) =>
     /^$|^[a-zA-Z0-9_-]{1,16}$/.test(string);
