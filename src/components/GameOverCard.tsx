@@ -72,7 +72,9 @@ export default function GameOverCard({
             <>
               {rank > 0 && (
                 <p className="mb-6 font-bold">
-                  You achieved the {ordinal(rank)} highest score!
+                  {rank === 1
+                    ? "You achieved the top score!  You scored higher than everyone on the leaderboard!"
+                    : `You achieved the ${ordinal(rank)} highest score!`}
                 </p>
               )}
               <p className="mb-6">
