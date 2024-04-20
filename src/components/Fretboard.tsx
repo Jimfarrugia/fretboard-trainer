@@ -13,6 +13,12 @@ interface FretboardProps {
   newChallenge: (previousChallenge: string) => void;
 }
 
+interface CorrectAnswer {
+  challenge: string;
+  string: number;
+  fret: number;
+}
+
 export default function Fretboard({
   gameInProgress,
   gameOver,
@@ -22,7 +28,10 @@ export default function Fretboard({
   setAllowSkip,
   newChallenge,
 }: FretboardProps) {
-  const { tuning, enabledStrings } = useSettings();
+  const { tuning, enabledStrings, flats, sharps } = useSettings();
+  const [correctAnswer, setCorrectAnswer] = useState<CorrectAnswer | undefined>(
+    undefined,
+  );
   const [isLoading, setIsLoading] = useState(true);
   const frets = Array.from({ length: 15 }, (_, index) => index);
   const fretboard = generateFretboard(tuning.strings, 15);
@@ -33,19 +42,73 @@ export default function Fretboard({
     }
   }, [tuning]);
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    string: number,
+    fret: number,
+  ) => {
     hideNoteLabels();
     // Display the label for the clicked note and handle correct/incorrect answer
     const { value } = e.target as HTMLButtonElement;
     const span = e.currentTarget.querySelector("span");
-    if (value === challenge) {
+    if (
+      (challenge.length === 1 && value === challenge) || // correct natural
+      (challenge.length > 1 && value.includes(challenge)) // correct accidental
+    ) {
+      // set correct answer
+      setCorrectAnswer({ challenge, string, fret });
+      // show button label
       if (span) span.classList.add("clicked", "correct");
+      // update game state
       setCurrentScore(currentScore + 1);
       setAllowSkip(false);
       newChallenge(challenge);
     } else {
       if (span) span.classList.add("clicked", "incorrect");
       setAllowSkip(true);
+    }
+  };
+
+  const labelText = (note: string, string: number, fret: number) => {
+    const noteAsSharp = note.substring(0, 2);
+    const noteAsFlat = note.substring(note.length - 2);
+    /* 
+      If the label is for the button that was clicked to achieve the last correct answer, 
+      it will still be shown after the new challenge has been set
+      and its label may change to use a different accidental to what the user was targeting.
+      (eg. the user was targeting 'Bb' but the new challenge is 'C#' so the label will be displayed as 'A#')
+      To fix, we check if this label is for the button that was clicked to achieve the last correct answer
+      and if so, we display the label using the accidental that was used for the previous challenge.
+    */
+    if (
+      correctAnswer && // there was a correct answer
+      correctAnswer.challenge.length > 1 && // it was an accidental
+      correctAnswer.string === string && // it was on this string
+      correctAnswer.fret === fret // it was on this fret
+    ) {
+      return (
+        // if it was sharp, display as a sharp
+        (correctAnswer.challenge.includes("#") && noteAsSharp) ||
+        // if it was flat, display as a flat
+        (correctAnswer.challenge.includes("b") && noteAsFlat)
+      );
+    }
+    //* The code below handles everything other than the edge case described above.
+    switch (true) {
+      case note.length === 1:
+        return note;
+      // if note is an accidental and challenge is a sharp, display note as a sharp
+      case note.length > 1 && challenge.includes("#"):
+        return noteAsSharp;
+      // if note is an accidental and challenge is a flat, display note as a flat
+      case note.length > 1 && challenge.includes("b"):
+        return noteAsFlat;
+      // if note is an accidental and challenge is a natural and flats:true and sharps:false, display note as a flat
+      case note.length > 1 && challenge.length === 1 && flats && !sharps:
+        return noteAsFlat;
+      // by default, display all accidentals as sharps
+      default:
+        return note.length > 1 ? noteAsSharp : note;
     }
   };
 
@@ -71,6 +134,7 @@ export default function Fretboard({
             </div>
             <div className="nut">
               {tuning.strings.map((string, stringIndex) => {
+                const note = fretboard[stringIndex][0];
                 const stringEnabled = enabledStrings[stringIndex];
                 return (
                   <div key={`string-${stringIndex + 1}`} className="string">
@@ -78,9 +142,9 @@ export default function Fretboard({
                       className={`${stringEnabled ? "" : "opacity-40 dark:opacity-10"}`}
                     />
                     <button
-                      value={fretboard[stringIndex][0]}
+                      value={note}
                       disabled={!gameInProgress || !stringEnabled}
-                      onClick={handleClick}
+                      onClick={(e) => handleClick(e, stringIndex + 1, 0)}
                     >
                       <span
                         onClick={(e) => {
@@ -89,7 +153,7 @@ export default function Fretboard({
                           (e.target as HTMLElement).closest("button")?.click();
                         }}
                       >
-                        {fretboard[stringIndex][0]}
+                        {labelText(note, stringIndex + 1, 0)}
                       </span>
                     </button>
                   </div>
@@ -100,6 +164,7 @@ export default function Fretboard({
               {frets.map((fret, fretIndex) => (
                 <div key={`fret-${fretIndex + 1}`} className="fret">
                   {tuning.strings.map((string, stringIndex) => {
+                    const note = fretboard[stringIndex][fretIndex + 1];
                     const stringEnabled = enabledStrings[stringIndex];
                     return (
                       <div key={`string-${stringIndex + 1}`} className="string">
@@ -107,9 +172,11 @@ export default function Fretboard({
                           className={`${stringEnabled ? "" : "opacity-40 dark:opacity-10"}`}
                         />
                         <button
-                          value={fretboard[stringIndex][fretIndex + 1]}
+                          value={note}
                           disabled={!gameInProgress || !stringEnabled}
-                          onClick={handleClick}
+                          onClick={(e) =>
+                            handleClick(e, stringIndex + 1, fretIndex + 1)
+                          }
                         >
                           <span
                             onClick={(e) => {
@@ -120,7 +187,7 @@ export default function Fretboard({
                                 ?.click();
                             }}
                           >
-                            {fretboard[stringIndex][fretIndex + 1]}
+                            {labelText(note, stringIndex + 1, fretIndex + 1)}
                           </span>
                         </button>
                       </div>

@@ -1,4 +1,6 @@
-export const notes = [
+export const naturalNotes = ["A", "B", "C", "D", "E", "F", "G"];
+
+export const notesWithSharps = [
   "A",
   "A#",
   "B",
@@ -11,6 +13,36 @@ export const notes = [
   "F#",
   "G",
   "G#",
+];
+
+export const notesWithFlats = [
+  "A",
+  "Bb",
+  "B",
+  "C",
+  "Db",
+  "D",
+  "Eb",
+  "E",
+  "F",
+  "Gb",
+  "G",
+  "Ab",
+];
+
+export const notesWithSharpsAndFlats = [
+  "A",
+  "A#/Bb",
+  "B",
+  "C",
+  "C#/Db",
+  "D",
+  "D#/Eb",
+  "E",
+  "F",
+  "F#/Gb",
+  "G",
+  "G#/Ab",
 ];
 
 export const instruments = ["guitar", "bass"] as const;

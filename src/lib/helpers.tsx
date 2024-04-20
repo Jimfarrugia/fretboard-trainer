@@ -1,14 +1,30 @@
 import { Score } from "./types";
-import { notes } from "@/lib/constants";
+import { notesWithSharpsAndFlats } from "@/lib/constants";
 
 // Choose a random note from notes array
-export function randomNote(notes: string[]) {
+export function randomNote(
+  notes: string[],
+  useSharpsAndFlats: boolean = false,
+) {
   const randomNoteIndex = Math.floor(Math.random() * notes.length);
-  return notes[randomNoteIndex];
+  const randomNote = notes[randomNoteIndex];
+  if (!useSharpsAndFlats) {
+    return randomNote;
+  }
+  // if note is a natural, return the first char
+  if (notes[randomNoteIndex].length === 2) {
+    return randomNote[0];
+  }
+  // if note is an accidental, pick sharp or flat randomly
+  const pickSharp = Math.floor(Math.random() * 2);
+  return pickSharp
+    ? randomNote.substring(0, 2)
+    : randomNote.substring(randomNote.length - 2);
 }
 
 // Get the next note based on current note
 function getNextNote(currentNote: string) {
+  const notes = notesWithSharpsAndFlats;
   let currentIndex = notes.indexOf(currentNote);
   return notes[(currentIndex + 1) % notes.length];
 }

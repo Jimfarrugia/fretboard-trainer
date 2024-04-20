@@ -6,7 +6,12 @@ import { FaMedal } from "react-icons/fa6";
 import Fretboard from "./Fretboard";
 import GameOverCard from "./GameOverCard";
 import GameSettings from "./GameSettings";
-import { notes } from "@/lib/constants";
+import {
+  naturalNotes,
+  notesWithFlats,
+  notesWithSharps,
+  notesWithSharpsAndFlats,
+} from "@/lib/constants";
 import { randomNote, hideNoteLabels, findHighScore } from "@/lib/helpers";
 import { useScores } from "@/context/ScoresContext";
 import { useSession } from "next-auth/react";
@@ -15,7 +20,7 @@ import { IoClose } from "react-icons/io5";
 import { useSettings } from "@/context/SettingsContext";
 
 export default function Game() {
-  const { tuning, instrument } = useSettings();
+  const { tuning, instrument, sharps, flats } = useSettings();
   const [gameInProgress, setGameInProgress] = useState(false);
   const [allowSkip, setAllowSkip] = useState(false);
   const [challenge, setChallenge] = useState("");
@@ -30,10 +35,27 @@ export default function Game() {
   const userId = session?.data?.user?.id;
   const [isStartDisabled, setIsStartDisabled] = useState(false);
 
+  const notes =
+    sharps && flats
+      ? notesWithSharpsAndFlats
+      : sharps
+        ? notesWithSharps
+        : flats
+          ? notesWithFlats
+          : naturalNotes;
+
   const newChallenge = (previousChallenge: string) => {
     // remove previous challenge note from eligible notes for next challenge
-    const eligibleNotes = notes.filter((note) => note !== previousChallenge);
-    setChallenge(randomNote(eligibleNotes));
+    const eligibleNotes = !previousChallenge
+      ? notes
+      : notes.filter((note) => {
+          // IF using both sharps and flats AND previous challenge was a sharp/flat
+          return sharps && flats && previousChallenge.length > 1
+            ? !note.includes(previousChallenge)
+            : note !== previousChallenge;
+        });
+    const nextChallenge = randomNote(eligibleNotes, sharps && flats);
+    setChallenge(nextChallenge);
   };
 
   // Countdown the timer and end the game when time runs out
