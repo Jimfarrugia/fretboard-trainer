@@ -112,7 +112,9 @@ export default function GameSettings({
           {Array.from(
             { length: enabledStrings.length },
             (_, index) => index,
-          ).map((v, i) => (
+          ).map((v, i) => {
+            if (instrument === "bass" && i > 3) return null;
+            return (
             <div className="flex items-center" key={`string-${i + 1}`}>
               <label htmlFor={`string-${i + 1}`} className="me-1.5 sm:me-2.5">
                 {i + 1}
@@ -125,7 +127,8 @@ export default function GameSettings({
                 className="h-5 w-5 accent-light-link dark:accent-dark-highlight sm:h-6 sm:w-6"
               />
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
       {/* Accidentals */}
