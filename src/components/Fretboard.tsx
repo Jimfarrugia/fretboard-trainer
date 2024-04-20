@@ -8,8 +8,8 @@ interface FretboardProps {
   gameOver: boolean;
   challenge: string;
   currentScore: number;
-  setCurrentScore: (newScore: number) => void;
-  setAllowSkip: (newScore: boolean) => void;
+  setCurrentScore: (currentScore: number) => void;
+  setAllowSkip: (allowSkip: boolean) => void;
   newChallenge: (previousChallenge: string) => void;
 }
 
