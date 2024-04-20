@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useSettings } from "@/context/SettingsContext";
-import { tunings, instruments } from "@/lib/constants";
+import { tunings, instruments, defaultSettings } from "@/lib/constants";
 import { Instrument } from "@/lib/types";
 import { capitalize } from "@/lib/helpers";
 
@@ -23,6 +23,11 @@ export default function GameSettings({
     setFlats,
   } = useSettings();
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    // reset enabled strings when instrument changes
+    setEnabledStrings(defaultSettings.enabledStrings);
+  }, [instrument, setEnabledStrings]);
 
   const handleChangeTuning = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedTuningName = e.target.value;
@@ -115,18 +120,18 @@ export default function GameSettings({
           ).map((v, i) => {
             if (instrument === "bass" && i > 3) return null;
             return (
-            <div className="flex items-center" key={`string-${i + 1}`}>
-              <label htmlFor={`string-${i + 1}`} className="me-1.5 sm:me-2.5">
-                {i + 1}
-              </label>
-              <input
-                id={`string-${i + 1}`}
-                type="checkbox"
-                checked={enabledStrings[i]}
-                onChange={(e) => handleChangeEnabledStrings(i)}
-                className="h-5 w-5 accent-light-link dark:accent-dark-highlight sm:h-6 sm:w-6"
-              />
-            </div>
+              <div className="flex items-center" key={`string-${i + 1}`}>
+                <label htmlFor={`string-${i + 1}`} className="me-1.5 sm:me-2.5">
+                  {i + 1}
+                </label>
+                <input
+                  id={`string-${i + 1}`}
+                  type="checkbox"
+                  checked={enabledStrings[i]}
+                  onChange={(e) => handleChangeEnabledStrings(i)}
+                  className="h-5 w-5 accent-light-link dark:accent-dark-highlight sm:h-6 sm:w-6"
+                />
+              </div>
             );
           })}
         </div>
