@@ -28,13 +28,15 @@ export default function Fretboard({
   setAllowSkip,
   newChallenge,
 }: FretboardProps) {
-  const { tuning, enabledStrings, flats, sharps } = useSettings();
+  const { instrument, tuning, enabledStrings, flats, sharps } = useSettings();
   const [correctAnswer, setCorrectAnswer] = useState<CorrectAnswer | undefined>(
     undefined,
   );
   const [isLoading, setIsLoading] = useState(true);
   const frets = Array.from({ length: 15 }, (_, index) => index);
-  const fretboard = generateFretboard(tuning.strings, 15);
+  const strings =
+    instrument === "bass" ? tuning.strings.slice(-4) : tuning.strings;
+  const fretboard = generateFretboard(strings, 15);
 
   useEffect(() => {
     if (tuning !== null) {
@@ -114,10 +116,12 @@ export default function Fretboard({
 
   return (
     <div className={`fretboard-wrapper text-sm ${gameOver && "opacity-25"}`}>
-      <div className="fretboard">
+      <div
+        className={`fretboard ${!isLoading && instrument === "bass" ? "bass" : ""}`}
+      >
         {isLoading ? (
           <div className="w-full text-center">
-            <span className=" loading loading-spinner loading-lg py-16 text-light-darkerBg"></span>
+            <span className="loading loading-spinner loading-lg py-16 text-light-darkerBg"></span>
           </div>
         ) : (
           <>
@@ -133,7 +137,7 @@ export default function Fretboard({
               </div>
             </div>
             <div className="nut">
-              {tuning.strings.map((string, stringIndex) => {
+              {strings.map((string, stringIndex) => {
                 const note = fretboard[stringIndex][0];
                 const stringEnabled = enabledStrings[stringIndex];
                 return (
@@ -163,7 +167,7 @@ export default function Fretboard({
             <div className="frets">
               {frets.map((fret, fretIndex) => (
                 <div key={`fret-${fretIndex + 1}`} className="fret">
-                  {tuning.strings.map((string, stringIndex) => {
+                  {strings.map((string, stringIndex) => {
                     const note = fretboard[stringIndex][fretIndex + 1];
                     const stringEnabled = enabledStrings[stringIndex];
                     return (
