@@ -101,6 +101,7 @@ export default function Game() {
   const startGame = () => {
     setGameOver(false);
     setGameInProgress(true);
+    setShowSettings(false);
     setCurrentScore(0);
     setNewHighScore(false);
     setTimer(20);
