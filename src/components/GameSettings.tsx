@@ -44,7 +44,9 @@ export default function GameSettings({
     updatedEnabledStrings[index] = !updatedEnabledStrings[index];
     const isAllDisabled =
       updatedEnabledStrings.filter((string) => string === false).length ===
-      enabledStrings.length;
+      (instrument === "bass"
+        ? enabledStrings.length - 2
+        : enabledStrings.length);
     if (isAllDisabled) {
       setError("You can't disable every string.");
       setIsStartDisabled(true);
