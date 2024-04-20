@@ -376,7 +376,10 @@ span.incorrect {
     padding: 0.25em;
     float: none;
     bottom: 110%;
-    display: none;
+    /* Nut button spans are invisibile but still displayed (clickable) */
+    /* (Allows larger area to click in nut) */
+    display: block;
+    opacity: 0;
   }
 
   /* Strings  */
