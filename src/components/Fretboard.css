@@ -155,6 +155,31 @@ span.incorrect {
   height: 18%;
   top: 41%;
 }
+.bass .string {
+  height: 25%;
+}
+.bass .string hr {
+  top: 42%;
+  height: 16%;
+}
+.bass .string:nth-child(2) hr {
+  top: 40.5%;
+  height: 19%;
+}
+.bass .string:nth-child(3) hr {
+  top: 39%;
+  height: 22%;
+}
+.bass .string:nth-child(4) hr {
+  top: 37.5%;
+  height: 25%;
+}
+.bass .string:nth-child(5) {
+  display: none;
+}
+.bass .string:nth-child(6) {
+  display: none;
+}
 
 /* Buttons */
 
@@ -357,7 +382,7 @@ span.incorrect {
   /* Strings  */
 
   .string {
-    height: 100%;
+    height: 100% !important;
     width: 16.672%;
   }
   .fret:nth-child(4) .string {
@@ -394,6 +419,25 @@ span.incorrect {
   .string:nth-child(6) hr {
     width: 18%;
     left: 41%;
+  }
+  .bass .string {
+    width: 25%;
+  }
+  .bass .string hr {
+    width: 16% !important;
+    left: 42%;
+  }
+  .bass .string:nth-child(2) hr {
+    width: 19% !important;
+    left: 40.5%;
+  }
+  .bass .string:nth-child(3) hr {
+    width: 22% !important;
+    left: 39%;
+  }
+  .bass .string:nth-child(4) hr {
+    width: 25% !important;
+    left: 37.5%;
   }
 
   /* Buttons */
