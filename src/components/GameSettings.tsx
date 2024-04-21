@@ -102,7 +102,15 @@ export default function GameSettings({
                 key={`tuning-${tuning.name.split(" ").join()}`}
                 value={tuning.name}
               >
-                {tuning.name}
+                {`${tuning.name} (${tuning.strings
+                  .slice()
+                  .reverse()
+                  .map((note) => {
+                    return flats && !sharps
+                      ? note.substring(note.length - 2)
+                      : note.substring(0, 2);
+                  })
+                  .join("-")})`}
               </option>
             ))}
           </select>
