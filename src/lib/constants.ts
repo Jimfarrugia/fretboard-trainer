@@ -1,3 +1,5 @@
+import { Tuning } from "./types";
+
 export const naturalNotes = ["A", "B", "C", "D", "E", "F", "G"];
 
 export const notesWithSharps = [
@@ -48,20 +50,57 @@ export const notesWithSharpsAndFlats = [
 export const instruments = ["guitar", "bass"] as const;
 
 // strings ordered from 1st to 6th
-export const tunings = [
-  { name: "E Standard", strings: ["E", "B", "G", "D", "A", "E"] },
-  { name: "Open G", strings: ["D", "B", "G", "D", "G", "D"] },
+export const tunings: Tuning[] = [
+  {
+    name: "E Standard",
+    instruments: ["guitar", "bass"],
+    strings: ["E", "B", "G", "D", "A", "E"],
+  },
+  {
+    name: "Open G",
+    instruments: ["guitar", "bass"],
+    strings: ["D", "B", "G", "D", "G", "D"],
+  },
   {
     name: "Eb Standard",
+    instruments: ["guitar", "bass"],
     strings: ["D#/Eb", "A#/Bb", "F#/Gb", "C#/Db", "G#/Ab", "D#/Eb"],
   },
-  { name: "Drop D", strings: ["E", "B", "G", "D", "A", "D"] },
-  { name: "D Standard", strings: ["D", "A", "F", "C", "G", "D"] },
-  { name: "Open D", strings: ["D", "A", "F#", "D", "A", "D"] },
-  { name: "DADGAD", strings: ["D", "A", "G", "D", "A", "D"] },
-  { name: "Drop C", strings: ["D", "A", "F", "C", "G", "C"] },
-  { name: "C Standard", strings: ["C", "G", "D#/Eb", "A#/Bb", "F", "C"] },
-  { name: "Drop B", strings: ["C#/Db", "G#/Ab", "E", "B", "F#/Gb", "B"] },
+  {
+    name: "Drop D",
+    instruments: ["guitar", "bass"],
+    strings: ["E", "B", "G", "D", "A", "D"],
+  },
+  {
+    name: "D Standard",
+    instruments: ["guitar", "bass"],
+    strings: ["D", "A", "F", "C", "G", "D"],
+  },
+  {
+    name: "Open D",
+    instruments: ["guitar", "bass"],
+    strings: ["D", "A", "F#", "D", "A", "D"],
+  },
+  {
+    name: "DADGAD",
+    instruments: ["guitar", "bass"],
+    strings: ["D", "A", "G", "D", "A", "D"],
+  },
+  {
+    name: "Drop C",
+    instruments: ["guitar", "bass"],
+    strings: ["D", "A", "F", "C", "G", "C"],
+  },
+  {
+    name: "C Standard",
+    instruments: ["guitar", "bass"],
+    strings: ["C", "G", "D#/Eb", "A#/Bb", "F", "C"],
+  },
+  {
+    name: "Drop B",
+    instruments: ["guitar", "bass"],
+    strings: ["C#/Db", "G#/Ab", "E", "B", "F#/Gb", "B"],
+  },
 ];
 
 export const defaultSettings = {

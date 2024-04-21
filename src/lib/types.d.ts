@@ -15,6 +15,7 @@ export interface Score {
 
 export interface Tuning {
   name: string;
+  instruments: Instrument[];
   strings: string[];
 }
 
