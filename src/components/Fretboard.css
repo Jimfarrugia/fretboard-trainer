@@ -404,23 +404,23 @@ span.incorrect {
     height: calc(100% + 0.15rem) !important;
   }
   .string:nth-child(2) hr {
-    width: 10%;
+    width: 10% !important;
     left: 45%;
   }
   .string:nth-child(3) hr {
-    width: 12%;
+    width: 12% !important;
     left: 44%;
   }
   .string:nth-child(4) hr {
-    width: 14%;
+    width: 14% !important;
     left: 43%;
   }
   .string:nth-child(5) hr {
-    width: 16%;
+    width: 16% !important;
     left: 42%;
   }
   .string:nth-child(6) hr {
-    width: 18%;
+    width: 18% !important;
     left: 41%;
   }
   .bass .string {
