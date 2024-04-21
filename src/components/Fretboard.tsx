@@ -28,7 +28,8 @@ export default function Fretboard({
   setAllowSkip,
   newChallenge,
 }: FretboardProps) {
-  const { instrument, tuning, enabledStrings, flats, sharps } = useSettings();
+  const { instrument, tuning, enabledStrings, flats, sharps, leftHanded } =
+    useSettings();
   const [correctAnswer, setCorrectAnswer] = useState<CorrectAnswer | undefined>(
     undefined,
   );
@@ -115,9 +116,11 @@ export default function Fretboard({
   };
 
   return (
-    <div className={`fretboard-wrapper text-sm ${gameOver && "opacity-25"}`}>
+    <div
+      className={`fretboard-wrapper text-sm ${gameOver ? "opacity-25" : ""}`}
+    >
       <div
-        className={`fretboard ${!isLoading && instrument !== "guitar" ? instrument : ""}`}
+        className={`fretboard ${!isLoading && leftHanded ? "left-handed" : ""} ${!isLoading && instrument !== "guitar" ? instrument : ""}`}
       >
         {isLoading ? (
           <div className="w-full text-center">
