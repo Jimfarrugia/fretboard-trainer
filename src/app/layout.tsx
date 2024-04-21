@@ -27,8 +27,8 @@ export default function RootLayout({
           <div className="container mx-auto min-h-svh max-w-md px-4 sm:max-w-4xl">
             <Header />
             {children}
-            <Footer />
           </div>
+          <Footer />
         </Providers>
         <SpeedInsights />
       </body>
