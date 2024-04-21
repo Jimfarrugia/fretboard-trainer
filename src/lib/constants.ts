@@ -47,7 +47,7 @@ export const notesWithSharpsAndFlats = [
   "G#/Ab",
 ];
 
-export const instruments = ["guitar", "bass"] as const;
+export const instruments = ["guitar", "bass", "ukulele"] as const;
 
 // strings ordered from 1st to 6th
 export const tunings: Tuning[] = [
