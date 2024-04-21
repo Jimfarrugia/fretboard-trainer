@@ -117,7 +117,7 @@ export default function Fretboard({
   return (
     <div className={`fretboard-wrapper text-sm ${gameOver && "opacity-25"}`}>
       <div
-        className={`fretboard ${!isLoading && instrument === "bass" ? "bass" : ""}`}
+        className={`fretboard ${!isLoading && instrument !== "guitar" ? instrument : ""}`}
       >
         {isLoading ? (
           <div className="w-full text-center">
