@@ -101,6 +101,31 @@ export const tunings: Tuning[] = [
     instruments: ["guitar", "bass"],
     strings: ["C#/Db", "G#/Ab", "E", "B", "F#/Gb", "B"],
   },
+  {
+    name: "Standard",
+    instruments: ["ukulele"],
+    strings: ["A", "E", "C", "G"],
+  },
+  {
+    name: "Traditional Hawaiian",
+    instruments: ["ukulele"],
+    strings: ["B", "F#/Gb", "D", "A"],
+  },
+  {
+    name: "Open G",
+    instruments: ["ukulele"],
+    strings: ["G", "D", "B", "G"],
+  },
+  {
+    name: "Baritone",
+    instruments: ["ukulele"],
+    strings: ["E", "B", "G", "D"],
+  },
+  {
+    name: "Bass",
+    instruments: ["ukulele"],
+    strings: ["G", "D", "A", "E"],
+  },
 ];
 
 export const defaultSettings = {
