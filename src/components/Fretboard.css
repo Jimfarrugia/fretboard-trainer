@@ -36,6 +36,11 @@
   height: 100%;
 }
 
+.fretboard.left-handed,
+.fretboard.left-handed span {
+  transform: scaleX(-1);
+}
+
 .frets {
   display: flex;
   flex-direction: row-reverse;
