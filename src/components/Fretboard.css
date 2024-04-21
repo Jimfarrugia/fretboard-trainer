@@ -180,6 +180,25 @@ span.incorrect {
 .bass .string:nth-child(6) {
   display: none;
 }
+.ukulele .string {
+  height: 25%;
+}
+.ukulele .string hr {
+  height: 8%;
+  top: 46%;
+}
+.ukulele .string:nth-child(2) hr {
+  height: 10%;
+  top: 45%;
+}
+.ukulele .string:nth-child(3) hr {
+  height: 12%;
+  top: 44%;
+}
+.ukulele .string:nth-child(4) hr {
+  height: 8%;
+  top: 46%;
+}
 
 /* Buttons */
 
@@ -442,6 +461,25 @@ span.incorrect {
     width: 25% !important;
     left: 37.5%;
   }
+  .ukulele .string {
+    width: 25%;
+  }
+  .ukulele .string hr {
+    width: 8% !important;
+    left: 46%;
+  }
+  .ukulele .string:nth-child(2) hr {
+    width: 10% !important;
+    left: 45%;
+  }
+  .ukulele .string:nth-child(3) hr {
+    width: 12% !important;
+    left: 44%;
+  }
+  .ukulele .string:nth-child(4) hr {
+    width: 8% !important;
+    left: 46%;
+  }
 
   /* Buttons */
 
@@ -522,7 +560,7 @@ span.incorrect {
 /* .string button {
 	background: green;
 } */
-/* 
+/*
 .string button span {
   background: orange;
   display: block;
@@ -543,4 +581,4 @@ span.incorrect {
 }
 .fret:nth-child(n + 13) .string button span {
   background: teal;
-} */
+}*/
