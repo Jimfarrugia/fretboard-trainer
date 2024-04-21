@@ -26,7 +26,11 @@ export default function GameSettings({
 
   useEffect(() => {
     // reset enabled strings when instrument changes
-    setEnabledStrings(defaultSettings.enabledStrings);
+    if (instrument === "ukulele") {
+      setEnabledStrings([true, true, true, true]);
+    } else {
+      setEnabledStrings(defaultSettings.enabledStrings);
+    }
   }, [instrument, setEnabledStrings]);
 
   const handleChangeInstrument = (newInstrument: Instrument) => {
@@ -114,20 +118,20 @@ export default function GameSettings({
           >
             {tunings.map((tuning) => {
               return !tuning.instruments.includes(instrument) ? null : (
-              <option
-                key={`tuning-${tuning.name.split(" ").join()}`}
-                value={tuning.name}
-              >
-                {`${tuning.name} (${tuning.strings
-                  .slice()
-                  .reverse()
-                  .map((note) => {
-                    return flats && !sharps
-                      ? note.substring(note.length - 2)
-                      : note.substring(0, 2);
-                  })
-                  .join("-")})`}
-              </option>
+                <option
+                  key={`tuning-${tuning.name.split(" ").join()}`}
+                  value={tuning.name}
+                >
+                  {`${tuning.name} (${tuning.strings
+                    .slice()
+                    .reverse()
+                    .map((note) => {
+                      return flats && !sharps
+                        ? note.substring(note.length - 2)
+                        : note.substring(0, 2);
+                    })
+                    .join("-")})`}
+                </option>
               );
             })}
           </select>
