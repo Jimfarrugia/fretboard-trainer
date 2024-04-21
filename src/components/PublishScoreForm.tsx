@@ -47,7 +47,8 @@ export default function PublishScoreForm({
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (userId) {
       setLoading(true);
       publishScore(userId, username)
@@ -97,35 +98,36 @@ export default function PublishScoreForm({
             <p className="mb-6">This name will appear next to your score:</p>
           )}
           <div className="flex w-full flex-col items-center justify-center">
-            <input
-              type="text"
-              className="input input-bordered mb-6 w-full max-w-xs border-light-heading bg-light-darkerBg text-light-body placeholder:text-sm placeholder:text-light-link focus:outline-light-link dark:border-dark-heading dark:bg-dark-bg dark:text-dark-body dark:outline-dark-highlight placeholder:dark:text-dark-heading"
-              placeholder="Username (optional)"
-              maxLength={16}
-              onChange={(e) => handleUsernameChange(e)}
-              value={username}
-            />
-            <div className="flex justify-center gap-4 sm:gap-6">
-              <button
-                type="button"
-                className="btn btn-primary border-0 bg-error text-light-bg hover:bg-light-hover hover:text-light-bg dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
-                onClick={() => setShowForm(false)}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
-                onClick={handleSubmit}
-              >
-                <IoIosSend className="text-lg" />
-                {loading ? (
-                  <span className="loading loading-spinner loading-xs"></span>
-                ) : (
-                  "Publish"
-                )}
-              </button>
-            </div>
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                className="input input-bordered mb-6 w-full max-w-xs border-light-heading bg-light-darkerBg text-light-body placeholder:text-sm placeholder:text-light-link focus:outline-light-link dark:border-dark-heading dark:bg-dark-bg dark:text-dark-body dark:outline-dark-highlight placeholder:dark:text-dark-heading"
+                placeholder="Username (optional)"
+                maxLength={16}
+                onChange={(e) => handleUsernameChange(e)}
+                value={username}
+              />
+              <div className="flex justify-center gap-4 sm:gap-6">
+                <button
+                  type="button"
+                  className="btn btn-primary border-0 bg-error text-light-bg hover:bg-light-hover hover:text-light-bg dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
+                  onClick={() => setShowForm(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
+                >
+                  <IoIosSend className="text-lg" />
+                  {loading ? (
+                    <span className="loading loading-spinner loading-xs"></span>
+                  ) : (
+                    "Publish"
+                  )}
+                </button>
+              </div>
+            </form>
           </div>
         </>
       )}
