@@ -173,7 +173,7 @@ export default function GameSettings({
       <div className="mb-8 flex items-center pl-1 text-sm">
         <label
           htmlFor="leftHanded"
-          className="me-2.5 text-light-heading dark:text-dark-body"
+          className="me-2.5 font-medium text-light-heading dark:text-dark-body"
         >
           Left-Handed Mode
         </label>
@@ -189,7 +189,7 @@ export default function GameSettings({
       <div className="mb-8 flex items-center pl-1 text-sm">
         <label
           htmlFor="sharps"
-          className="me-2.5 text-light-heading dark:text-dark-body"
+          className="me-2.5 font-medium text-light-heading dark:text-dark-body"
         >
           Use Sharps (#)
         </label>
@@ -204,7 +204,7 @@ export default function GameSettings({
       <div className="mb-2 flex items-center pl-1 text-sm">
         <label
           htmlFor="flats"
-          className="me-2.5 text-light-heading dark:text-dark-body"
+          className="me-2.5 font-medium text-light-heading dark:text-dark-body"
         >
           Use Flats (b)
         </label>
