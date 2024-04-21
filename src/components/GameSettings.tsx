@@ -97,7 +97,8 @@ export default function GameSettings({
             defaultValue={tuning.name}
             onChange={(e) => handleChangeTuning(e)}
           >
-            {tunings.map((tuning) => (
+            {tunings.map((tuning) => {
+              return !tuning.instruments.includes(instrument) ? null : (
               <option
                 key={`tuning-${tuning.name.split(" ").join()}`}
                 value={tuning.name}
@@ -112,7 +113,8 @@ export default function GameSettings({
                   })
                   .join("-")})`}
               </option>
-            ))}
+              );
+            })}
           </select>
         </label>
       </div>
