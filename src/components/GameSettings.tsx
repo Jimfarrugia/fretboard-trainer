@@ -21,6 +21,8 @@ export default function GameSettings({
     setSharps,
     flats,
     setFlats,
+    leftHanded,
+    setLeftHanded,
   } = useSettings();
   const [error, setError] = useState("");
 
@@ -166,6 +168,22 @@ export default function GameSettings({
             );
           })}
         </div>
+      </div>
+      {/* Left-handed mode */}
+      <div className="mb-8 flex items-center pl-1 text-sm">
+        <label
+          htmlFor="leftHanded"
+          className="me-2.5 text-light-heading dark:text-dark-body"
+        >
+          Left-Handed Mode
+        </label>
+        <input
+          id="leftHanded"
+          type="checkbox"
+          checked={leftHanded}
+          onChange={(e) => setLeftHanded(e.target.checked)}
+          className="h-5 w-5 accent-light-link dark:accent-dark-highlight sm:h-6 sm:w-6"
+        />
       </div>
       {/* Accidentals */}
       <div className="mb-8 flex items-center pl-1 text-sm">
