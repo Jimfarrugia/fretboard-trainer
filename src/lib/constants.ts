@@ -134,4 +134,5 @@ export const defaultSettings = {
   enabledStrings: [true, true, true, true, true, true],
   sharps: true,
   flats: false,
+  leftHanded: false,
 };

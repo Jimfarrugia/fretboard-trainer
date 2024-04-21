@@ -14,6 +14,8 @@ interface SettingsContextType {
   setSharps: (sharps: boolean) => void;
   flats: boolean;
   setFlats: (flats: boolean) => void;
+  leftHanded: boolean;
+  setLeftHanded: (leftHanded: boolean) => void;
 }
 
 const SettingsContext = createContext<SettingsContextType>({
@@ -27,6 +29,8 @@ const SettingsContext = createContext<SettingsContextType>({
   setSharps: (sharps: boolean) => {},
   flats: defaultSettings.flats,
   setFlats: (flats: boolean) => {},
+  leftHanded: defaultSettings.leftHanded,
+  setLeftHanded: (flats: boolean) => {},
 });
 
 export const useSettings = () => useContext(SettingsContext);
@@ -52,6 +56,10 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     "flats",
     defaultSettings.flats,
   );
+  const [leftHanded, setLeftHanded] = useLocalStorageState<boolean>(
+    "leftHanded",
+    defaultSettings.leftHanded,
+  );
 
   return (
     <SettingsContext.Provider
@@ -66,6 +74,8 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
         setSharps,
         flats,
         setFlats,
+        leftHanded,
+        setLeftHanded,
       }}
     >
       {children}
