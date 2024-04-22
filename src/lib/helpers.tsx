@@ -63,6 +63,16 @@ export const parseLocalStorageScores = () => {
 export const setLocalStorageScores = (scores: Score[]) =>
   localStorage.setItem("scores", JSON.stringify(scores));
 
+// Combine two arrays of scores into a new array with duplicate scores omitted
+export const mergeScores = (scores: Score[], newScores: Score[]) => {
+  const mergedScores = [...scores, ...newScores];
+  // Remove duplicate scores based on timestamp property
+  return mergedScores.filter(
+    (obj, index, self) =>
+      index === self.findIndex((o) => o.timestamp === obj.timestamp),
+  );
+};
+
 // Save database scores to localStorage
 export const saveRemoteScoresLocally = (
   remoteScores: Score[],
