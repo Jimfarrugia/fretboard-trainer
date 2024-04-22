@@ -48,7 +48,6 @@ export default function Leaderboard() {
         );
     };
     fetchTopScores();
-    console.log("fetched top scores");
   }, []);
 
   return !topScores?.length ? (
