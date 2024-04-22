@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { Score } from "@/lib/types";
 import {
   parseLocalStorageScores,
+  setLocalStorageScores,
   saveRemoteScoresLocally,
 } from "@/lib/helpers";
 import { getUserScores } from "@/actions/getUserScores";
@@ -24,13 +25,12 @@ export const useScores = () => useContext(ScoresContext);
 export function ScoresProvider({ children }: { children: React.ReactNode }) {
   const session = useSession();
   const userId = session?.data?.user?.id;
-
-  // Get scores from local storage or set to empty array
   const [scores, setScores] = useState<Score[]>([]);
+
+  // Get scores from local storage
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const savedScores = localStorage.getItem("scores");
-      setScores(savedScores ? JSON.parse(savedScores) : []);
+      setScores(parseLocalStorageScores());
     }
   }, []);
 
@@ -66,8 +66,8 @@ export function ScoresProvider({ children }: { children: React.ReactNode }) {
   // Add new score to scores array and save to localStorage
   const addScore = (newScore: Score) => {
     const updatedScores = [newScore, ...scores];
+    setLocalStorageScores(updatedScores);
     setScores(updatedScores);
-    localStorage.setItem("scores", JSON.stringify(updatedScores));
   };
 
   return (
