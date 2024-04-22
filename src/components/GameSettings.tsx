@@ -115,7 +115,7 @@ export default function GameSettings({
           </div>
           <select
             className="select select-bordered border-light-link bg-light-bg text-light-link hover:border-light-hover hover:text-light-hover focus:outline-light-link dark:border-dark-heading dark:bg-dark-darkerBg dark:text-dark-link dark:outline-dark-highlight hover:dark:border-dark-hover hover:dark:text-dark-hover"
-            defaultValue={tuning.name}
+            value={tuning.name}
             onChange={(e) => handleChangeTuning(e)}
           >
             {tunings.map((tuning) => {
