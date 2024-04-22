@@ -1,13 +1,17 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { FaMedal } from "react-icons/fa6";
-import { dateFromTimestamp, capitalize } from "@/lib/helpers";
+import { HiOutlineLightBulb } from "react-icons/hi";
 import { getTopScores } from "@/actions/getTopScores";
 import { Score } from "@/lib/types";
-import LeaderboardHeader from "./LeaderboardHeader";
+import { dateFromTimestamp, capitalize } from "@/lib/helpers";
 import PaginationControls from "./PaginationControls";
 
 export default function Leaderboard() {
+  const session = useSession();
+  const userId = session?.data?.user?.id;
   const [topScores, setTopScores] = useState<Score[] | undefined>(undefined);
 
   // Determine gold/silver/bronze scores
@@ -51,7 +55,7 @@ export default function Leaderboard() {
     <></>
   ) : (
     <>
-      <LeaderboardHeader />
+      <LeaderboardHeader userId={userId} />
       <table className="w-full table-auto text-xs">
         <thead className="text-left text-light-heading dark:text-dark-heading">
           <tr className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg">
@@ -101,5 +105,27 @@ export default function Leaderboard() {
         />
       )}
     </>
+  );
+}
+
+function LeaderboardHeader({ userId }: { userId: string | undefined }) {
+  return (
+    <div className="pb-8 pt-12 sm:flex sm:items-center sm:justify-between">
+      <h2 className="mb-1 text-lg font-bold text-light-heading dark:text-dark-heading sm:mb-0">
+        Leaderboard
+      </h2>
+      {!userId && (
+        <p className="flex items-center gap-1 text-xs">
+          <HiOutlineLightBulb className="text-lg text-light-highlight dark:text-dark-highlight" />
+          <Link
+            className="font-bold text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+            href="/auth/signin"
+          >
+            Sign in
+          </Link>{" "}
+          to publish your scores.
+        </p>
+      )}
+    </div>
   );
 }
