@@ -1,18 +1,53 @@
+"use client";
+import { useState, useEffect } from "react";
 import { FaMedal } from "react-icons/fa6";
 import { dateFromTimestamp, capitalize } from "@/lib/helpers";
 import { getTopScores } from "@/actions/getTopScores";
+import { Score } from "@/lib/types";
 import LeaderboardHeader from "./LeaderboardHeader";
+import PaginationControls from "./PaginationControls";
 
-export default async function Leaderboard() {
-  const scores = (await getTopScores()) || [];
-  const sortedPoints = scores.map((obj) => obj.points).sort((a, b) => b - a);
+export default function Leaderboard() {
+  const [topScores, setTopScores] = useState<Score[] | undefined>(undefined);
+
+  // Determine gold/silver/bronze scores
+  const sortedPoints = topScores
+    ?.map((obj) => obj.points)
+    .sort((a, b) => b - a);
   const pointsSet = new Set(sortedPoints);
   const uniquePoints = Array.from(pointsSet);
   const goldScore = uniquePoints[0];
   const silverScore = uniquePoints[1];
   const bronzeScore = uniquePoints[2];
 
-  return !scores.length ? (
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const paginatedScores = topScores?.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
+  const totalPages = topScores
+    ? Math.ceil(topScores?.length / itemsPerPage)
+    : 0;
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) =>
+    (i + 1).toString(),
+  );
+
+  // Fetch top scores
+  useEffect(() => {
+    const fetchTopScores = async () => {
+      getTopScores()
+        .then((scores) => setTopScores(scores))
+        .catch((e) =>
+          console.error("Failed to get top scores for leaderboard.", e),
+        );
+    };
+    fetchTopScores();
+    console.log("fetched top scores");
+  }, []);
+
+  return !topScores?.length ? (
     <></>
   ) : (
     <>
@@ -28,7 +63,7 @@ export default async function Leaderboard() {
           </tr>
         </thead>
         <tbody>
-          {scores.map((score) => (
+          {paginatedScores?.map((score) => (
             <tr
               key={`topscore-${score.timestamp}`}
               className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg"
@@ -57,6 +92,14 @@ export default async function Leaderboard() {
           ))}
         </tbody>
       </table>
+      {totalPages > 1 && (
+        <PaginationControls
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          pageNumbers={pageNumbers}
+          totalPages={totalPages}
+        />
+      )}
     </>
   );
 }
