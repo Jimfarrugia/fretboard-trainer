@@ -31,7 +31,7 @@ export default function History() {
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
-  const paginatedScores = scores.slice(
+  const paginatedScores = sortedScores.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
