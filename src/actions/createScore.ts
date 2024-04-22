@@ -1,6 +1,5 @@
 "use server";
 import { db } from "@/lib/db";
-import { revalidatePath } from "next/cache";
 
 export async function createScore(
   userId: string,
@@ -13,7 +12,6 @@ export async function createScore(
 ) {
   try {
     const userScores = await db.score.create({ data: { userId, ...score } });
-    revalidatePath("/");
     return userScores;
   } catch (e) {
     console.error("Failed to create score in database.", e);

@@ -1,6 +1,5 @@
 "use server";
 import { db } from "@/lib/db";
-import { revalidatePath } from "next/cache";
 
 // Update the user's most recent score to published=true and add the username
 export async function publishScore(userId: string, username: string) {
@@ -20,6 +19,4 @@ export async function publishScore(userId: string, username: string) {
       username,
     },
   });
-
-  revalidatePath("/");
 }

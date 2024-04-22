@@ -1,7 +1,6 @@
 "use server";
 import { db } from "@/lib/db";
 import { Score } from "@/lib/types";
-import { revalidatePath } from "next/cache";
 
 export async function pushLocalScores(userId: string, localScores: Score[]) {
   try {
@@ -36,8 +35,6 @@ export async function pushLocalScores(userId: string, localScores: Score[]) {
     }));
     // Push the new scores to the database
     await db.score.createMany({ data: scoresToPush });
-    // Update the frontend to show the pushed scores
-    revalidatePath("/");
   } catch (e) {
     console.error("Failed to push local scores to database...", e);
   }
