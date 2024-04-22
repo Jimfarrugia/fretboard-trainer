@@ -1,31 +1,23 @@
 "use client";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { FaMedal } from "react-icons/fa6";
 import {
   dateFromTimestamp,
   sortScoresByTimestamp,
   findHighScore,
-  parseLocalStorageScores,
-  saveRemoteScoresLocally,
   capitalize,
 } from "@/lib/helpers";
-import { Score } from "@/lib/types";
 import { useScores } from "@/context/ScoresContext";
-import { pushLocalScores } from "@/actions/pushLocalScores";
-import { getUserScores } from "@/actions/getUserScores";
 import PaginationControls from "./PaginationControls";
 
 export default function History() {
   const session = useSession();
   const userId = session?.data?.user?.id;
   const { scores } = useScores();
-  const [userScores, setUserScores] = useState<Score[]>([]);
-  const sortedScores = sortScoresByTimestamp(
-    (userScores.length && userScores) || scores,
-  );
+  const sortedScores = sortScoresByTimestamp(scores);
   const highScore = findHighScore(scores);
 
   // Pagination
@@ -39,28 +31,6 @@ export default function History() {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) =>
     (i + 1).toString(),
   );
-
-  // Push any unsaved local scores to database
-  useEffect(() => {
-    const localScores = parseLocalStorageScores();
-    if (userId && localScores.length) {
-      pushLocalScores(userId, localScores);
-    }
-  }, [userId]);
-
-  // Fetch userScores from database
-  useEffect(() => {
-    if (userId) {
-      getUserScores(userId).then((res) => setUserScores(res));
-    }
-  }, [userId]);
-
-  // Make sure all userScores are saved in local storage
-  useEffect(() => {
-    if (userScores.length && userId) {
-      saveRemoteScoresLocally(userScores, userId);
-    }
-  }, [userScores, userId]);
 
   return !sortedScores.length ? (
     <></>
