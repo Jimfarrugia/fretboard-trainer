@@ -58,8 +58,7 @@ export default function History() {
   // Make sure all userScores are saved in local storage
   useEffect(() => {
     if (userScores.length && userId) {
-      const localScores = parseLocalStorageScores();
-      saveRemoteScoresLocally(localScores, userId);
+      saveRemoteScoresLocally(userScores, userId);
     }
   }, [userScores, userId]);
 
