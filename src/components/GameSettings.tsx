@@ -51,7 +51,9 @@ export default function GameSettings({
   const handleChangeTuning = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedTuningName = e.target.value;
     const selectedTuning = tunings.find(
-      (tuning) => tuning.name === selectedTuningName,
+      (tuning) =>
+        tuning.name === selectedTuningName &&
+        tuning.instruments.includes(instrument),
     );
     setTuning(selectedTuning!);
   };
