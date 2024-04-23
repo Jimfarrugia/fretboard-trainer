@@ -135,4 +135,5 @@ export const defaultSettings = {
   sharps: true,
   flats: false,
   leftHanded: false,
+  hardMode: false,
 };
