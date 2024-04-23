@@ -78,6 +78,15 @@ export default function GameSettings({
     setEnabledStrings(updatedEnabledStrings);
   };
 
+  const handleChangeHardMode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isHardMode = e.target.checked;
+    if (isHardMode) {
+      const allStringsEnabled = enabledStrings.map((string) => true);
+      setEnabledStrings(allStringsEnabled);
+    }
+    setHardMode(isHardMode);
+  };
+
   return (
     <>
       {error && (
@@ -165,6 +174,7 @@ export default function GameSettings({
                 <input
                   id={`string-${i + 1}`}
                   type="checkbox"
+                  disabled={hardMode}
                   checked={enabledStrings[i]}
                   onChange={(e) => handleChangeEnabledStrings(i)}
                   className="h-5 w-5 accent-light-link dark:accent-dark-highlight sm:h-6 sm:w-6"
@@ -187,7 +197,7 @@ export default function GameSettings({
             id="hardMode"
             type="checkbox"
             checked={hardMode}
-            onChange={(e) => setHardMode(e.target.checked)}
+            onChange={(e) => handleChangeHardMode(e)}
             className="h-5 w-5 accent-light-link dark:accent-dark-highlight sm:h-6 sm:w-6"
           />
         </div>
