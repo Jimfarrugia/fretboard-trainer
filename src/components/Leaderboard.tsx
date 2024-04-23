@@ -1,18 +1,20 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { FaMedal } from "react-icons/fa6";
 import { HiOutlineLightBulb } from "react-icons/hi";
-import { getTopScores } from "@/actions/getTopScores";
 import { Score } from "@/lib/types";
 import { dateFromTimestamp, capitalize } from "@/lib/helpers";
 import PaginationControls from "./PaginationControls";
 
-export default function Leaderboard() {
+export default function Leaderboard({
+  topScores,
+}: {
+  topScores: Score[] | undefined;
+}) {
   const session = useSession();
   const userId = session?.data?.user?.id;
-  const [topScores, setTopScores] = useState<Score[] | undefined>(undefined);
 
   // Determine gold/silver/bronze scores
   const sortedPoints = topScores
@@ -37,18 +39,6 @@ export default function Leaderboard() {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) =>
     (i + 1).toString(),
   );
-
-  // Fetch top scores
-  useEffect(() => {
-    const fetchTopScores = async () => {
-      getTopScores()
-        .then((scores) => setTopScores(scores))
-        .catch((e) =>
-          console.error("Failed to get top scores for leaderboard.", e),
-        );
-    };
-    fetchTopScores();
-  }, []);
 
   return !topScores?.length ? (
     <></>
