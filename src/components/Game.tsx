@@ -15,7 +15,6 @@ import {
 import { randomNote, hideNoteLabels, findHighScore } from "@/lib/helpers";
 import { useScores } from "@/context/ScoresContext";
 import { useSession } from "next-auth/react";
-import { createScore } from "@/actions/createScore";
 import { IoClose } from "react-icons/io5";
 import { useSettings } from "@/context/SettingsContext";
 
@@ -85,14 +84,7 @@ export default function Game() {
         instrument: instrument as string,
         timestamp: new Date().toISOString(),
       };
-      if (userId) {
-        // add score to context + local storage
-        addScore({ userId, ...newScore });
-        // add score to the database
-        createScore(userId, newScore);
-      } else {
-        addScore(newScore);
-      }
+      addScore(newScore);
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameOver]);

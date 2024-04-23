@@ -7,6 +7,7 @@ import {
 } from "@/lib/helpers";
 import { getUserScores } from "@/actions/getUserScores";
 import { pushLocalScores } from "@/actions/pushLocalScores";
+import { createScore } from "@/actions/createScore";
 import { useSession } from "next-auth/react";
 import { mergeScores } from "@/lib/helpers";
 
@@ -68,6 +69,10 @@ export function ScoresProvider({ children }: { children: React.ReactNode }) {
     const updatedScores = [newScore, ...scores];
     setLocalStorageScores(updatedScores);
     setScores(updatedScores);
+    if (userId) {
+      // add score to the database if user is signed in
+      createScore(userId, newScore);
+    }
   };
 
   return (
