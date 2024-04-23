@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { FaInfoCircle } from "react-icons/fa";
 import { useSettings } from "@/context/SettingsContext";
 import { tunings, instruments, defaultSettings } from "@/lib/constants";
 import { Instrument } from "@/lib/types";
@@ -23,6 +24,8 @@ export default function GameSettings({
     setFlats,
     leftHanded,
     setLeftHanded,
+    hardMode,
+    setHardMode,
   } = useSettings();
   const [error, setError] = useState("");
 
@@ -169,6 +172,30 @@ export default function GameSettings({
               </div>
             );
           })}
+        </div>
+      </div>
+      {/* Hard Mode */}
+      <div className="mb-8 pl-1 text-sm">
+        <div className="mb-3 flex items-center">
+          <label
+            htmlFor="hardMode"
+            className="me-2.5 font-medium text-light-heading dark:text-dark-body"
+          >
+            Hard Mode
+          </label>
+          <input
+            id="hardMode"
+            type="checkbox"
+            checked={hardMode}
+            onChange={(e) => setHardMode(e.target.checked)}
+            className="h-5 w-5 accent-light-link dark:accent-dark-highlight sm:h-6 sm:w-6"
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          <FaInfoCircle className="text-lg" />
+          <p className="text-sm">
+            In hard mode, you need to find each note on a specific string.
+          </p>
         </div>
       </div>
       {/* Left-handed mode */}
