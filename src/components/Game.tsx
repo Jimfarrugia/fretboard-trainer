@@ -19,10 +19,21 @@ import { IoClose } from "react-icons/io5";
 import { useSettings } from "@/context/SettingsContext";
 
 export default function Game() {
-  const { tuning, instrument, sharps, flats } = useSettings();
+  const {
+    tuning,
+    instrument,
+    enabledStrings,
+    sharps,
+    flats,
+    hardMode,
+    setEnabledStrings,
+  } = useSettings();
   const [gameInProgress, setGameInProgress] = useState(false);
   const [allowSkip, setAllowSkip] = useState(false);
   const [challenge, setChallenge] = useState("");
+  const [challengeString, setChallengeString] = useState<number | undefined>(
+    undefined,
+  );
   const [timer, setTimer] = useState(60);
   const [currentScore, setCurrentScore] = useState(0);
   const [newHighScore, setNewHighScore] = useState(false);
@@ -49,12 +60,27 @@ export default function Game() {
       ? notes
       : notes.filter((note) => {
           // IF using both sharps and flats AND previous challenge was a sharp/flat
+          // (notesWithSharpsAndFlats will be in use, so check if 'note' INCLUDES the previous challenge)
           return sharps && flats && previousChallenge.length > 1
             ? !note.includes(previousChallenge)
             : note !== previousChallenge;
         });
-    const nextChallenge = randomNote(eligibleNotes, sharps && flats);
-    setChallenge(nextChallenge);
+    // choose a random eligible note for next challenge
+    const note = randomNote(eligibleNotes, sharps && flats);
+    if (hardMode) {
+      // choose a random string for hard mode challenge
+      const randomString =
+        instrument === "bass"
+          ? Math.floor(Math.random() * 4) + 1
+          : Math.floor(Math.random() * tuning.strings.length) + 1;
+      setChallengeString(randomString);
+      // disable all other strings
+      const updatedEnabledStrings = enabledStrings.map((v, i) =>
+        i === randomString - 1 ? true : false,
+      );
+      setEnabledStrings(updatedEnabledStrings);
+    }
+    setChallenge(note);
   };
 
   // Countdown the timer and end the game when time runs out
