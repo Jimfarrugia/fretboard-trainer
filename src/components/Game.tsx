@@ -12,7 +12,12 @@ import {
   notesWithSharps,
   notesWithSharpsAndFlats,
 } from "@/lib/constants";
-import { randomNote, hideNoteLabels, findHighScore } from "@/lib/helpers";
+import {
+  randomNote,
+  hideNoteLabels,
+  findHighScore,
+  ordinal,
+} from "@/lib/helpers";
 import { useScores } from "@/context/ScoresContext";
 import { useSession } from "next-auth/react";
 import { IoClose } from "react-icons/io5";
@@ -136,7 +141,7 @@ export default function Game() {
   return (
     <>
       <div
-        className={`flex items-center ${gameInProgress || gameOver ? "justify-between" : "justify-around"} pb-2 ${gameOver && "opacity-25"}`}
+        className={`flex items-end ${gameInProgress || gameOver ? "justify-between" : "justify-around"} pb-2 ${gameOver && "opacity-25"}`}
       >
         {/* timer */}
         <div
@@ -146,14 +151,23 @@ export default function Game() {
           <span>{timer}</span>
         </div>
         {/* challenge/start btn */}
-        <div className="text-xl font-bold">
+        <div className="text-center text-xl font-bold">
           {gameInProgress ? (
             <>
               {"Find "}
               <span className="text-light-link dark:text-dark-highlight">
-                {/* challenge */}
                 {challenge}
               </span>
+              {hardMode && (
+                <>
+                  <br className="sm:hidden" />
+                  <span className="text-sm sm:text-xl">{" on the "}</span>
+                  <span className="text-sm text-light-link dark:text-dark-highlight sm:text-xl">
+                    {ordinal(challengeString as number)}
+                  </span>
+                  <span className="text-sm sm:text-xl">{" string"}</span>
+                </>
+              )}
             </>
           ) : gameOver ? (
             <>{"Time's up!"}</>
