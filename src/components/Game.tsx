@@ -11,6 +11,7 @@ import {
   notesWithFlats,
   notesWithSharps,
   notesWithSharpsAndFlats,
+  defaultSettings,
 } from "@/lib/constants";
 import {
   randomNote,
@@ -43,6 +44,7 @@ export default function Game() {
   const [currentScore, setCurrentScore] = useState(0);
   const [newHighScore, setNewHighScore] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [quitGame, setQuitGame] = useState(false);
   const { scores, addScore } = useScores();
   const [showSettings, setShowSettings] = useState(false);
   const highScore = findHighScore(scores);
@@ -91,20 +93,26 @@ export default function Game() {
   // Countdown the timer and end the game when time runs out
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined;
+    const endGame = () => {
+      clearInterval(interval);
+      hideNoteLabels();
+      setGameInProgress(false);
+      setAllowSkip(false);
+      setChallenge("");
+    };
     if (gameInProgress && timer > 0) {
       interval = setInterval(() => {
         setTimer(timer - 1);
       }, 1000);
     } else if (timer === 0) {
-      clearInterval(interval);
-      hideNoteLabels();
-      setGameInProgress(false);
+      endGame();
       setGameOver(true);
-      setAllowSkip(false);
-      setChallenge("");
+    }
+    if (quitGame) {
+      endGame();
     }
     return () => clearInterval(interval);
-  }, [timer, gameInProgress]);
+  }, [timer, gameInProgress, quitGame]);
 
   // save the new score
   useEffect(() => {
@@ -120,9 +128,21 @@ export default function Game() {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameOver]);
 
+  // Reset enabledStrings when a hardMode game ends
+  useEffect(() => {
+    if (hardMode) {
+      if (instrument === "ukulele") {
+        setEnabledStrings([true, true, true, true]);
+      } else {
+        setEnabledStrings(defaultSettings.enabledStrings);
+      }
+    }
+  }, [quitGame, gameOver, hardMode, instrument, setEnabledStrings]);
+
   // Start a new game
   const startGame = () => {
     setGameOver(false);
+    setQuitGame(false);
     setGameInProgress(true);
     setShowSettings(false);
     setCurrentScore(0);
@@ -213,16 +233,26 @@ export default function Game() {
         />
       </div>
       <div className="flex items-start justify-between pb-4 pt-2">
-        {/* settings btn */}
+        {/* settings btn / quit btn */}
         <div>
-          <button
-            type="button"
-            className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg"
-            onClick={() => setShowSettings(!showSettings)}
-          >
-            {showSettings && <IoClose className="text-xl" />}
-            {showSettings ? "Hide Settings" : "Settings"}
-          </button>
+          {gameInProgress ? (
+            <button
+              type="button"
+              className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg"
+              onClick={() => setQuitGame(true)}
+            >
+              Quit Game
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg"
+              onClick={() => setShowSettings(!showSettings)}
+            >
+              {showSettings && <IoClose className="text-xl" />}
+              {showSettings ? "Hide Settings" : "Settings"}
+            </button>
+          )}
         </div>
         {/* skip btn */}
         <div>
