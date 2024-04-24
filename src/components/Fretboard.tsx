@@ -124,7 +124,7 @@ export default function Fretboard({
       >
         {isLoading ? (
           <div className="w-full text-center">
-            <span className="loading loading-spinner loading-lg py-16 text-light-darkerBg"></span>
+            <span className="loading loading-spinner loading-lg py-16 text-light-bg dark:text-dark-heading"></span>
           </div>
         ) : (
           <>
