@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.light {
+  --bg-color: theme("colors.light.bg");
+}
+
+.dark {
+  --bg-color: theme("colors.dark.bg");
+}
+
+html,
+body {
+  background-color: var(--bg-color) !important;
+}
