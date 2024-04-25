@@ -45,46 +45,52 @@ export default function Leaderboard({
   ) : (
     <>
       <LeaderboardHeader userId={userId} />
-      <table className="w-full table-auto text-xs">
-        <thead className="text-left text-light-heading dark:text-dark-heading">
-          <tr className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg">
-            <th className="hidden p-2 sm:table-cell">Date</th>
-            <th className="p-2">Username</th>
-            <th className="p-2">Instrument</th>
-            <th className="p-2">Tuning</th>
-            <th className="p-2">Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          {paginatedScores?.map((score) => (
-            <tr
-              key={`topscore-${score.timestamp}`}
-              className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg"
-            >
-              <td className="hidden px-2 py-4 sm:table-cell">
-                {dateFromTimestamp(score.timestamp)}
-              </td>
-              <td className="px-2 py-4">{score.username || "Anonymous"}</td>
-              <td className="px-2 py-4">{capitalize(score.instrument)}</td>
-              <td className="px-2 py-4">{score.tuning}</td>
-              <td className="px-2 py-4">
-                <div className="flex items-center gap-1">
-                  {score.points}
-                  {score.points === goldScore && (
-                    <FaMedal className="text-md text-gold" />
-                  )}
-                  {score.points === silverScore && (
-                    <FaMedal className="text-md text-silver" />
-                  )}
-                  {score.points === bronzeScore && (
-                    <FaMedal className="text-md text-bronze" />
-                  )}
-                </div>
-              </td>
+      <div className="overflow-x-auto">
+        <table className="w-full table-auto text-nowrap text-xs">
+          <thead className="text-left text-light-heading dark:text-dark-heading">
+            <tr className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg">
+              <th className="hidden pr-2 sm:table-cell">Date</th>
+              <th className="py-2 pr-2 sm:p-2">Username</th>
+              <th className="p-2">Instrument</th>
+              <th className="p-2">Tuning</th>
+              <th className="p-2">Score</th>
+              {/* <th className="p-2">Hard Mode</th> */}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {paginatedScores?.map((score) => (
+              <tr
+                key={`topscore-${score.timestamp}`}
+                className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg"
+              >
+                <td className="hidden py-4 pr-2 sm:table-cell">
+                  {dateFromTimestamp(score.timestamp)}
+                </td>
+                <td className="py-4 pr-2 sm:px-2">
+                  {score.username || "Anonymous"}
+                </td>
+                <td className="px-2 py-4">{capitalize(score.instrument)}</td>
+                <td className=" px-2 py-4">{score.tuning}</td>
+                <td className="px-2 py-4">
+                  <div className="flex items-center gap-1">
+                    {score.points}
+                    {score.points === goldScore && (
+                      <FaMedal className="text-md text-gold" />
+                    )}
+                    {score.points === silverScore && (
+                      <FaMedal className="text-md text-silver" />
+                    )}
+                    {score.points === bronzeScore && (
+                      <FaMedal className="text-md text-bronze" />
+                    )}
+                  </div>
+                </td>
+                {/* <td className="px-2 py-4">Enabled</td> */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       {totalPages > 1 && (
         <PaginationControls
           currentPage={currentPage}
