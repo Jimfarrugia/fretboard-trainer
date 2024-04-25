@@ -53,8 +53,8 @@ export default function Leaderboard({
               <th className="py-2 pr-2 sm:p-2">Username</th>
               <th className="p-2">Instrument</th>
               <th className="p-2">Tuning</th>
-              <th className="p-2">Score</th>
-              <th className="p-2">Hard Mode</th>
+              <th className="p-2 text-center">Score</th>
+              <th className="p-2 text-center">Hard Mode</th>
             </tr>
           </thead>
           <tbody>
@@ -71,21 +71,25 @@ export default function Leaderboard({
                 </td>
                 <td className="px-2 py-4">{capitalize(score.instrument)}</td>
                 <td className=" px-2 py-4">{score.tuning}</td>
-                <td className="px-2 py-4">
-                  <div className="flex items-center gap-1">
-                    {score.points}
-                    {score.points === goldScore && (
-                      <FaMedal className="text-md text-gold" />
-                    )}
-                    {score.points === silverScore && (
-                      <FaMedal className="text-md text-silver" />
-                    )}
-                    {score.points === bronzeScore && (
-                      <FaMedal className="text-md text-bronze" />
-                    )}
+                <td className="px-2 py-4 text-center">
+                  <div className="mx-auto w-fit">
+                    <div className="flex items-center gap-1">
+                      {score.points}
+                      {score.points === goldScore && (
+                        <FaMedal className="text-md text-gold" />
+                      )}
+                      {score.points === silverScore && (
+                        <FaMedal className="text-md text-silver" />
+                      )}
+                      {score.points === bronzeScore && (
+                        <FaMedal className="text-md text-bronze" />
+                      )}
+                    </div>
                   </div>
                 </td>
-                <td className="px-2 py-4">{score.hardMode ? "On" : "Off"}</td>
+                <td className="px-2 py-4 text-center">
+                  {score.hardMode ? "On" : "Off"}
+                </td>
               </tr>
             ))}
           </tbody>
