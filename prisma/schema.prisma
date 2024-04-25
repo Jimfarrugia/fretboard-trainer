@@ -73,4 +73,5 @@ model Score {
   username   String?
   user       User       @relation(fields: [userId], references: [id])
   userId     String
+  hardMode   Boolean    @default(false)
 }
