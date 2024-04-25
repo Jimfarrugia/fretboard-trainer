@@ -11,6 +11,7 @@ export interface Score {
   published?: boolean;
   username?: string | null;
   userId?: string;
+  hardMode: boolean;
 }
 
 export interface Tuning {

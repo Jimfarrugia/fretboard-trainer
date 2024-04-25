@@ -122,6 +122,7 @@ export default function Game() {
         tuning: tuning.name,
         instrument: instrument as string,
         timestamp: new Date().toISOString(),
+        hardMode,
       };
       addScore(newScore);
     }
@@ -147,7 +148,7 @@ export default function Game() {
     setShowSettings(false);
     setCurrentScore(0);
     setNewHighScore(false);
-    setTimer(20);
+    setTimer(30);
     newChallenge(challenge);
   };
 
