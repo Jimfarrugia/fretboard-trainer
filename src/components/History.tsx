@@ -45,6 +45,7 @@ export default function History() {
               <th className="py-2 pr-2 sm:p-2">Instrument</th>
               <th className="p-2">Tuning</th>
               <th className="p-2">Score</th>
+              <th className="p-2">Hard Mode</th>
             </tr>
           </thead>
           <tbody>
@@ -68,6 +69,7 @@ export default function History() {
                     )}
                   </div>
                 </td>
+                <td className="px-2 py-4">{score.hardMode ? "On" : "Off"}</td>
               </tr>
             ))}
           </tbody>
