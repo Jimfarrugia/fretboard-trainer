@@ -131,7 +131,7 @@ export default function Game() {
 
   // Reset enabledStrings when a hardMode game ends
   useEffect(() => {
-    if (hardMode) {
+    if (hardMode && (gameOver || quitGame)) {
       if (instrument === "ukulele") {
         setEnabledStrings([true, true, true, true]);
       } else {
