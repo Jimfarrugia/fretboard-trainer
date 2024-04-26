@@ -36,7 +36,7 @@ export default function Leaderboard({
   );
 
   // Determine gold/silver/bronze scores
-  const sortedPoints = topScores
+  const sortedPoints = filteredScores
     ?.map((obj) => obj.points)
     .sort((a, b) => b - a);
   const pointsSet = new Set(sortedPoints);
