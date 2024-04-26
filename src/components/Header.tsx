@@ -36,7 +36,7 @@ export default function Header() {
             role="button"
             className="btn btn-circle scale-75 border-none bg-light-darkerBg text-light-heading hover:bg-light-link hover:text-light-bg dark:bg-dark-darkerBg dark:text-dark-link hover:dark:bg-dark-hover hover:dark:text-dark-darkerBg"
           >
-            <HiOutlineDotsVertical className=" text-xl" />
+            <HiOutlineDotsVertical className="text-xl" />
           </div>
           <ul
             tabIndex={0}
