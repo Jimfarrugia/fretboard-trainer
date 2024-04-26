@@ -4,13 +4,22 @@
 
 .light {
   --bg-color: theme("colors.light.bg");
+  --body-color: theme("colors.light.body");
+  --highlight-color: theme("colors.light.link");
 }
 
 .dark {
   --bg-color: theme("colors.dark.bg");
+  --body-color: theme("colors.dark.body");
+  --highlight-color: theme("colors.dark.highlight");
 }
 
 html,
 body {
   background-color: var(--bg-color) !important;
+}
+
+button.active {
+  background-color: var(--highlight-color) !important;
+  color: var(--bg-color) !important;
 }
