@@ -177,7 +177,7 @@ export default function GameSettings({
                   disabled={hardMode}
                   checked={enabledStrings[i]}
                   onChange={(e) => handleChangeEnabledStrings(i)}
-                  className="h-5 w-5 accent-light-link dark:accent-dark-highlight sm:h-6 sm:w-6"
+                  className="h-5 w-5 border-light-link accent-light-link dark:accent-dark-highlight sm:h-6 sm:w-6"
                 />
               </div>
             );
@@ -198,7 +198,7 @@ export default function GameSettings({
             type="checkbox"
             checked={hardMode}
             onChange={(e) => handleChangeHardMode(e)}
-            className="h-5 w-5 accent-light-link dark:accent-dark-highlight sm:h-6 sm:w-6"
+            className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:bg-light-darkerBg checked:hover:bg-light-link focus:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight dark:checked:bg-dark-highlight focus:dark:outline-dark-highlight"
           />
         </div>
         <div className="flex items-center gap-2">
@@ -221,7 +221,7 @@ export default function GameSettings({
           type="checkbox"
           checked={leftHanded}
           onChange={(e) => setLeftHanded(e.target.checked)}
-          className="h-5 w-5 accent-light-link dark:accent-dark-highlight sm:h-6 sm:w-6"
+          className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:bg-light-darkerBg checked:hover:bg-light-link focus:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight dark:checked:bg-dark-highlight focus:dark:outline-dark-highlight"
         />
       </div>
       {/* Accidentals */}
@@ -237,7 +237,7 @@ export default function GameSettings({
           type="checkbox"
           checked={sharps}
           onChange={(e) => setSharps(e.target.checked)}
-          className="h-5 w-5 accent-light-link dark:accent-dark-highlight sm:h-6 sm:w-6"
+          className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:bg-light-darkerBg checked:hover:bg-light-link focus:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight dark:checked:bg-dark-highlight focus:dark:outline-dark-highlight"
         />
       </div>
       <div className="mb-2 flex items-center pl-1 text-sm">
@@ -252,7 +252,7 @@ export default function GameSettings({
           type="checkbox"
           checked={flats}
           onChange={(e) => setFlats(e.target.checked)}
-          className="h-5 w-5 accent-light-link dark:accent-dark-highlight sm:h-6 sm:w-6"
+          className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:bg-light-darkerBg checked:hover:bg-light-link focus:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight dark:checked:bg-dark-highlight focus:dark:outline-dark-highlight"
         />
       </div>
     </>
