@@ -90,14 +90,14 @@ export default function Leaderboard({
             Filter:
           </span>
           <button
-            className={`${isShowAll ? "active " : ""} btn btn-xs`}
+            className={`${isShowAll ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
             value="all"
             onClick={resetFilters}
           >
             All
           </button>
           <button
-            className={`${guitar ? "active " : ""} btn btn-xs`}
+            className={`${guitar ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
             onClick={() => {
               setGuitar(!guitar);
               setBass(false);
@@ -107,7 +107,7 @@ export default function Leaderboard({
             Guitar
           </button>
           <button
-            className={`${bass ? "active " : ""} btn btn-xs`}
+            className={`${bass ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
             onClick={() => {
               setGuitar(false);
               setBass(!bass);
@@ -117,7 +117,7 @@ export default function Leaderboard({
             Bass
           </button>
           <button
-            className={`${ukulele ? "active " : ""} btn btn-xs`}
+            className={`${ukulele ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
             onClick={() => {
               setGuitar(false);
               setBass(false);
@@ -127,7 +127,7 @@ export default function Leaderboard({
             Ukulele
           </button>
           <button
-            className={`${hardMode ? "active " : ""} btn btn-xs`}
+            className={`${hardMode ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
             onClick={() => setHardMode(!hardMode)}
           >
             Hard Mode
