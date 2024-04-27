@@ -42,16 +42,26 @@ const sampleScores = [
 ];
 
 describe("randomNote", () => {
+  afterEach(() => jest.restoreAllMocks());
+
   it("returns a note from the notes array", () => {
     const notes = notesWithSharps;
-    const result = randomNote(notes, false);
+    const result = randomNote(notes);
     expect(notes).toContain(result);
   });
 
-  it("properly returns an accidental note when useSharpsAndFlats is true", () => {
-    const notes = ["A#/Bb", "C#/Db"];
+  it("properly returns an accidental note when useSharpsAndFlats is true and pickSharp is true", () => {
+    const notes = ["C", "C#/Db", "D"];
+    jest.spyOn(Math, "floor").mockReturnValue(1);
     const result = randomNote(notes, true);
-    expect(["A#", "Bb", "C#", "Db"]).toContain(result);
+    expect(result).toBe("C#");
+  });
+
+  it("properly returns a flat note when useSharpsAndFlats is true and pickSharp is false", () => {
+    const notes = ["A#/Bb", "B", "C", "C#/Db"];
+    jest.spyOn(Math, "floor").mockReturnValue(0);
+    const result = randomNote(notes, true);
+    expect(result).toBe("Bb");
   });
 });
 
