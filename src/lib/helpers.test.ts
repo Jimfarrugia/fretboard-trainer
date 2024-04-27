@@ -6,6 +6,7 @@ import {
   parseLocalStorageScores,
   setLocalStorageScores,
   mergeScores,
+  saveRemoteScoresLocally,
   dateFromTimestamp,
   sortScoresByTimestamp,
   findHighScore,
@@ -18,8 +19,8 @@ import { Score } from "./types";
 const sampleScores = [
   {
     points: 7,
-    tuning: "E Standard",
     instrument: "guitar",
+    tuning: "E Standard",
     timestamp: "2024-04-25T16:30:46.716Z",
     hardMode: true,
   },
@@ -28,13 +29,13 @@ const sampleScores = [
     instrument: "guitar",
     tuning: "E Standard",
     timestamp: "2024-04-24T03:25:09.264Z",
-    userId: "testid",
     hardMode: false,
+    userId: "testid",
   },
   {
     points: 0,
-    tuning: "E Standard",
     instrument: "guitar",
+    tuning: "E Standard",
     timestamp: "2024-04-24T03:03:55.683Z",
     hardMode: false,
   },
@@ -197,125 +198,55 @@ describe("mergeScores", () => {
   });
 });
 
-// describe("saveRemoteScoresLocally", () => {
-//   const userId = "testid";
-//   const sampleRemoteScores = [
-//     { ...sampleScores[0], userId },
-//     sampleScores[1],
-//     { ...sampleScores[2], userId },
-//   ];
+describe("saveRemoteScoresLocally", () => {
+  const userId = "testid";
+  const sampleRemoteScores = [
+    { ...sampleScores[0], userId },
+    sampleScores[1],
+    { ...sampleScores[2], userId },
+  ];
+  beforeEach(() => {
+    jest.spyOn(window.localStorage.__proto__, "getItem").mockReturnValue(null);
+    jest
+      .spyOn(window.localStorage.__proto__, "setItem")
+      .mockImplementation(() => {});
+  });
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
 
-//   const mockGetItem = jest.fn();
-//   const mockSetItem = jest.fn();
-//   const mockRemoveItem = jest.fn();
-//   Object.defineProperty(window, "localStorage", {
-//     value: {
-//       getItem: (...args: string[]) => mockGetItem(...args),
-//       setItem: (...args: string[]) => mockSetItem(...args),
-//       removeItem: (...args: string[]) => mockRemoveItem(...args),
-//     },
-//   });
-//   beforeEach(() => {
-//     mockSetItem.mockClear();
-//     mockSetItem.mockClear();
-//   });
+  it("saves remote scores to localStorage if there are scores not saved locally", () => {
+    saveRemoteScoresLocally(sampleRemoteScores, userId);
+    expect(localStorage.setItem).toHaveBeenCalledWith(
+      "scores",
+      JSON.stringify(sampleRemoteScores.map((score) => ({ ...score, userId }))),
+    );
+  });
 
-//   it("should save new scores to local storage", () => {
-//     const remoteScores = [sampleRemoteScores[0], sampleRemoteScores[1]];
+  it("does not save remote scores to localStorage if all scores are already saved locally", () => {
+    const localScores = [...sampleRemoteScores];
+    const remoteScores = [...localScores];
+    jest
+      .spyOn(window.localStorage.__proto__, "getItem")
+      .mockReturnValue(JSON.stringify(localScores));
+    saveRemoteScoresLocally(remoteScores, userId);
+    expect(localStorage.setItem).not.toHaveBeenCalled();
+  });
 
-//     saveRemoteScoresLocally(remoteScores, userId);
-
-//     expect(mockGetItem).toHaveBeenCalled();
-//     expect(mockSetItem).toHaveBeenCalled();
-//   });
-
-// Add other test cases here
-// });
-
-// describe("saveRemoteScoresLocally", () => {
-//   type LocalStorageMock = Storage & {
-//     getItem: jest.Mock<string | null, [key: string]>;
-//     setItem: jest.Mock<void, [key: string, value: string]>;
-//   };
-
-//   const originalLocalStorage = window.localStorage;
-//   const localStorageMock: LocalStorageMock = {
-//     getItem: jest.fn(),
-//     setItem: jest.fn(),
-//     length: 0,
-//     clear: jest.fn(),
-//     key: jest.fn(),
-//     removeItem: jest.fn(),
-//   };
-
-//   const userId = "testid";
-//   const sampleRemoteScores = [
-//     { ...sampleScores[0], userId },
-//     sampleScores[1],
-//     { ...sampleScores[2], userId },
-//   ];
-
-//   beforeEach(() => {
-//     window.localStorage = localStorageMock;
-//     localStorageMock.getItem.mockClear();
-//     localStorageMock.setItem.mockClear();
-//   });
-
-//   afterEach(() => {
-//     window.localStorage = originalLocalStorage;
-//   });
-
-//   it("should save new scores to local storage", () => {
-//     const remoteScores = [sampleRemoteScores[0], sampleRemoteScores[1]];
-//     saveRemoteScoresLocally(remoteScores, userId);
-//     // expect(localStorageMock.getItem).toHaveBeenCalledWith("scores");
-//     expect(localStorageMock.setItem).toHaveBeenCalledWith(
-//       "scores",
-//       JSON.stringify(remoteScores),
-//     );
-//   });
-
-// it('should not save scores already in local storage', () => {
-//   const remoteScores = [
-//     { points: 100, instrument: 'guitar', tuning: 'standard', timestamp: 1234567890, userId: 'user1' },
-//     { points: 200, instrument: 'piano', tuning: 'standard', timestamp: 1234567891, userId: 'user2' },
-//   ];
-//   const userId = 'user1';
-
-//   localStorageMock.getItem.mockReturnValueOnce(
-//     JSON.stringify([
-//       { points: 100, instrument: 'guitar', tuning: 'standard', timestamp: 1234567890, userId: 'user1' },
-//     ])
-//   );
-
-//   saveRemoteScoresLocally(remoteScores, userId);
-
-//   expect(localStorageMock.getItem).toHaveBeenCalledWith('scores');
-//   expect(localStorageMock.setItem).toHaveBeenCalledWith(
-//     'scores',
-//     JSON.stringify([
-//       { points: 100, instrument: 'guitar', tuning: 'standard', timestamp: 1234567890, userId: 'user1' },
-//       { points: 200, instrument: 'piano', tuning: 'standard', timestamp: 1234567891, userId: 'user2' },
-//     ])
-//   );
-// });
-
-// it('should not save scores if there are no new scores', () => {
-//   const remoteScores = [];
-//   const userId = 'user1';
-
-//   localStorageMock.getItem.mockReturnValueOnce(
-//     JSON.stringify([
-//       { points: 100, instrument: 'guitar', tuning: 'standard', timestamp: 1234567890, userId: 'user1' },
-//     ])
-//   );
-
-//   saveRemoteScoresLocally(remoteScores, userId);
-
-//   expect(localStorageMock.getItem).not.toHaveBeenCalled();
-//   expect(localStorageMock.setItem).not.toHaveBeenCalled();
-// });
-// });
+  it("merges new remote scores with existing local scores when saving", () => {
+    const localScores = [sampleRemoteScores[0], sampleRemoteScores[1]];
+    const remoteScores = sampleRemoteScores;
+    const expectedRemoteScoresToSave = [...localScores, sampleRemoteScores[2]];
+    jest
+      .spyOn(window.localStorage.__proto__, "getItem")
+      .mockReturnValue(JSON.stringify(localScores));
+    saveRemoteScoresLocally(remoteScores, userId);
+    expect(localStorage.setItem).toHaveBeenCalledWith(
+      "scores",
+      JSON.stringify(expectedRemoteScoresToSave),
+    );
+  });
+});
 
 describe("dateFromTimestamp", () => {
   it("returns a string in the format 'YYYY-MM-DD'", () => {
