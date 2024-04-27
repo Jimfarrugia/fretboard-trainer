@@ -22,7 +22,7 @@ export function randomNote(
 }
 
 // Get the next note based on current note
-function getNextNote(currentNote: string) {
+export function getNextNote(currentNote: string) {
   const notes = notesWithSharpsAndFlats;
   let currentIndex = notes.indexOf(currentNote);
   return notes[(currentIndex + 1) % notes.length];
