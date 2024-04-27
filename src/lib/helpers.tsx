@@ -94,6 +94,7 @@ export const saveRemoteScoresLocally = (
         instrument: remoteScore.instrument,
         tuning: remoteScore.tuning,
         timestamp: remoteScore.timestamp,
+        hardMode: remoteScore.hardMode,
         userId,
       }));
       setLocalStorageScores([...localScores, ...remoteScoresToSave]);
