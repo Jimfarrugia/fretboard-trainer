@@ -6,20 +6,19 @@ export function randomNote(
   notes: string[],
   useSharpsAndFlats: boolean = false,
 ) {
+  //* useSharpsAndFlats should be set to true if notesWithSharpsAndFlats is passed in
+  //* as the first argument. (each accidental will include both # and b, eg. "A#/Bb")
   const randomNoteIndex = Math.floor(Math.random() * notes.length);
   const randomNote = notes[randomNoteIndex];
-  if (!useSharpsAndFlats) {
+  // if not using sharps and flats, or if randomNote is a natural, return the note
+  if (!useSharpsAndFlats || randomNote.length === 1) {
     return randomNote;
-  }
-  // if note is a natural, return the first char
-  if (notes[randomNoteIndex].length === 2) {
-    return randomNote[0];
   }
   // if note is an accidental, pick sharp or flat randomly
   const pickSharp = Math.floor(Math.random() * 2);
   return pickSharp
-    ? randomNote.substring(0, 2)
-    : randomNote.substring(randomNote.length - 2);
+    ? randomNote.substring(0, 2) // first two chars (sharp)
+    : randomNote.substring(randomNote.length - 2); // last two chars (flat)
 }
 
 // Get the next note based on current note
