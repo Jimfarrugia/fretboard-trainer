@@ -11,7 +11,8 @@
     "db:migrate": "npx prisma migrate dev",
     "db:studio": "npx prisma studio",
     "test": "jest --coverage",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.6.0",
@@ -31,6 +32,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
+    "cypress": "^13.8.1",
     "daisyui": "^4.10.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
