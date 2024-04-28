@@ -51,6 +51,7 @@ export default function Game() {
   const session = useSession();
   const userId = session?.data?.user?.id;
   const [isStartDisabled, setIsStartDisabled] = useState(false);
+  const gameLength = process.env.NODE_ENV !== "production" ? 10 : 30;
 
   const notes =
     sharps && flats
@@ -148,7 +149,7 @@ export default function Game() {
     setShowSettings(false);
     setCurrentScore(0);
     setNewHighScore(false);
-    setTimer(30);
+    setTimer(gameLength);
     newChallenge(challenge);
   };
 
