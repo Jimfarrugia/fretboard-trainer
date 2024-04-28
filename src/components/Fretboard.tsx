@@ -120,6 +120,7 @@ export default function Fretboard({
       className={`fretboard-wrapper text-sm ${gameOver ? "opacity-25" : ""}`}
     >
       <div
+        data-testid="fretboard"
         className={`fretboard ${!isLoading && leftHanded ? "left-handed" : ""} ${!isLoading && instrument !== "guitar" ? instrument : ""}`}
       >
         {isLoading ? (

@@ -31,7 +31,10 @@ export default function GameOverCard({
   }, [currentScore]);
 
   return (
-    <div className="absolute z-20 mt-2 rounded-lg border-2 border-light-heading bg-light-bg p-8 text-center dark:border-dark-heading dark:bg-dark-darkerBg">
+    <div
+      data-testid="game-over-card"
+      className="absolute z-20 mt-2 rounded-lg border-2 border-light-heading bg-light-bg p-8 text-center dark:border-dark-heading dark:bg-dark-darkerBg"
+    >
       <div>
         <button
           type="button"
@@ -61,6 +64,7 @@ export default function GameOverCard({
             <p className="mb-6">Congratulations on your new high score!</p>
           )}
           <button
+            data-testid="play-again-button"
             type="button"
             className={`btn btn-primary ${userId && currentScore > 0 ? "mb-6" : ""} border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg`}
             onClick={startGame}

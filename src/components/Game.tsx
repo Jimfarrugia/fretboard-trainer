@@ -175,9 +175,12 @@ export default function Game() {
         {/* challenge/start btn */}
         <div className="text-center text-xl font-bold">
           {gameInProgress ? (
-            <>
+            <p data-testid="challenge-container">
               {"Find "}
-              <span className="text-light-link dark:text-dark-highlight">
+              <span
+                data-testid="challenge-note"
+                className="text-light-link dark:text-dark-highlight"
+              >
                 {challenge}
               </span>
               {hardMode && (
@@ -190,9 +193,9 @@ export default function Game() {
                   <span className="text-sm sm:text-xl">{" string"}</span>
                 </>
               )}
-            </>
+            </p>
           ) : gameOver ? (
-            <>{"Time's up!"}</>
+            <p data-testid="game-over-text">{"Time's up!"}</p>
           ) : (
             <button
               type="button"
@@ -208,7 +211,7 @@ export default function Game() {
         <div
           className={`flex ${!gameInProgress && !gameOver && "hidden"} items-center gap-1`}
         >
-          <span>{currentScore}</span>
+          <span data-testid="current-score">{currentScore}</span>
           <FaRegCircleCheck className="text-xl" />
         </div>
       </div>
@@ -259,6 +262,7 @@ export default function Game() {
         {/* skip btn */}
         <div>
           <button
+            data-testid="skip-button"
             type="button"
             className={`${(gameInProgress && allowSkip) || "hidden"} btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg`}
             onClick={() => {

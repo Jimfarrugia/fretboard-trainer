@@ -38,7 +38,10 @@ export default function History() {
     <>
       <HistoryHeader userId={userId} />
       <div className="overflow-x-auto">
-        <table className="w-full table-auto text-nowrap text-xs">
+        <table
+          data-testid="history-table"
+          className="w-full table-auto text-nowrap text-xs"
+        >
           <thead className="text-left text-light-heading dark:text-dark-heading">
             <tr className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg">
               <th className="hidden pr-2 sm:table-cell">Date</th>
