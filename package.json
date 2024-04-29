@@ -12,7 +12,8 @@
     "db:studio": "npx prisma studio",
     "test": "jest --coverage",
     "test:watch": "jest --watchAll",
-    "cypress": "concurrently \"next dev\" \"cypress open\""
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.6.0",
