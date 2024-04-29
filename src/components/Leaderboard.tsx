@@ -17,23 +17,28 @@ export default function Leaderboard({
   const userId = session?.data?.user?.id;
 
   // Filters
-  const [guitar, setGuitar] = useState(false);
-  const [bass, setBass] = useState(false);
-  const [ukulele, setUkulele] = useState(false);
-  const [hardMode, setHardMode] = useState(false);
-  const isShowAll = !guitar && !bass && !ukulele && !hardMode;
-  const filteredScores = topScores?.filter(
-    (score) =>
+  const [guitarFilter, setGuitarFilter] = useState(false);
+  const [bassFilter, setBassFilter] = useState(false);
+  const [ukuleleFilter, setUkuleleFilter] = useState(false);
+  const [hardModeFilter, setHardMode] = useState(false);
+  const isShowAll =
+    !guitarFilter && !bassFilter && !ukuleleFilter && !hardModeFilter;
+  const filteredScores = topScores?.filter((score) => {
+    const { instrument } = score;
+    const isGuitarScore = instrument === "guitar";
+    const isBassScore = instrument === "bass";
+    const isUkuleleScore = instrument === "ukulele";
+    const isHardModeScore = score.hardMode;
+    return (
       isShowAll ||
-      (guitar &&
-        score.instrument === "guitar" &&
-        (!hardMode || score.hardMode)) ||
-      (bass && score.instrument === "bass" && (!hardMode || score.hardMode)) ||
-      (ukulele &&
-        score.instrument === "ukulele" &&
-        (!hardMode || score.hardMode)) ||
-      (!guitar && !bass && !ukulele && score.hardMode),
-  );
+      (guitarFilter && isGuitarScore && (!hardModeFilter || isHardModeScore)) ||
+      (bassFilter && isBassScore && (!hardModeFilter || isHardModeScore)) ||
+      (ukuleleFilter &&
+        isUkuleleScore &&
+        (!hardModeFilter || isHardModeScore)) ||
+      (!guitarFilter && !bassFilter && !ukuleleFilter && isHardModeScore)
+    );
+  });
 
   // Determine gold/silver/bronze scores
   const sortedPoints = filteredScores
@@ -60,24 +65,24 @@ export default function Leaderboard({
   );
 
   const resetFilters = () => {
-    setGuitar(false);
-    setBass(false);
-    setUkulele(false);
+    setGuitarFilter(false);
+    setBassFilter(false);
+    setUkuleleFilter(false);
     setHardMode(false);
   };
 
   useEffect(() => {
-    if (guitar) {
-      setBass(false);
-      setUkulele(false);
-    } else if (bass) {
-      setGuitar(false);
-      setUkulele(false);
-    } else if (ukulele) {
-      setGuitar(false);
-      setBass(false);
+    if (guitarFilter) {
+      setBassFilter(false);
+      setUkuleleFilter(false);
+    } else if (bassFilter) {
+      setGuitarFilter(false);
+      setUkuleleFilter(false);
+    } else if (ukuleleFilter) {
+      setGuitarFilter(false);
+      setBassFilter(false);
     }
-  }, [guitar, bass, ukulele]);
+  }, [guitarFilter, bassFilter, ukuleleFilter]);
 
   return !topScores?.length ? (
     <></>
@@ -97,38 +102,38 @@ export default function Leaderboard({
             All
           </button>
           <button
-            className={`${guitar ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
+            className={`${guitarFilter ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
             onClick={() => {
-              setGuitar(!guitar);
-              setBass(false);
-              setUkulele(false);
+              setGuitarFilter(!guitarFilter);
+              setBassFilter(false);
+              setUkuleleFilter(false);
             }}
           >
             Guitar
           </button>
           <button
-            className={`${bass ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
+            className={`${bassFilter ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
             onClick={() => {
-              setGuitar(false);
-              setBass(!bass);
-              setUkulele(false);
+              setGuitarFilter(false);
+              setBassFilter(!bassFilter);
+              setUkuleleFilter(false);
             }}
           >
             Bass
           </button>
           <button
-            className={`${ukulele ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
+            className={`${ukuleleFilter ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
             onClick={() => {
-              setGuitar(false);
-              setBass(false);
-              setUkulele(!ukulele);
+              setGuitarFilter(false);
+              setBassFilter(false);
+              setUkuleleFilter(!ukuleleFilter);
             }}
           >
             Ukulele
           </button>
           <button
-            className={`${hardMode ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
-            onClick={() => setHardMode(!hardMode)}
+            className={`${hardModeFilter ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
+            onClick={() => setHardMode(!hardModeFilter)}
           >
             Hard Mode
           </button>
