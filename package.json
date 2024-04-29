@@ -33,7 +33,6 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
-    "concurrently": "^8.2.2",
     "cypress": "^13.8.1",
     "daisyui": "^4.10.1",
     "eslint": "^8",
