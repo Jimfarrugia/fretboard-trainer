@@ -21,3 +21,7 @@ export interface Tuning {
 }
 
 export type Instrument = (typeof instruments)[number];
+
+export interface ScoreFilters {
+  [key: string]: boolean;
+}
