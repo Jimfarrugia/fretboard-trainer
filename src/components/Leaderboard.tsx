@@ -152,8 +152,8 @@ export default function Leaderboard({
 
 function LeaderboardHeader({ userId }: { userId: string | undefined }) {
   return (
-    <div className="pb-6 pt-12 sm:flex sm:items-center sm:justify-between">
-      <h2 className="mb-1 text-lg font-bold text-light-heading dark:text-dark-heading sm:mb-0">
+    <div className="pb-8 pt-12 sm:flex sm:items-center sm:justify-between">
+      <h2 className="mb-1 text-2xl font-bold text-light-heading dark:text-dark-heading sm:mb-0">
         Leaderboard
       </h2>
       {!userId && (
