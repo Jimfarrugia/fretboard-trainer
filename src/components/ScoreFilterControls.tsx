@@ -34,9 +34,6 @@ export default function ScoreFilterControls({
     <></>
   ) : (
     <div className="mb-4 flex items-center gap-2 [&>button]:border-none [&>button]:bg-light-darkerBg [&>button]:font-medium [&>button]:text-light-bg [&>button]:hover:bg-light-darkerBg [&>button]:dark:bg-dark-darkerBg [&>button]:dark:text-dark-heading [&>button]:hover:dark:bg-dark-darkerBg">
-      <span className="text-xs font-medium text-light-heading dark:text-dark-body">
-        Filter:
-      </span>
       <button
         className={`${noActiveFilters ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
         value="all"
