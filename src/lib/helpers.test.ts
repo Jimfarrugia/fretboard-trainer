@@ -13,9 +13,10 @@ import {
   findHighScore,
   ordinal,
   capitalize,
+  filterScores,
 } from "./helpers";
 import { notesWithSharps, notesWithSharpsAndFlats } from "./constants";
-import { Score } from "./types";
+import { Score, ScoreFilters } from "./types";
 
 const sampleScores = [
   {
@@ -39,6 +40,81 @@ const sampleScores = [
     tuning: "E Standard",
     timestamp: "2024-04-24T03:03:55.683Z",
     hardMode: false,
+  },
+];
+
+const moreSampleScores = [
+  {
+    points: 35,
+    instrument: "guitar",
+    tuning: "E Standard",
+    timestamp: "2024-04-20T23:47:32.572Z",
+    userId: "cluzioys40008cojjbygw0jfc",
+    hardMode: false,
+  },
+  {
+    points: 19,
+    instrument: "guitar",
+    tuning: "E Standard",
+    timestamp: "2024-04-20T20:46:14.158Z",
+    userId: "cluzioys40008cojjbygw0jfc",
+    hardMode: false,
+  },
+  {
+    points: 17,
+    instrument: "bass",
+    tuning: "E Standard",
+    timestamp: "2024-04-20T20:54:07.200Z",
+    userId: "cluzioys40008cojjbygw0jfc",
+    hardMode: false,
+  },
+  {
+    points: 15,
+    instrument: "bass",
+    tuning: "E Standard",
+    timestamp: "2024-04-20T20:59:47.344Z",
+    userId: "cluzioys40008cojjbygw0jfc",
+    hardMode: false,
+  },
+  {
+    points: 12,
+    instrument: "guitar",
+    tuning: "E Standard",
+    timestamp: "2024-04-25T16:40:36.087Z",
+    userId: "cluzioys40008cojjbygw0jfc",
+    hardMode: true,
+  },
+  {
+    points: 11,
+    instrument: "guitar",
+    tuning: "E Standard",
+    timestamp: "2024-04-27T01:01:26.118Z",
+    userId: "cluzioys40008cojjbygw0jfc",
+    hardMode: true,
+  },
+  {
+    points: 9,
+    instrument: "guitar",
+    tuning: "E Standard",
+    timestamp: "2024-04-25T16:53:16.822Z",
+    userId: "cluzioys40008cojjbygw0jfc",
+    hardMode: true,
+  },
+  {
+    points: 8,
+    instrument: "guitar",
+    tuning: "E Standard",
+    timestamp: "2024-04-30T08:15:18.650Z",
+    userId: "clvm40hfw0000ikj5yheb7apb",
+    hardMode: true,
+  },
+  {
+    points: 6,
+    instrument: "ukulele",
+    tuning: "Standard",
+    timestamp: "2024-04-26T00:32:49.143Z",
+    userId: "cluzioys40008cojjbygw0jfc",
+    hardMode: true,
   },
 ];
 
@@ -365,5 +441,32 @@ describe("capitalize", () => {
 
   it("does not affect strings beginning with a capitalized character", () => {
     expect(capitalize("Hello world")).toBe("Hello world");
+  });
+});
+
+describe("filterScores", () => {
+  it("should return all scores when no filters are active", () => {
+    const filters: ScoreFilters = {};
+    expect(filterScores(moreSampleScores, filters)).toEqual(moreSampleScores);
+  });
+
+  it("should filter scores by hardMode when no instrument filters are active", () => {
+    const filters: ScoreFilters = { hardMode: true };
+    const expectedScores = moreSampleScores.filter((score) => score.hardMode);
+    expect(filterScores(moreSampleScores, filters)).toHaveLength(5);
+    expect(filterScores(moreSampleScores, filters)).toEqual(expectedScores);
+  });
+
+  it("should filter scores by instrument and hardMode", () => {
+    const filters: ScoreFilters = {
+      guitar: true,
+      bass: false,
+      hardMode: true,
+    };
+    const expectedScores = moreSampleScores.filter(
+      (score) => score.instrument === "guitar" && score.hardMode,
+    );
+    expect(filterScores(moreSampleScores, filters)).toHaveLength(4);
+    expect(filterScores(moreSampleScores, filters)).toEqual(expectedScores);
   });
 });
