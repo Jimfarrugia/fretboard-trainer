@@ -399,7 +399,7 @@ describe("findHighScore", () => {
   });
 });
 
-describe("findHighScore", () => {
+describe("ordinal", () => {
   it("returns correct suffix for numbers ending in 1st, 2nd, 3rd, etc.", () => {
     expect(ordinal(1)).toBe("1st");
     expect(ordinal(2)).toBe("2nd");
