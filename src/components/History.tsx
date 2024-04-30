@@ -21,7 +21,6 @@ export default function History() {
   const userId = session?.data?.user?.id;
   const { scores } = useScores();
   const sortedScores = sortScoresByTimestamp(scores);
-  const highScore = findHighScore(scores);
 
   // Filters
   const {
@@ -48,6 +47,9 @@ export default function History() {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) =>
     (i + 1).toString(),
   );
+
+  // High score
+  const highScore = findHighScore(filteredScores);
 
   return !sortedScores.length ? (
     <></>
