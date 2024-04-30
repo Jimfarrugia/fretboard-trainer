@@ -6,6 +6,8 @@ import { FaMedal } from "react-icons/fa6";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { Score } from "@/lib/types";
 import { dateFromTimestamp, capitalize } from "@/lib/helpers";
+import { Score, ScoreFilters } from "@/lib/types";
+import { filterScores, dateFromTimestamp, capitalize } from "@/lib/helpers";
 import PaginationControls from "./PaginationControls";
 
 export default function Leaderboard({
@@ -20,25 +22,18 @@ export default function Leaderboard({
   const [guitarFilter, setGuitarFilter] = useState(false);
   const [bassFilter, setBassFilter] = useState(false);
   const [ukuleleFilter, setUkuleleFilter] = useState(false);
-  const [hardModeFilter, setHardMode] = useState(false);
-  const isShowAll =
+  const [hardModeFilter, setHardModeFilter] = useState(false);
+  const noActiveFilters =
     !guitarFilter && !bassFilter && !ukuleleFilter && !hardModeFilter;
-  const filteredScores = topScores?.filter((score) => {
-    const { instrument } = score;
-    const isGuitarScore = instrument === "guitar";
-    const isBassScore = instrument === "bass";
-    const isUkuleleScore = instrument === "ukulele";
-    const isHardModeScore = score.hardMode;
-    return (
-      isShowAll ||
-      (guitarFilter && isGuitarScore && (!hardModeFilter || isHardModeScore)) ||
-      (bassFilter && isBassScore && (!hardModeFilter || isHardModeScore)) ||
-      (ukuleleFilter &&
-        isUkuleleScore &&
-        (!hardModeFilter || isHardModeScore)) ||
-      (!guitarFilter && !bassFilter && !ukuleleFilter && isHardModeScore)
-    );
-  });
+  const filters: ScoreFilters = {
+    guitar: guitarFilter,
+    bass: bassFilter,
+    ukulele: ukuleleFilter,
+    hardMode: hardModeFilter,
+  };
+  const filteredScores = noActiveFilters
+    ? topScores
+    : topScores && filterScores(topScores, filters);
 
   // Determine gold/silver/bronze scores
   const sortedPoints = filteredScores
@@ -68,7 +63,7 @@ export default function Leaderboard({
     setGuitarFilter(false);
     setBassFilter(false);
     setUkuleleFilter(false);
-    setHardMode(false);
+    setHardModeFilter(false);
   };
 
   useEffect(() => {
@@ -95,7 +90,7 @@ export default function Leaderboard({
             Filter:
           </span>
           <button
-            className={`${isShowAll ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
+            className={`${noActiveFilters ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
             value="all"
             onClick={resetFilters}
           >
@@ -133,7 +128,7 @@ export default function Leaderboard({
           </button>
           <button
             className={`${hardModeFilter ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
-            onClick={() => setHardMode(!hardModeFilter)}
+            onClick={() => setHardModeFilter(!hardModeFilter)}
           >
             Hard Mode
           </button>
