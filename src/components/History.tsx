@@ -4,10 +4,12 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { FaMedal } from "react-icons/fa6";
+import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import { useScoreFilters } from "@/lib/hooks";
 import {
   dateFromTimestamp,
   sortScoresByTimestamp,
+  sortScoresByPoints,
   findHighScore,
   capitalize,
   filterScores,
@@ -20,7 +22,39 @@ export default function History() {
   const session = useSession();
   const userId = session?.data?.user?.id;
   const { scores } = useScores();
-  const sortedScores = sortScoresByTimestamp(scores);
+
+  // Sorting
+  const [sortByDate, setSortByDate] = useState(true);
+  const [sortByPoints, setSortByPoints] = useState(false);
+  const [sortByAscending, setSortByAscending] = useState(false);
+  const sortedScores =
+    (sortByDate && !sortByAscending && sortScoresByTimestamp(scores)) ||
+    (sortByDate &&
+      sortByAscending &&
+      sortScoresByTimestamp(scores).reverse()) ||
+    (sortByPoints && !sortByAscending && sortScoresByPoints(scores)) ||
+    (sortByPoints && sortByAscending && sortScoresByPoints(scores).reverse()) ||
+    scores;
+
+  const handleClickDate = () => {
+    if (sortByDate) {
+      setSortByAscending(!sortByAscending);
+    } else {
+      setSortByDate(true);
+      setSortByPoints(false);
+      setSortByAscending(false);
+    }
+  };
+
+  const handleClickScore = () => {
+    if (sortByPoints) {
+      setSortByAscending(!sortByAscending);
+    } else {
+      setSortByPoints(true);
+      setSortByDate(false);
+      setSortByAscending(false);
+    }
+  };
 
   // Filters
   const {
@@ -89,10 +123,36 @@ export default function History() {
           >
             <thead className="text-left text-light-heading dark:text-dark-heading">
               <tr className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg">
-                <th className="hidden pr-2 sm:table-cell">Date</th>
-                <th className="py-2 pr-2 sm:p-2">Instrument</th>
+                <th className="pr-2">
+                  <button
+                    className="flex items-center gap-1 transition-colors hover:text-light-link hover:dark:text-dark-hover"
+                    onClick={handleClickDate}
+                  >
+                    Date
+                    {sortByDate && sortByAscending && (
+                      <TiArrowSortedUp className="text-md" />
+                    )}
+                    {sortByDate && !sortByAscending && (
+                      <TiArrowSortedDown className="text-md" />
+                    )}
+                  </button>
+                </th>
+                <th className="p-2">Instrument</th>
                 <th className="p-2">Tuning</th>
-                <th className="p-2 text-center">Score</th>
+                <th className="p-2 text-center">
+                  <button
+                    className="flex w-full items-center justify-center gap-1 transition-colors hover:text-light-link hover:dark:text-dark-hover"
+                    onClick={handleClickScore}
+                  >
+                    Score
+                    {sortByPoints && sortByAscending && (
+                      <TiArrowSortedUp className="text-md" />
+                    )}
+                    {sortByPoints && !sortByAscending && (
+                      <TiArrowSortedDown className="text-md" />
+                    )}
+                  </button>
+                </th>
                 <th className="p-2 text-center">Hard Mode</th>
               </tr>
             </thead>
@@ -102,12 +162,10 @@ export default function History() {
                   key={`score-${score.timestamp}`}
                   className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg"
                 >
-                  <td className="hidden py-4 pr-2 sm:table-cell">
+                  <td className="py-4 pr-2">
                     {dateFromTimestamp(score.timestamp)}
                   </td>
-                  <td className="py-4 pr-2 sm:px-2">
-                    {capitalize(score.instrument)}
-                  </td>
+                  <td className="px-2 py-4">{capitalize(score.instrument)}</td>
                   <td className="px-2 py-4">{score.tuning}</td>
                   <td className="px-2 py-4">
                     <div className="mx-auto w-fit">
