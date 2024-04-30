@@ -56,6 +56,7 @@ export default function History() {
       <HistoryHeader userId={userId} />
       <div className="overflow-x-auto">
         <ScoreFilterControls
+          scores={scores}
           filters={filters}
           noActiveFilters={noActiveFilters}
           resetFilters={resetFilters}

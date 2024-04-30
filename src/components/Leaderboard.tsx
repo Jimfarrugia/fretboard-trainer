@@ -63,6 +63,7 @@ export default function Leaderboard({
       <LeaderboardHeader userId={userId} />
       <div className="overflow-x-auto">
         <ScoreFilterControls
+          scores={topScores}
           filters={filters}
           noActiveFilters={noActiveFilters}
           resetFilters={resetFilters}
