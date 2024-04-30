@@ -1,4 +1,4 @@
-import { Score } from "./types";
+import { Score, ScoreFilters } from "./types";
 import { notesWithSharpsAndFlats } from "@/lib/constants";
 
 // Choose a random note from notes array
@@ -129,4 +129,34 @@ export const ordinal = (n: number) => {
 // Capitalize the first letter of a string
 export const capitalize = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+// Filter an array of scores based on the provided filters
+// * Note:
+// 1. This function should accept any amount of instrument filters.
+// 2. Any filters other than 'hardMode' are considered instrument filters.
+// 3. The key of an instrument filter in the filters object must be an instrument name (see lib/constants.ts).
+export const filterScores = (scores: Score[], filters: ScoreFilters) => {
+  const { hardMode: hardModeFilter, ...instrumentFilters } = filters;
+  // If all filters are off, return all scores
+  const noActiveFilters = !Object.values(filters).includes(true);
+  if (noActiveFilters) return scores;
+  // If all instrument filters are off, filter scores by hardMode
+  const noActiveInstrumentFilters =
+    !Object.values(instrumentFilters).includes(true);
+  if (noActiveInstrumentFilters) {
+    return scores.filter((score) => score.hardMode === hardModeFilter);
+  }
+  // Filter scores by instrument and hard mode
+  return scores.filter((score) => {
+    const { instrument, hardMode: isHardModeScore } = score;
+    // Check if the score's instrument exists as a key in instrumentFilters
+    // and if the value of that key in instrumentFilters is true
+    const isInstrumentMatch =
+      instrument in instrumentFilters && instrumentFilters[instrument];
+    // Check if hardModeFilter is off or if the score's hardMode is true
+    const isHardModeMatch = !hardModeFilter || isHardModeScore;
+    // Include the score if it's instrument and hardMode match with the filters
+    return isInstrumentMatch && isHardModeMatch;
+  });
 };
