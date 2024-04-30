@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 /**
- * useLocalStorage
+ * useLocalStorageState
  * Custom hook to manage state with localStorage persistence.
  * @param key The key to use for storing the state in localStorage.
  * @param defaultValue The default value to initialize the state with if no value is found in localStorage.
@@ -31,3 +31,56 @@ export const useLocalStorageState = <T extends unknown>(
 };
 
 export default useLocalStorageState;
+
+/**
+ * useScoreFilters
+ * Custom hook to manage and update score filters state.
+ */
+export const useScoreFilters = () => {
+  const [guitarFilter, setGuitarFilter] = useState(false);
+  const [bassFilter, setBassFilter] = useState(false);
+  const [ukuleleFilter, setUkuleleFilter] = useState(false);
+  const [hardModeFilter, setHardModeFilter] = useState(false);
+
+  // Ensure only one instrument filter is active at any given time
+  useEffect(() => {
+    if (guitarFilter) {
+      setBassFilter(false);
+      setUkuleleFilter(false);
+    } else if (bassFilter) {
+      setGuitarFilter(false);
+      setUkuleleFilter(false);
+    } else if (ukuleleFilter) {
+      setGuitarFilter(false);
+      setBassFilter(false);
+    }
+  }, [guitarFilter, bassFilter, ukuleleFilter]);
+
+  // Turn off all filters
+  const resetFilters = () => {
+    setGuitarFilter(false);
+    setBassFilter(false);
+    setUkuleleFilter(false);
+    setHardModeFilter(false);
+  };
+
+  const filters = {
+    guitar: guitarFilter,
+    bass: bassFilter,
+    ukulele: ukuleleFilter,
+    hardMode: hardModeFilter,
+  };
+
+  const noActiveFilters =
+    !guitarFilter && !bassFilter && !ukuleleFilter && !hardModeFilter;
+
+  return {
+    filters,
+    noActiveFilters,
+    setGuitarFilter,
+    setBassFilter,
+    setUkuleleFilter,
+    setHardModeFilter,
+    resetFilters,
+  };
+};
