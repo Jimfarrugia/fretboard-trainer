@@ -1,12 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { FaMedal } from "react-icons/fa6";
 import { HiOutlineLightBulb } from "react-icons/hi";
+import { useScoreFilters } from "@/lib/hooks";
 import { Score } from "@/lib/types";
-import { dateFromTimestamp, capitalize } from "@/lib/helpers";
-import { Score, ScoreFilters } from "@/lib/types";
 import { filterScores, dateFromTimestamp, capitalize } from "@/lib/helpers";
 import PaginationControls from "./PaginationControls";
 
@@ -19,18 +18,17 @@ export default function Leaderboard({
   const userId = session?.data?.user?.id;
 
   // Filters
-  const [guitarFilter, setGuitarFilter] = useState(false);
-  const [bassFilter, setBassFilter] = useState(false);
-  const [ukuleleFilter, setUkuleleFilter] = useState(false);
-  const [hardModeFilter, setHardModeFilter] = useState(false);
-  const noActiveFilters =
-    !guitarFilter && !bassFilter && !ukuleleFilter && !hardModeFilter;
-  const filters: ScoreFilters = {
-    guitar: guitarFilter,
-    bass: bassFilter,
-    ukulele: ukuleleFilter,
-    hardMode: hardModeFilter,
-  };
+  const {
+    filters,
+    noActiveFilters,
+    setGuitarFilter,
+    setBassFilter,
+    setUkuleleFilter,
+    setHardModeFilter,
+    resetFilters,
+  } = useScoreFilters();
+  const { guitar, bass, ukulele, hardMode } = filters;
+
   const filteredScores = noActiveFilters
     ? topScores
     : topScores && filterScores(topScores, filters);
@@ -59,26 +57,6 @@ export default function Leaderboard({
     (i + 1).toString(),
   );
 
-  const resetFilters = () => {
-    setGuitarFilter(false);
-    setBassFilter(false);
-    setUkuleleFilter(false);
-    setHardModeFilter(false);
-  };
-
-  useEffect(() => {
-    if (guitarFilter) {
-      setBassFilter(false);
-      setUkuleleFilter(false);
-    } else if (bassFilter) {
-      setGuitarFilter(false);
-      setUkuleleFilter(false);
-    } else if (ukuleleFilter) {
-      setGuitarFilter(false);
-      setBassFilter(false);
-    }
-  }, [guitarFilter, bassFilter, ukuleleFilter]);
-
   return !topScores?.length ? (
     <></>
   ) : (
@@ -97,9 +75,9 @@ export default function Leaderboard({
             All
           </button>
           <button
-            className={`${guitarFilter ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
+            className={`${guitar ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
             onClick={() => {
-              setGuitarFilter(!guitarFilter);
+              setGuitarFilter(!guitar);
               setBassFilter(false);
               setUkuleleFilter(false);
             }}
@@ -107,35 +85,37 @@ export default function Leaderboard({
             Guitar
           </button>
           <button
-            className={`${bassFilter ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
+            className={`${bass ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
             onClick={() => {
               setGuitarFilter(false);
-              setBassFilter(!bassFilter);
+              setBassFilter(!bass);
               setUkuleleFilter(false);
             }}
           >
             Bass
           </button>
           <button
-            className={`${ukuleleFilter ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
+            className={`${ukulele ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
             onClick={() => {
               setGuitarFilter(false);
               setBassFilter(false);
-              setUkuleleFilter(!ukuleleFilter);
+              setUkuleleFilter(!ukulele);
             }}
           >
             Ukulele
           </button>
           <button
-            className={`${hardModeFilter ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
-            onClick={() => setHardModeFilter(!hardModeFilter)}
+            className={`${hardMode ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
+            onClick={() => setHardModeFilter(!hardMode)}
           >
             Hard Mode
           </button>
         </div>
         {!paginatedScores?.length ? (
           <>
-            <p className="py-4">No published scores match these filters.</p>
+            <p className="py-4 text-sm">
+              There are no published scores which match these filters.
+            </p>
             <p className="pb-4 pt-2">
               <button
                 type="button"
