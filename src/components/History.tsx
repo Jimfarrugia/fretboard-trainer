@@ -44,7 +44,7 @@ export default function History() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
-  const totalPages = Math.ceil(scores.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredScores.length / itemsPerPage);
   const pageNumbers = Array.from({ length: totalPages }, (_, i) =>
     (i + 1).toString(),
   );
