@@ -9,6 +9,7 @@ import {
   saveRemoteScoresLocally,
   dateFromTimestamp,
   sortScoresByTimestamp,
+  sortScoresByPoints,
   findHighScore,
   ordinal,
   capitalize,
@@ -280,6 +281,28 @@ describe("sortScoresByTimestamp", () => {
   it("returns the input array if given an array with one element", () => {
     const scores: Score[] = [sampleScores[0]];
     const sortedScores = sortScoresByTimestamp(scores);
+    expect(sortedScores).toEqual(scores);
+  });
+});
+
+describe("sortScoresByPoints", () => {
+  it("sorts scores by points in descending order", () => {
+    const sortedScores = sortScoresByPoints([...sampleScores]);
+    expect(sortedScores).toStrictEqual([
+      sampleScores[1],
+      sampleScores[0],
+      sampleScores[2],
+    ]);
+  });
+
+  it("returns an empty array if given an empty array", () => {
+    const sortedScores = sortScoresByPoints([]);
+    expect(sortedScores).toEqual([]);
+  });
+
+  it("returns the input array if given an array with one element", () => {
+    const scores: Score[] = [sampleScores[0]];
+    const sortedScores = sortScoresByPoints(scores);
     expect(sortedScores).toEqual(scores);
   });
 });
