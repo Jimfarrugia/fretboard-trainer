@@ -114,6 +114,13 @@ export const sortScoresByTimestamp = (scores: Score[]) => {
   });
 };
 
+// Sort scores by points (highest first)
+export const sortScoresByPoints = (scores: Score[]) => {
+  return scores.sort((a, b) => {
+    return b.points - a.points;
+  });
+};
+
 // Find highest score in scores array
 export const findHighScore = (scores: Score[]) => {
   return scores.length ? Math.max(...scores.map((s: Score) => s.points)) : 0;
