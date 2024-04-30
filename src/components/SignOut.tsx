@@ -5,7 +5,7 @@ export default function SignOut({ underline = true }: { underline?: boolean }) {
     <form action={signOut}>
       <button
         type="submit"
-        className={`text-light-link ${underline && "underline"} hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover`}
+        className={`text-light-link ${underline && "underline"} transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover`}
       >
         Sign Out
       </button>

@@ -19,7 +19,7 @@ export default function PaginationControls({
         className={`${
           currentPage === 1
             ? "text-light-darkerBg dark:text-dark-heading"
-            : "text-light-link hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+            : "text-light-link transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
         } mr-1.5 text-xs`}
       >
         <FaChevronLeft />
@@ -35,7 +35,7 @@ export default function PaginationControls({
                 currentPage === parsedPageNumber
                   ? "bg-light-darkerBg text-light-heading dark:bg-dark-darkerBg dark:text-dark-body"
                   : "text-light-link hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
-              } rounded-full px-3 py-1.5`}
+              } rounded-full px-3 py-1.5 transition-colors`}
               onClick={() => setCurrentPage(parsedPageNumber)}
             >
               {pageNumber}
@@ -52,7 +52,7 @@ export default function PaginationControls({
           currentPage === totalPages
             ? "text-light-darkerBg dark:text-dark-heading"
             : "text-light-link hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
-        } ml-1.5 text-xs`}
+        } ml-1.5 text-xs transition-colors`}
       >
         <FaChevronRight />
       </button>

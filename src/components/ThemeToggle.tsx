@@ -13,14 +13,14 @@ export default function ThemeToggle() {
 
   if (!mounted)
     return (
-      <div className="text-xl text-light-link hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover">
+      <div className="text-xl text-light-link dark:text-dark-link">
         <AiOutlineLoading3Quarters />
       </div>
     );
 
   if (resolvedTheme === "light") {
     return (
-      <button className="text-xl text-light-link hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover">
+      <button className="text-xl text-light-link transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover">
         <FiMoon onClick={() => setTheme("dark")} />
       </button>
     );
@@ -28,7 +28,7 @@ export default function ThemeToggle() {
 
   if (resolvedTheme === "dark") {
     return (
-      <button className="text-xl text-light-link hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover">
+      <button className="text-xl text-light-link transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover">
         <FiSun onClick={() => setTheme("light")} />
       </button>
     );

@@ -23,13 +23,13 @@ export default function Header() {
         >
           <Link
             href="/about"
-            className="text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+            className="text-light-link underline transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
           >
             About
           </Link>
           <Link
             href="/tips"
-            className="text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+            className="text-light-link underline transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
           >
             Tips
           </Link>
