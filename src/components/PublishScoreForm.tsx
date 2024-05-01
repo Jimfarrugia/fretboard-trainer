@@ -103,6 +103,8 @@ export default function PublishScoreForm({
                 type="text"
                 className="input input-bordered mb-6 w-full max-w-xs border-light-heading bg-light-darkerBg text-light-body transition-colors placeholder:text-sm placeholder:text-light-link hover:border-light-hover hover:text-light-hover focus:outline-light-link dark:border-dark-heading dark:bg-dark-bg dark:text-dark-body dark:outline-dark-highlight placeholder:dark:text-dark-heading hover:dark:border-dark-hover"
                 placeholder="Username (optional)"
+                autoComplete="new-password"
+                autoFocus
                 maxLength={16}
                 onChange={(e) => handleUsernameChange(e)}
                 value={username}
