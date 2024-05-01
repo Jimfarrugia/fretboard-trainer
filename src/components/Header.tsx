@@ -44,6 +44,7 @@ export default function Header() {
             data-testid="header-nav-dropdown-button"
             tabIndex={0}
             role="button"
+            aria-label="Open dropdown"
             className="btn btn-circle scale-75 border-none bg-light-darkerBg text-light-heading hover:bg-light-link hover:text-light-bg dark:bg-dark-darkerBg dark:text-dark-link hover:dark:bg-dark-hover hover:dark:text-dark-darkerBg"
           >
             <HiOutlineDotsVertical className="text-xl" />
