@@ -89,12 +89,10 @@ export default function Fretboard({
       correctAnswer.string === string && // it was on this string
       correctAnswer.fret === fret // it was on this fret
     ) {
-      return (
         // if it was sharp, display as a sharp
-        (correctAnswer.challenge.includes("#") && noteAsSharp) ||
+      if (correctAnswer.challenge.includes("#")) return noteAsSharp;
         // if it was flat, display as a flat
-        (correctAnswer.challenge.includes("b") && noteAsFlat)
-      );
+      if (correctAnswer.challenge.includes("b")) return noteAsFlat;
     }
     //* The code below handles everything other than the edge case described above.
     switch (true) {
