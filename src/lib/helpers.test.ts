@@ -14,6 +14,7 @@ import {
   ordinal,
   capitalize,
   filterScores,
+  translateNote,
 } from "./helpers";
 import { notesWithSharps, notesWithSharpsAndFlats } from "./constants";
 import { Score, ScoreFilters } from "./types";
@@ -468,5 +469,19 @@ describe("filterScores", () => {
     );
     expect(filterScores(moreSampleScores, filters)).toHaveLength(4);
     expect(filterScores(moreSampleScores, filters)).toEqual(expectedScores);
+  });
+});
+
+describe("translateNote", () => {
+  it("returns the input string if given a natural note", () => {
+    expect(translateNote("A")).toBe("A");
+  });
+
+  it("replaces '#' character with the word 'sharp'", () => {
+    expect(translateNote("A#")).toBe("A sharp");
+  });
+
+  it("replaces 'b' character with the word 'flat'", () => {
+    expect(translateNote("Ab")).toBe("A flat");
   });
 });
