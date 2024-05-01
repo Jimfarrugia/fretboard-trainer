@@ -167,3 +167,11 @@ export const filterScores = (scores: Score[], filters: ScoreFilters) => {
     return isInstrumentMatch && isHardModeMatch;
   });
 };
+
+// Translate a note to a human-readable string for screen readers
+// eg. "F#" => "F sharp", "Db" => "D flat"
+export const translateNote = (note: string) => {
+  return note.length < 2
+    ? note
+    : note.replace("#", " sharp").replace("b", " flat");
+};
