@@ -11,26 +11,27 @@ export default function ThemeToggle() {
 
   useEffect(() => setMounted(true), []);
 
+  const handleClick = () =>
+    setTheme(resolvedTheme === "light" ? "dark" : "light");
+
   if (!mounted)
     return (
       <div className="text-xl text-light-link dark:text-dark-link">
-        <AiOutlineLoading3Quarters />
+        <AiOutlineLoading3Quarters aria-disabled />
       </div>
     );
 
-  if (resolvedTheme === "light") {
-    return (
-      <button className="text-xl text-light-link transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover">
-        <FiMoon onClick={() => setTheme("dark")} />
-      </button>
-    );
-  }
-
-  if (resolvedTheme === "dark") {
-    return (
-      <button className="text-xl text-light-link transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover">
-        <FiSun onClick={() => setTheme("light")} />
-      </button>
-    );
-  }
+  return (
+    <button
+      aria-label={`${resolvedTheme === "light" ? "dark" : "light"} mode`}
+      className="text-xl text-light-link transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+      onClick={handleClick}
+    >
+      {resolvedTheme === "light" ? (
+        <FiMoon aria-label="dark mode" />
+      ) : (
+        <FiSun aria-label="light mode" />
+      )}
+    </button>
+  );
 }
