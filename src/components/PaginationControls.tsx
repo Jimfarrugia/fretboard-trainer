@@ -14,6 +14,7 @@ export default function PaginationControls({
   return (
     <div className="mt-4 flex justify-center gap-1 text-sm">
       <button
+        aria-label="Previous page"
         disabled={currentPage === 1}
         onClick={() => setCurrentPage((prev) => prev - 1)}
         className={`${
@@ -22,7 +23,7 @@ export default function PaginationControls({
             : "text-light-link transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
         } mr-1.5 text-xs`}
       >
-        <FaChevronLeft />
+        <FaChevronLeft aria-hidden />
       </button>
       {pageNumbers.map((pageNumber) => {
         const parsedPageNumber = parseInt(pageNumber);
@@ -46,6 +47,7 @@ export default function PaginationControls({
         }
       })}
       <button
+        aria-label="Next page"
         disabled={currentPage === totalPages}
         onClick={() => setCurrentPage((prev) => prev + 1)}
         className={`${
@@ -54,7 +56,7 @@ export default function PaginationControls({
             : "text-light-link hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
         } ml-1.5 text-xs transition-colors`}
       >
-        <FaChevronRight />
+        <FaChevronRight aria-hidden />
       </button>
     </div>
   );

@@ -118,13 +118,22 @@ export default function Leaderboard({
                       <div className="flex items-center gap-1">
                         {score.points}
                         {score.points === goldScore && (
-                          <FaMedal className="text-md text-gold" />
+                          <FaMedal
+                            aria-label="gold medal"
+                            className="text-md text-gold"
+                          />
                         )}
                         {score.points === silverScore && (
-                          <FaMedal className="text-md text-silver" />
+                          <FaMedal
+                            aria-label="silver medal"
+                            className="text-md text-silver"
+                          />
                         )}
                         {score.points === bronzeScore && (
-                          <FaMedal className="text-md text-bronze" />
+                          <FaMedal
+                            aria-label="bronze medal"
+                            className="text-md text-bronze"
+                          />
                         )}
                       </div>
                     </div>

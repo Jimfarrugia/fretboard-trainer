@@ -17,7 +17,7 @@ export default function ThemeToggle() {
   if (!mounted)
     return (
       <div className="text-xl text-light-link dark:text-dark-link">
-        <AiOutlineLoading3Quarters aria-disabled />
+        <AiOutlineLoading3Quarters aria-hidden />
       </div>
     );
 

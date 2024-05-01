@@ -125,15 +125,16 @@ export default function History() {
               <tr className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg">
                 <th className="pr-2">
                   <button
+                    aria-label={`Sort by date: ${sortByDate && sortByAscending ? "descending" : "ascending"}`}
                     className="flex items-center gap-1 transition-colors hover:text-light-link hover:dark:text-dark-hover"
                     onClick={handleClickDate}
                   >
                     Date
                     {sortByDate && sortByAscending && (
-                      <TiArrowSortedUp className="text-md" />
+                      <TiArrowSortedUp aria-hidden className="text-md" />
                     )}
                     {sortByDate && !sortByAscending && (
-                      <TiArrowSortedDown className="text-md" />
+                      <TiArrowSortedDown aria-hidden className="text-md" />
                     )}
                   </button>
                 </th>
@@ -141,6 +142,7 @@ export default function History() {
                 <th className="p-2">Tuning</th>
                 <th className="p-2 text-center">
                   <button
+                    aria-label={`Sort by points: ${sortByPoints && sortByAscending ? "descending" : "ascending"}`}
                     className="flex w-full items-center justify-center gap-1 transition-colors hover:text-light-link hover:dark:text-dark-hover"
                     onClick={handleClickScore}
                   >
@@ -172,7 +174,10 @@ export default function History() {
                       <div className="flex items-center gap-1">
                         {score.points}
                         {score.points === highScore && score.points > 0 && (
-                          <FaMedal className="text-md text-light-highlight dark:text-dark-highlight" />
+                          <FaMedal
+                            aria-label="high score"
+                            className="text-md text-light-highlight dark:text-dark-highlight"
+                          />
                         )}
                       </div>
                     </div>

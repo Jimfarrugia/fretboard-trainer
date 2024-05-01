@@ -169,7 +169,7 @@ export default function Game() {
         <div
           className={`flex ${!gameInProgress && !gameOver && "hidden"} items-center gap-1`}
         >
-          <BsStopwatch className="text-xl" />
+          <BsStopwatch aria-label="time left" className="text-xl" />
           <span>{timer}</span>
         </div>
         {/* challenge/start btn */}
@@ -199,6 +199,7 @@ export default function Game() {
           ) : (
             <button
               type="button"
+              aria-label="start game"
               className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg disabled:text-light-body disabled:opacity-40 dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg"
               onClick={startGame}
               disabled={isStartDisabled}
@@ -212,7 +213,7 @@ export default function Game() {
           className={`flex ${!gameInProgress && !gameOver && "hidden"} items-center gap-1`}
         >
           <span data-testid="current-score">{currentScore}</span>
-          <FaRegCircleCheck className="text-xl" />
+          <FaRegCircleCheck aria-label="current score" className="text-xl" />
         </div>
       </div>
       {/* Game Over Card */}
@@ -243,6 +244,7 @@ export default function Game() {
           {gameInProgress ? (
             <button
               type="button"
+              aria-label="quit game"
               className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg"
               onClick={() => setQuitGame(true)}
             >
@@ -251,10 +253,11 @@ export default function Game() {
           ) : (
             <button
               type="button"
+              aria-label="show/hide settings"
               className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg"
               onClick={() => setShowSettings(!showSettings)}
             >
-              {showSettings && <IoClose className="text-xl" />}
+              {showSettings && <IoClose aria-hidden className="text-xl" />}
               {showSettings ? "Hide Settings" : "Settings"}
             </button>
           )}
@@ -264,6 +267,7 @@ export default function Game() {
           <button
             data-testid="skip-button"
             type="button"
+            aria-label="skip this note"
             className={`${(gameInProgress && allowSkip) || "hidden"} btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg`}
             onClick={() => {
               hideNoteLabels();
@@ -276,7 +280,7 @@ export default function Game() {
         {/* high score */}
         <div className={`flex items-center gap-1 ${gameOver && "opacity-25"}`}>
           <span>{highScore}</span>
-          <FaMedal className="text-xl" />
+          <FaMedal aria-label="high score" className="text-xl" />
         </div>
       </div>
       {/* Settings */}

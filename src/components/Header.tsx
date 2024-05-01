@@ -10,9 +10,9 @@ export default function Header() {
       data-testid="header-nav"
       className="flex items-center justify-between pb-6 pt-4 sm:pb-12 sm:pt-8"
     >
-      <Link href="/">
+      <Link tabIndex={0} href="/">
         <h1 className="flex items-center gap-2 text-lg font-bold text-light-heading dark:text-dark-heading sm:text-xl">
-          <IoSchoolOutline className="text-xl sm:text-2xl" />
+          <IoSchoolOutline aria-label="logo" className="text-xl sm:text-2xl" />
           Fretboard Trainer
         </h1>
       </Link>
