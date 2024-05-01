@@ -38,7 +38,7 @@ export default function UserModal({
           priority={priority}
         />
       </button>
-      <dialog id="user-modal" className="modal">
+      <dialog tabIndex={-1} id="user-modal" className="modal">
         <div className="modal-box  border-2 border-light-heading bg-light-bg text-light-body dark:border-dark-heading dark:bg-dark-darkerBg dark:text-dark-body">
           <div className="flex flex-col items-center gap-4">
             <p className="text-lg font-bold">You are signed in as:</p>
@@ -55,7 +55,7 @@ export default function UserModal({
           </div>
         </div>
         <form method="dialog" className="modal-backdrop">
-          <button>close</button>
+          <button tabIndex={-1}>close</button>
         </form>
       </dialog>
     </div>
