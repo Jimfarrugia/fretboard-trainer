@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { generateFretboard, hideNoteLabels } from "@/lib/helpers";
+import {
+  generateFretboard,
+  hideNoteLabels,
+  translateNote,
+} from "@/lib/helpers";
 import { useSettings } from "@/context/SettingsContext";
 import "./Fretboard.css";
 
@@ -89,9 +93,9 @@ export default function Fretboard({
       correctAnswer.string === string && // it was on this string
       correctAnswer.fret === fret // it was on this fret
     ) {
-        // if it was sharp, display as a sharp
+      // if it was sharp, display as a sharp
       if (correctAnswer.challenge.includes("#")) return noteAsSharp;
-        // if it was flat, display as a flat
+      // if it was flat, display as a flat
       if (correctAnswer.challenge.includes("b")) return noteAsFlat;
     }
     //* The code below handles everything other than the edge case described above.
@@ -141,6 +145,7 @@ export default function Fretboard({
             <div className="nut">
               {strings.map((string, stringIndex) => {
                 const note = fretboard[stringIndex][0];
+                const noteLabelText = labelText(note, stringIndex + 1, 0);
                 const stringEnabled = enabledStrings[stringIndex];
                 return (
                   <div key={`string-${stringIndex + 1}`} className="string">
@@ -148,6 +153,7 @@ export default function Fretboard({
                       className={`${stringEnabled ? "" : "opacity-40 dark:opacity-10"}`}
                     />
                     <button
+                      aria-label={translateNote(noteLabelText)}
                       value={note}
                       disabled={!gameInProgress || !stringEnabled}
                       onClick={(e) => handleClick(e, stringIndex + 1, 0)}
@@ -159,7 +165,7 @@ export default function Fretboard({
                           (e.target as HTMLElement).closest("button")?.click();
                         }}
                       >
-                        {labelText(note, stringIndex + 1, 0)}
+                        {noteLabelText}
                       </span>
                     </button>
                   </div>
@@ -171,6 +177,11 @@ export default function Fretboard({
                 <div key={`fret-${fretIndex + 1}`} className="fret">
                   {strings.map((string, stringIndex) => {
                     const note = fretboard[stringIndex][fretIndex + 1];
+                    const noteLabelText = labelText(
+                      note,
+                      stringIndex + 1,
+                      fretIndex + 1,
+                    );
                     const stringEnabled = enabledStrings[stringIndex];
                     return (
                       <div key={`string-${stringIndex + 1}`} className="string">
@@ -178,6 +189,7 @@ export default function Fretboard({
                           className={`${stringEnabled ? "" : "opacity-40 dark:opacity-10"}`}
                         />
                         <button
+                          aria-label={translateNote(noteLabelText)}
                           value={note}
                           disabled={!gameInProgress || !stringEnabled}
                           onClick={(e) =>
@@ -193,7 +205,7 @@ export default function Fretboard({
                                 ?.click();
                             }}
                           >
-                            {labelText(note, stringIndex + 1, fretIndex + 1)}
+                            {noteLabelText}
                           </span>
                         </button>
                       </div>
