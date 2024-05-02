@@ -5,7 +5,8 @@ import { useState } from "react";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { FaMedal } from "react-icons/fa6";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
-import { useScoreFilters } from "@/lib/hooks";
+import { MdSignalWifiConnectedNoInternet0 } from "react-icons/md";
+import { useScoreFilters, useOnlineStatus } from "@/lib/hooks";
 import {
   dateFromTimestamp,
   sortScoresByTimestamp,
@@ -22,6 +23,7 @@ export default function History() {
   const session = useSession();
   const userId = session?.data?.user?.id;
   const { scores } = useScores();
+  const { isOnline } = useOnlineStatus();
 
   // Sorting
   const [sortByDate, setSortByDate] = useState(true);
@@ -89,6 +91,19 @@ export default function History() {
     <></>
   ) : (
     <>
+      {isOnline === false && (
+        <div
+          role="alert"
+          className="alert mt-6 border-error bg-light-highlight text-light-body dark:bg-dark-darkerBg dark:text-dark-body"
+        >
+          <MdSignalWifiConnectedNoInternet0 className="text-2xl text-error" />
+          <p>
+            {
+              "You are currently offline. You can continue to play and your scores will be stored locally. Your scores will be saved as soon as you're back online and signed-in."
+            }
+          </p>
+        </div>
+      )}
       <HistoryHeader userId={userId} />
       <div className="overflow-x-auto">
         <ScoreFilterControls
