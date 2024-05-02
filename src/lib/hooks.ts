@@ -30,8 +30,6 @@ export const useLocalStorageState = <T extends unknown>(
   return [state, setState];
 };
 
-export default useLocalStorageState;
-
 /**
  * useScoreFilters
  * Custom hook to manage and update score filters state.
@@ -83,4 +81,34 @@ export const useScoreFilters = () => {
     setHardModeFilter,
     resetFilters,
   };
+};
+
+/**
+ * useOnlineStatus
+ * Custom hook to check if the user is connected to the internet.
+ * $isOnline will change to false if the user goes offline and true if the user goes online.
+ */
+export const useOnlineStatus = () => {
+  // Defaults to undefined - this is the 'loading' state
+  const [isOnline, setIsOnline] = useState<boolean | undefined>(undefined);
+
+  useEffect(() => {
+    // Only run in the client
+    if (typeof window !== "undefined") {
+      const handleOnlineStatus = () => {
+        setIsOnline(navigator.onLine);
+      };
+      // Add event listeners
+      window.addEventListener("online", handleOnlineStatus);
+      window.addEventListener("offline", handleOnlineStatus);
+      // Set online status on initial load
+      setIsOnline(navigator.onLine);
+      return () => {
+        window.removeEventListener("online", handleOnlineStatus);
+        window.removeEventListener("offline", handleOnlineStatus);
+      };
+    }
+  }, []);
+
+  return { isOnline };
 };
