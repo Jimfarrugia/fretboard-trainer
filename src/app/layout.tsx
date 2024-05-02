@@ -7,10 +7,41 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const APP_NAME = "Fretboard Trainer";
+const APP_DEFAULT_TITLE = "Fretboard Trainer";
+const APP_TITLE_TEMPLATE = "%s - Fretboard Trainer";
+const APP_DESCRIPTION =
+  "Train your fretboard knowledge with Fretboard Trainer.";
+
 export const metadata: Metadata = {
   title: "Fretboard Trainer",
   description: "Train your fretboard knowledge!",
   manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: APP_DEFAULT_TITLE,
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    siteName: APP_NAME,
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary",
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
 };
 
 export const viewport: Viewport = {

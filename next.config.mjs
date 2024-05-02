@@ -1,3 +1,5 @@
+import withSerwistInit from "@serwist/next";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -41,4 +43,10 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+const withSerwist = withSerwistInit({
+  swSrc: "/src/app/sw.ts", // where the service worker src is
+  swDest: "public/sw.js", // where the service worker code will end up
+  reloadOnOnline: true,
+});
+
+export default withSerwist(nextConfig);
