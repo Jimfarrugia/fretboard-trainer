@@ -37,4 +37,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.vscode/settings.json
+# vscode workspace
+.vscode
+
+# service worker
+/public/sw.js
