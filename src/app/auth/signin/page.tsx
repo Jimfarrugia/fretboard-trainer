@@ -1,13 +1,18 @@
+"use client";
 import Image from "next/image";
+import Link from "next/link";
 import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+import { useSession } from "next-auth/react";
+import { MdSignalWifiConnectedNoInternet0 } from "react-icons/md";
+import { useOnlineStatus } from "@/lib/hooks";
 import signInWithGoogle from "@/actions/signInWithGoogle";
 import googleLogo from "@/../public/google-logo.svg";
 
-export default async function SignInPage() {
-  const session = await auth();
+export default function SignInPage() {
+  const session = useSession();
+  const { isOnline } = useOnlineStatus();
 
-  if (session) {
+  if (session.data?.user?.id) {
     redirect("/");
   }
 
@@ -22,21 +27,41 @@ export default async function SignInPage() {
           </div>
 
           <div className="flex flex-col items-center gap-3">
-            <form action={signInWithGoogle}>
-              <button
-                className="flex w-fit gap-3 rounded-lg border bg-light-bg px-4 py-2 text-light-body transition duration-150 hover:shadow dark:border-dark-heading dark:bg-dark-darkerBg dark:text-dark-body"
-                type="submit"
-              >
-                <Image
-                  height={24}
-                  width={24}
-                  src={googleLogo}
-                  loading="lazy"
-                  alt="google logo"
-                />
-                <span>Sign in with Google</span>
-              </button>
-            </form>
+            {isOnline === undefined ? (
+              <p>Loading...</p>
+            ) : isOnline === false ? (
+              <div className="flex flex-col gap-3 text-center">
+                <p>
+                  <MdSignalWifiConnectedNoInternet0 className="mx-auto text-5xl text-error" />
+                </p>
+                <p>You are currently offline.</p>
+                <p>{"You can sign in when you're back online."}</p>
+                <p>
+                  <Link
+                    className="text-light-link underline transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+                    href="/"
+                  >
+                    Go Back
+                  </Link>
+                </p>
+              </div>
+            ) : (
+              <form action={signInWithGoogle}>
+                <button
+                  className="flex w-fit gap-3 rounded-lg border bg-light-bg px-4 py-2 text-light-body transition duration-150 hover:shadow dark:border-dark-heading dark:bg-dark-darkerBg dark:text-dark-body"
+                  type="submit"
+                >
+                  <Image
+                    height={24}
+                    width={24}
+                    src={googleLogo}
+                    loading="lazy"
+                    alt="google logo"
+                  />
+                  <span>Sign in with Google</span>
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>
