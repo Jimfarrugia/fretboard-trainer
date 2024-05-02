@@ -10,6 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Fretboard Trainer",
   description: "Train your fretboard knowledge!",
+  manifest: "/manifest.json",
 };
 
 export const viewport: Viewport = {
