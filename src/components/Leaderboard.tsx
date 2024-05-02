@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { FaMedal } from "react-icons/fa6";
 import { HiOutlineLightBulb } from "react-icons/hi";
-import { useScoreFilters } from "@/lib/hooks";
+import { useScoreFilters, useOnlineStatus } from "@/lib/hooks";
 import { Score } from "@/lib/types";
 import { filterScores, dateFromTimestamp, capitalize } from "@/lib/helpers";
 import PaginationControls from "./PaginationControls";
@@ -160,12 +160,14 @@ export default function Leaderboard({
 }
 
 function LeaderboardHeader({ userId }: { userId: string | undefined }) {
+  const { isOnline } = useOnlineStatus();
+
   return (
     <div className="pb-8 pt-12 sm:flex sm:items-center sm:justify-between">
       <h2 className="mb-1 text-2xl font-bold text-light-heading dark:text-dark-heading sm:mb-0">
         Leaderboard
       </h2>
-      {!userId && (
+      {!userId && isOnline && (
         <p className="flex items-center gap-1 text-xs">
           <HiOutlineLightBulb className="text-lg text-light-highlight dark:text-dark-highlight" />
           <Link

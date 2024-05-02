@@ -104,7 +104,7 @@ export default function History() {
           </p>
         </div>
       )}
-      <HistoryHeader userId={userId} />
+      <HistoryHeader userId={userId} isOnline={isOnline} />
       <div className="overflow-x-auto">
         <ScoreFilterControls
           scores={scores}
@@ -218,13 +218,19 @@ export default function History() {
   );
 }
 
-function HistoryHeader({ userId }: { userId: string | undefined }) {
+function HistoryHeader({
+  userId,
+  isOnline,
+}: {
+  userId: string | undefined;
+  isOnline: boolean | undefined;
+}) {
   return (
     <div className="pb-8 pt-12 sm:flex sm:items-center sm:justify-between">
       <h2 className="mb-1 text-2xl font-bold text-light-heading dark:text-dark-heading sm:mb-0">
         History
       </h2>
-      {!userId && (
+      {!userId && isOnline && (
         <p className="flex items-center gap-1 text-xs">
           <HiOutlineLightBulb className="text-lg text-light-highlight dark:text-dark-highlight" />
           <Link
