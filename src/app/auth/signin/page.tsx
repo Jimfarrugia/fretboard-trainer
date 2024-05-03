@@ -28,7 +28,7 @@ export default function SignInPage() {
 
           <div className="flex flex-col items-center gap-3">
             {isOnline === undefined ? (
-              <p>Loading...</p>
+              <span className="loading loading-spinner loading-lg text-light-darkerBg dark:text-dark-heading"></span>
             ) : isOnline === false ? (
               <div className="flex flex-col gap-3 text-center">
                 <p>

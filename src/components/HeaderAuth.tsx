@@ -15,7 +15,9 @@ export default function HeaderAuth({
   const { isOnline } = useOnlineStatus();
 
   if (isOnline === undefined) {
-    return <p>Loading...</p>;
+    return (
+      <span className="loading loading-spinner loading-md text-light-darkerBg dark:text-dark-heading"></span>
+    );
   }
 
   // If offline, show an indicator (and tooltip on non-mobile) instead of auth buttons

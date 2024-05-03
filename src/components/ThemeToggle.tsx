@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FiSun, FiMoon } from "react-icons/fi";
 
 export default function ThemeToggle() {
@@ -16,9 +15,7 @@ export default function ThemeToggle() {
 
   if (!mounted)
     return (
-      <div className="text-xl text-light-link dark:text-dark-link">
-        <AiOutlineLoading3Quarters aria-hidden />
-      </div>
+      <span className="loading loading-spinner loading-md text-light-darkerBg dark:text-dark-heading"></span>
     );
 
   return (
