@@ -15,7 +15,7 @@ export default function TipsPage() {
       <iframe
         width="560"
         height="315"
-        className="mb-8 h-auto  min-h-56 w-full sm:min-h-96"
+        className="mb-8 h-auto min-h-56 w-full sm:min-h-96"
         src="https://www.youtube.com/embed/4h2M00lWxBQ?si=PGkiDRzR629ZviPa"
         title="The FRETBOARD memorization HACK"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
