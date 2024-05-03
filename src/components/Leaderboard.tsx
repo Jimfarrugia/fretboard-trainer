@@ -61,7 +61,7 @@ export default function Leaderboard({
   ) : (
     <>
       <LeaderboardHeader userId={userId} />
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto sm:overflow-visible">
         <ScoreFilterControls
           scores={topScores}
           filters={filters}
@@ -80,7 +80,7 @@ export default function Leaderboard({
             <p className="pb-4 pt-2">
               <button
                 type="button"
-                className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg disabled:text-light-body disabled:opacity-40 dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg"
+                className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link disabled:text-light-body disabled:opacity-40 dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg focus-visible:dark:outline-dark-highlight"
                 onClick={resetFilters}
               >
                 Reset Filters
@@ -171,7 +171,7 @@ function LeaderboardHeader({ userId }: { userId: string | undefined }) {
         <p className="flex items-center gap-1 text-xs">
           <HiOutlineLightBulb className="text-lg text-light-highlight dark:text-dark-highlight" />
           <Link
-            className="font-bold text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+            className="font-bold text-light-link underline transition-colors hover:text-light-hover focus-visible:outline-offset-2 focus-visible:outline-light-link dark:text-dark-link dark:hover:text-dark-hover focus-visible:dark:outline-dark-highlight"
             href="/auth/signin"
           >
             Sign in

@@ -10,7 +10,11 @@ export default function Header() {
       data-testid="header-nav"
       className="flex items-center justify-between pb-6 pt-4 sm:pb-12 sm:pt-8"
     >
-      <Link tabIndex={0} href="/">
+      <Link
+        className="focus-visible:outline-offset-4 focus-visible:outline-light-link focus-visible:dark:outline-dark-highlight"
+        tabIndex={0}
+        href="/"
+      >
         <h1 className="flex items-center gap-2 text-lg font-bold text-light-heading dark:text-dark-heading sm:text-xl">
           <IoSchoolOutline aria-label="logo" className="text-xl sm:text-2xl" />
           Fretboard Trainer
@@ -23,13 +27,13 @@ export default function Header() {
         >
           <Link
             href="/about"
-            className="text-light-link underline transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+            className="text-light-link underline transition-colors hover:text-light-hover focus-visible:outline-offset-4 focus-visible:outline-light-link dark:text-dark-link dark:hover:text-dark-hover focus-visible:dark:outline-dark-highlight"
           >
             About
           </Link>
           <Link
             href="/tips"
-            className="text-light-link underline transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+            className="text-light-link underline transition-colors hover:text-light-hover focus-visible:outline-offset-4 focus-visible:outline-light-link dark:text-dark-link dark:hover:text-dark-hover focus-visible:dark:outline-dark-highlight"
           >
             Tips
           </Link>
@@ -51,7 +55,7 @@ export default function Header() {
           </div>
           <ul
             data-testid="header-nav-dropdown-links"
-            tabIndex={0}
+            tabIndex={-1}
             className="menu dropdown-content z-30 w-52 rounded-box bg-light-darkerBg p-2 text-light-heading shadow dark:border-2 dark:border-dark-heading dark:bg-dark-darkerBg dark:text-dark-link"
           >
             <li>

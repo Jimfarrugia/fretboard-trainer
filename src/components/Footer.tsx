@@ -9,13 +9,13 @@ export default function Footer() {
       <nav data-testid="footer-nav-links" className="grid grid-flow-col gap-6">
         <Link
           href="/about"
-          className="text-light-link underline transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+          className="text-light-link underline transition-colors hover:text-light-hover focus-visible:outline-offset-4 focus-visible:outline-light-link dark:text-dark-link dark:hover:text-dark-hover focus-visible:dark:outline-dark-highlight"
         >
           About
         </Link>
         <Link
           href="/tips"
-          className="text-light-link underline transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+          className="text-light-link underline transition-colors hover:text-light-hover focus-visible:outline-offset-4 focus-visible:outline-light-link dark:text-dark-link dark:hover:text-dark-hover focus-visible:dark:outline-dark-highlight"
         >
           Tips
         </Link>
@@ -30,7 +30,7 @@ export default function Footer() {
         />
         <Link
           href="https://jimfarrugia.com.au"
-          className="pt-2 text-light-link underline transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+          className="pt-2 text-light-link underline transition-colors hover:text-light-hover focus-visible:outline-offset-4 focus-visible:outline-light-link dark:text-dark-link dark:hover:text-dark-hover focus-visible:dark:outline-dark-highlight"
         >
           Jim Farrugia
         </Link>

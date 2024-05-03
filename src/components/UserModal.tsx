@@ -25,6 +25,7 @@ export default function UserModal({
   return (
     <div className="flex items-center gap-4">
       <button
+        className="rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-light-link focus-visible:dark:outline-dark-highlight"
         onClick={() =>
           (document.getElementById("user-modal") as Modal).showModal()
         }

@@ -105,7 +105,7 @@ export default function History() {
         </div>
       )}
       <HistoryHeader userId={userId} isOnline={isOnline} />
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto sm:overflow-visible">
         <ScoreFilterControls
           scores={scores}
           filters={filters}
@@ -124,7 +124,7 @@ export default function History() {
             <p className="pb-4 pt-2">
               <button
                 type="button"
-                className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg disabled:text-light-body disabled:opacity-40 dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg"
+                className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link disabled:text-light-body disabled:opacity-40 dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg focus-visible:dark:outline-dark-highlight"
                 onClick={resetFilters}
               >
                 Reset Filters
@@ -141,7 +141,7 @@ export default function History() {
                 <th className="pr-2">
                   <button
                     aria-label={`Sort by date: ${sortByDate && sortByAscending ? "descending" : "ascending"}`}
-                    className="flex items-center gap-1 transition-colors hover:text-light-link hover:dark:text-dark-hover"
+                    className="flex items-center gap-1 rounded-sm transition-colors hover:text-light-link focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-light-link hover:dark:text-dark-hover focus-visible:dark:outline-dark-highlight"
                     onClick={handleClickDate}
                   >
                     Date
@@ -158,7 +158,7 @@ export default function History() {
                 <th className="p-2 text-center">
                   <button
                     aria-label={`Sort by points: ${sortByPoints && sortByAscending ? "descending" : "ascending"}`}
-                    className="flex w-full items-center justify-center gap-1 transition-colors hover:text-light-link hover:dark:text-dark-hover"
+                    className="flex w-full items-center justify-center gap-1 rounded-sm transition-colors hover:text-light-link focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-light-link hover:dark:text-dark-hover focus-visible:dark:outline-dark-highlight"
                     onClick={handleClickScore}
                   >
                     Score
@@ -234,7 +234,7 @@ function HistoryHeader({
         <p className="flex items-center gap-1 text-xs">
           <HiOutlineLightBulb className="text-lg text-light-highlight dark:text-dark-highlight" />
           <Link
-            className="font-bold text-light-link underline hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+            className="font-bold text-light-link underline transition-colors hover:text-light-hover focus-visible:outline-offset-2 focus-visible:outline-light-link dark:text-dark-link dark:hover:text-dark-hover focus-visible:dark:outline-dark-highlight"
             href="/auth/signin"
           >
             Sign in

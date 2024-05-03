@@ -35,7 +35,7 @@ export default function ScoreFilterControls({
   ) : (
     <div className="mb-4 flex items-center gap-2 [&>button]:border-none [&>button]:bg-light-darkerBg [&>button]:font-medium [&>button]:text-light-bg [&>button]:hover:bg-light-darkerBg [&>button]:dark:bg-dark-darkerBg [&>button]:dark:text-dark-heading [&>button]:hover:dark:bg-dark-darkerBg">
       <button
-        className={`${noActiveFilters ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
+        className={`${noActiveFilters ? "active " : ""} btn btn-xs hover:text-light-link focus-visible:outline-light-link hover:dark:text-dark-hover focus-visible:dark:outline-dark-highlight`}
         value="all"
         onClick={resetFilters}
       >
@@ -43,7 +43,7 @@ export default function ScoreFilterControls({
       </button>
       {isGuitarScores && isMultipleInstruments && (
         <button
-          className={`${guitar ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
+          className={`${guitar ? "active " : ""} btn btn-xs hover:text-light-link focus-visible:outline-light-link hover:dark:text-dark-hover focus-visible:dark:outline-dark-highlight`}
           onClick={() => {
             setGuitarFilter(!guitar);
             setBassFilter(false);
@@ -55,7 +55,7 @@ export default function ScoreFilterControls({
       )}
       {isBassScores && isMultipleInstruments && (
         <button
-          className={`${bass ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
+          className={`${bass ? "active " : ""} btn btn-xs hover:text-light-link focus-visible:outline-light-link hover:dark:text-dark-hover focus-visible:dark:outline-dark-highlight`}
           onClick={() => {
             setGuitarFilter(false);
             setBassFilter(!bass);
@@ -67,7 +67,7 @@ export default function ScoreFilterControls({
       )}
       {isUkuleleScores && isMultipleInstruments && (
         <button
-          className={`${ukulele ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
+          className={`${ukulele ? "active " : ""} btn btn-xs hover:text-light-link focus-visible:outline-light-link hover:dark:text-dark-hover focus-visible:dark:outline-dark-highlight`}
           onClick={() => {
             setGuitarFilter(false);
             setBassFilter(false);
@@ -79,7 +79,7 @@ export default function ScoreFilterControls({
       )}
       {isHardModeScores && (
         <button
-          className={`${hardMode ? "active " : ""} btn btn-xs hover:text-light-link hover:dark:text-dark-hover`}
+          className={`${hardMode ? "active " : ""} btn btn-xs hover:text-light-link focus-visible:outline-light-link hover:dark:text-dark-hover focus-visible:dark:outline-dark-highlight`}
           onClick={() => setHardModeFilter(!hardMode)}
         >
           Hard Mode

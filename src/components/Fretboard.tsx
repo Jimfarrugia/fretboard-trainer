@@ -153,6 +153,7 @@ export default function Fretboard({
                       className={`${stringEnabled ? "" : "opacity-40 dark:opacity-10"}`}
                     />
                     <button
+                      className="focus-visible:outline focus-visible:outline-4 focus-visible:outline-light-link focus-visible:dark:outline-dark-highlight"
                       aria-label={translateNote(noteLabelText)}
                       value={note}
                       disabled={!gameInProgress || !stringEnabled}
@@ -189,6 +190,7 @@ export default function Fretboard({
                           className={`${stringEnabled ? "" : "opacity-40 dark:opacity-10"}`}
                         />
                         <button
+                          className="z-10 focus-visible:outline focus-visible:outline-4 focus-visible:outline-light-link focus-visible:dark:outline-dark-highlight"
                           aria-label={translateNote(noteLabelText)}
                           value={note}
                           disabled={!gameInProgress || !stringEnabled}

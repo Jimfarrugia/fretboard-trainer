@@ -107,7 +107,7 @@ export default function GameSettings({
             </span>
           </div>
           <select
-            className="select select-bordered border-light-link bg-light-bg text-light-link transition-colors hover:border-light-hover hover:text-light-hover focus:outline-light-link dark:border-dark-heading dark:bg-dark-darkerBg dark:text-dark-link dark:outline-dark-highlight hover:dark:border-dark-hover hover:dark:text-dark-hover"
+            className="select select-bordered border-light-link bg-light-bg text-light-link transition-colors hover:border-light-hover hover:text-light-hover focus:border-light-hover focus:text-light-hover focus:outline-none  focus-visible:outline-light-link dark:border-dark-heading dark:bg-dark-darkerBg dark:text-dark-link hover:dark:border-dark-hover hover:dark:text-dark-hover focus:dark:border-dark-hover focus:dark:text-dark-hover focus-visible:dark:outline-dark-highlight"
             defaultValue={instrument}
             onChange={(e) =>
               handleChangeInstrument(e.target.value as Instrument)
@@ -128,7 +128,7 @@ export default function GameSettings({
             </span>
           </div>
           <select
-            className="select select-bordered border-light-link bg-light-bg text-light-link transition-colors hover:border-light-hover hover:text-light-hover focus:outline-light-link dark:border-dark-heading dark:bg-dark-darkerBg dark:text-dark-link dark:outline-dark-highlight hover:dark:border-dark-hover hover:dark:text-dark-hover"
+            className="select select-bordered border-light-link bg-light-bg text-light-link transition-colors hover:border-light-hover hover:text-light-hover focus:border-light-hover focus:text-light-hover focus:outline-none  focus-visible:outline-light-link dark:border-dark-heading dark:bg-dark-darkerBg dark:text-dark-link hover:dark:border-dark-hover hover:dark:text-dark-hover focus:dark:border-dark-hover focus:dark:text-dark-hover focus-visible:dark:outline-dark-highlight"
             value={tuning.name}
             onChange={(e) => handleChangeTuning(e)}
           >
@@ -177,7 +177,7 @@ export default function GameSettings({
                   disabled={hardMode}
                   checked={enabledStrings[i]}
                   onChange={(e) => handleChangeEnabledStrings(i)}
-                  className="h-5 w-5 border-light-link accent-light-link dark:accent-dark-highlight sm:h-6 sm:w-6"
+                  className="h-5 w-5 border-light-link accent-light-link outline-offset-4 outline-light-link dark:accent-dark-highlight dark:outline-dark-highlight sm:h-6 sm:w-6"
                 />
               </div>
             );
@@ -198,7 +198,7 @@ export default function GameSettings({
             type="checkbox"
             checked={hardMode}
             onChange={(e) => handleChangeHardMode(e)}
-            className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:border-light-link hover:bg-light-link focus:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight checked:dark:bg-dark-highlight hover:dark:border-dark-body hover:dark:bg-dark-body hover:checked:dark:border-dark-hover hover:checked:dark:bg-dark-hover focus:dark:outline-dark-highlight"
+            className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:border-light-link hover:bg-light-link focus-visible:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight checked:dark:bg-dark-highlight hover:dark:border-dark-body hover:dark:bg-dark-body hover:checked:dark:border-dark-hover hover:checked:dark:bg-dark-hover focus-visible:dark:outline-dark-highlight"
           />
         </div>
         <div className="flex items-center gap-2">
@@ -221,7 +221,7 @@ export default function GameSettings({
           type="checkbox"
           checked={leftHanded}
           onChange={(e) => setLeftHanded(e.target.checked)}
-          className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:border-light-link hover:bg-light-link focus:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight checked:dark:bg-dark-highlight hover:dark:border-dark-body hover:dark:bg-dark-body hover:checked:dark:border-dark-hover hover:checked:dark:bg-dark-hover focus:dark:outline-dark-highlight"
+          className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:border-light-link hover:bg-light-link focus-visible:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight checked:dark:bg-dark-highlight hover:dark:border-dark-body hover:dark:bg-dark-body hover:checked:dark:border-dark-hover hover:checked:dark:bg-dark-hover focus-visible:dark:outline-dark-highlight"
         />
       </div>
       {/* Accidentals */}
@@ -237,7 +237,7 @@ export default function GameSettings({
           type="checkbox"
           checked={sharps}
           onChange={(e) => setSharps(e.target.checked)}
-          className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:border-light-link hover:bg-light-link focus:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight checked:dark:bg-dark-highlight hover:dark:border-dark-body hover:dark:bg-dark-body hover:checked:dark:border-dark-hover hover:checked:dark:bg-dark-hover focus:dark:outline-dark-highlight"
+          className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:border-light-link hover:bg-light-link focus-visible:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight checked:dark:bg-dark-highlight hover:dark:border-dark-body hover:dark:bg-dark-body hover:checked:dark:border-dark-hover hover:checked:dark:bg-dark-hover focus-visible:dark:outline-dark-highlight"
         />
       </div>
       <div className="mb-2 flex items-center pl-1 text-sm">
@@ -252,7 +252,7 @@ export default function GameSettings({
           type="checkbox"
           checked={flats}
           onChange={(e) => setFlats(e.target.checked)}
-          className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:border-light-link hover:bg-light-link focus:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight checked:dark:bg-dark-highlight hover:dark:border-dark-body hover:dark:bg-dark-body hover:checked:dark:border-dark-hover hover:checked:dark:bg-dark-hover focus:dark:outline-dark-highlight"
+          className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:border-light-link hover:bg-light-link focus-visible:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight checked:dark:bg-dark-highlight hover:dark:border-dark-body hover:dark:bg-dark-body hover:checked:dark:border-dark-hover hover:checked:dark:bg-dark-hover focus-visible:dark:outline-dark-highlight"
         />
       </div>
     </>

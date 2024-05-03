@@ -51,7 +51,7 @@ export default function HeaderAuth({
     ) : (
       <Link
         href="/auth/signin"
-        className="text-light-link underline transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+        className="text-light-link underline transition-colors hover:text-light-hover focus-visible:outline-offset-4 focus-visible:outline-light-link dark:text-dark-link dark:hover:text-dark-hover focus-visible:dark:outline-dark-highlight"
       >
         Sign in
       </Link>
