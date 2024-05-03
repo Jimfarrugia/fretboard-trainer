@@ -38,7 +38,7 @@ export default function SignInPage() {
                 <p>{"You can sign in when you're back online."}</p>
                 <p>
                   <Link
-                    className="text-light-link underline transition-colors hover:text-light-hover dark:text-dark-link dark:hover:text-dark-hover"
+                    className="text-light-link underline transition-colors hover:text-light-hover focus-visible:outline-offset-4 focus-visible:outline-light-link dark:text-dark-link dark:hover:text-dark-hover focus-visible:dark:outline-dark-highlight"
                     href="/"
                   >
                     Go Back
@@ -48,7 +48,7 @@ export default function SignInPage() {
             ) : (
               <form action={signInWithGoogle}>
                 <button
-                  className="flex w-fit gap-3 rounded-lg border bg-light-bg px-4 py-2 text-light-body transition duration-150 hover:shadow dark:border-dark-heading dark:bg-dark-darkerBg dark:text-dark-body"
+                  className="flex w-fit gap-3 rounded-lg border border-light-link bg-light-bg px-4 py-2 text-light-link transition-colors hover:border-light-hover hover:text-light-hover focus-visible:outline-offset-4 focus-visible:outline-light-link dark:border-dark-heading dark:bg-dark-darkerBg dark:text-dark-body hover:dark:border-dark-hover hover:dark:text-dark-hover focus-visible:dark:outline-dark-highlight"
                   type="submit"
                 >
                   <Image
