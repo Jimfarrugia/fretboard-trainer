@@ -24,8 +24,12 @@ export function randomNote(
 // Get the next note based on current note
 export function getNextNote(currentNote: string) {
   const notes = notesWithSharpsAndFlats;
-  let currentIndex = notes.indexOf(currentNote);
-  return notes[(currentIndex + 1) % notes.length];
+  // remove octave number from note
+  const note = currentNote.replace(/\d/g, "");
+  // get index of current note in notes array
+  const index = notes.indexOf(note);
+  // add 1 to index to get next note
+  return notes[(index + 1) % notes.length];
 }
 
 // Generate a two dimensional array representing the notes of the fretboard
