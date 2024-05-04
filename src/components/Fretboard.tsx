@@ -40,8 +40,7 @@ export default function Fretboard({
   );
   const [isLoading, setIsLoading] = useState(true);
   const frets = Array.from({ length: 15 }, (_, index) => index);
-  const strings =
-    instrument === "bass" ? tuning.strings.slice(-4) : tuning.strings;
+  const { strings } = tuning;
   const fretboard = generateFretboard(strings, 15);
 
   useEffect(() => {
