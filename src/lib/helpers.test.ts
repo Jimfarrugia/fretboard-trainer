@@ -161,28 +161,28 @@ describe("getNextNote", () => {
 
 describe("generateFretboard", () => {
   it("returns an array with one child array for each string", () => {
-    const result = generateFretboard(["E", "B", "G", "D"], 2);
+    const result = generateFretboard(["E4", "B3", "G3", "D3"], 2);
     expect(result).toHaveLength(4);
-    expect(result[0][0]).toBe("E");
-    expect(result[1][0]).toBe("B");
-    expect(result[2][0]).toBe("G");
-    expect(result[3][0]).toBe("D");
+    expect(result[0][0]).toBe("E4");
+    expect(result[1][0]).toBe("B3");
+    expect(result[2][0]).toBe("G3");
+    expect(result[3][0]).toBe("D3");
   });
 
   it("returns nested arrays with length equal to the number of frets + 1", () => {
-    const result = generateFretboard(["E", "B", "G", "D"], 4);
+    const result = generateFretboard(["E4", "B3", "G3", "D3"], 4);
     expect(result[0]).toHaveLength(5);
     expect(result[1]).toHaveLength(5);
     expect(result[2]).toHaveLength(5);
     expect(result[3]).toHaveLength(5);
   });
 
-  it("returns nested arrays containing notes ascending the chromatic scale", () => {
-    const result = generateFretboard(["E", "B", "G", "D"], 4);
-    expect(result[0]).toStrictEqual(["E", "F", "F#/Gb", "G", "G#/Ab"]);
-    expect(result[1]).toStrictEqual(["B", "C", "C#/Db", "D", "D#/Eb"]);
-    expect(result[2]).toStrictEqual(["G", "G#/Ab", "A", "A#/Bb", "B"]);
-    expect(result[3]).toStrictEqual(["D", "D#/Eb", "E", "F", "F#/Gb"]);
+  it("returns nested arrays containing notes ascending the chromatic scale in scientific pitch notation", () => {
+    const result = generateFretboard(["E4", "B3", "G3", "D3"], 4);
+    expect(result[0]).toStrictEqual(["E4", "F4", "F#/Gb4", "G4", "G#/Ab4"]);
+    expect(result[1]).toStrictEqual(["B3", "C4", "C#/Db4", "D4", "D#/Eb4"]);
+    expect(result[2]).toStrictEqual(["G3", "G#/Ab3", "A3", "A#/Bb3", "B3"]);
+    expect(result[3]).toStrictEqual(["D3", "D#/Eb3", "E3", "F3", "F#/Gb3"]);
   });
 });
 
