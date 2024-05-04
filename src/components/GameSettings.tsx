@@ -28,21 +28,22 @@ export default function GameSettings({
     setHardMode,
   } = useSettings();
   const [error, setError] = useState("");
+  const numberOfStrings = tuning.strings.length;
 
   useEffect(() => {
     // reset enabled strings when instrument changes
-    if (instrument === "ukulele") {
-      setEnabledStrings([true, true, true, true]);
-    } else {
-      setEnabledStrings(defaultSettings.enabledStrings);
-    }
-  }, [instrument, setEnabledStrings]);
+    const updatedEnabledStrings = Array.from(
+      { length: numberOfStrings },
+      () => true,
+    );
+    setEnabledStrings(updatedEnabledStrings);
+  }, [instrument, numberOfStrings, setEnabledStrings]);
 
   const handleChangeInstrument = (newInstrument: Instrument) => {
     // change to an appropriate tuning when instrument changes
     const newTuning = tunings.find(
       (tuning) => tuning.instrument === newInstrument,
-      );
+    );
     setTuning(newTuning!);
     setInstrument(newInstrument);
   };
@@ -63,9 +64,7 @@ export default function GameSettings({
     updatedEnabledStrings[index] = !updatedEnabledStrings[index];
     const isAllDisabled =
       updatedEnabledStrings.filter((string) => string === false).length ===
-      (instrument === "bass"
-        ? enabledStrings.length - 2
-        : enabledStrings.length);
+      enabledStrings.length;
     if (isAllDisabled) {
       setError("You can't disable every string.");
       setIsStartDisabled(true);
@@ -162,24 +161,21 @@ export default function GameSettings({
           {Array.from(
             { length: enabledStrings.length },
             (_, index) => index,
-          ).map((v, i) => {
-            if (instrument === "bass" && i > 3) return null;
-            return (
-              <div className="flex items-center" key={`string-${i + 1}`}>
-                <label htmlFor={`string-${i + 1}`} className="me-1.5 sm:me-2.5">
-                  {i + 1}
-                </label>
-                <input
-                  id={`string-${i + 1}`}
-                  type="checkbox"
-                  disabled={hardMode}
-                  checked={enabledStrings[i]}
-                  onChange={(e) => handleChangeEnabledStrings(i)}
-                  className="h-5 w-5 border-light-link accent-light-link outline-offset-4 outline-light-link dark:accent-dark-highlight dark:outline-dark-highlight sm:h-6 sm:w-6"
-                />
-              </div>
-            );
-          })}
+          ).map((v, i) => (
+            <div className="flex items-center" key={`string-${i + 1}`}>
+              <label htmlFor={`string-${i + 1}`} className="me-1.5 sm:me-2.5">
+                {i + 1}
+              </label>
+              <input
+                id={`string-${i + 1}`}
+                type="checkbox"
+                disabled={hardMode}
+                checked={enabledStrings[i]}
+                onChange={(e) => handleChangeEnabledStrings(i)}
+                className="h-5 w-5 border-light-link accent-light-link outline-offset-4 outline-light-link dark:accent-dark-highlight dark:outline-dark-highlight sm:h-6 sm:w-6"
+              />
+            </div>
+          ))}
         </div>
       </div>
       {/* Hard Mode */}

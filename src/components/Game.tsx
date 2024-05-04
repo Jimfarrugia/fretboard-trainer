@@ -52,7 +52,7 @@ export default function Game() {
   const userId = session?.data?.user?.id;
   const [isStartDisabled, setIsStartDisabled] = useState(false);
   const gameLength = process.env.NODE_ENV !== "production" ? 10 : 30;
-
+  const numberOfStrings = tuning.strings.length;
   const notes =
     sharps && flats
       ? notesWithSharpsAndFlats
@@ -77,10 +77,7 @@ export default function Game() {
     const note = randomNote(eligibleNotes, sharps && flats);
     if (hardMode) {
       // choose a random string for hard mode challenge
-      const randomString =
-        instrument === "bass"
-          ? Math.floor(Math.random() * 4) + 1
-          : Math.floor(Math.random() * tuning.strings.length) + 1;
+      const randomString = Math.floor(Math.random() * numberOfStrings) + 1;
       setChallengeString(randomString);
       // disable all other strings
       const updatedEnabledStrings = enabledStrings.map((v, i) =>
@@ -133,13 +130,13 @@ export default function Game() {
   // Reset enabledStrings when a hardMode game ends
   useEffect(() => {
     if (hardMode && (gameOver || quitGame)) {
-      if (instrument === "ukulele") {
-        setEnabledStrings([true, true, true, true]);
-      } else {
-        setEnabledStrings(defaultSettings.enabledStrings);
-      }
+      const updatedEnabledStrings = Array.from(
+        { length: numberOfStrings },
+        () => true,
+      );
+      setEnabledStrings(updatedEnabledStrings);
     }
-  }, [quitGame, gameOver, hardMode, instrument, setEnabledStrings]);
+  }, [quitGame, gameOver, hardMode, numberOfStrings, setEnabledStrings]);
 
   // Start a new game
   const startGame = () => {
