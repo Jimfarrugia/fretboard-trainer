@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { FaInfoCircle } from "react-icons/fa";
+import {
+  IoVolumeMute,
+  IoVolumeOff,
+  IoVolumeLow,
+  IoVolumeMedium,
+  IoVolumeHigh,
+} from "react-icons/io5";
 import { useSettings } from "@/context/SettingsContext";
-import { tunings, instruments, defaultSettings } from "@/lib/constants";
+import { tunings, instruments } from "@/lib/constants";
 import { Instrument } from "@/lib/types";
 import { capitalize } from "@/lib/helpers";
 
@@ -26,6 +33,8 @@ export default function GameSettings({
     setLeftHanded,
     hardMode,
     setHardMode,
+    volume,
+    setVolume,
   } = useSettings();
   const [error, setError] = useState("");
   const numberOfStrings = tuning.strings.length;
@@ -92,11 +101,41 @@ export default function GameSettings({
           <span>{error}</span>
         </div>
       )}
+      <div className="my-4">
+        <label htmlFor="volume" className="label mb-2">
+          <span className="label-text font-medium text-light-heading dark:text-dark-body">
+            Volume
+          </span>
+        </label>
+        <div className="flex w-3/4 max-w-xs items-center justify-start gap-2 sm:w-1/2">
+          <button
+            className="rounded-sm text-light-link focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-light-link dark:text-dark-link focus-visible:dark:outline-dark-highlight"
+            onClick={() => {
+              const newVolume = volume === 0 ? 100 : 0;
+              setVolume(newVolume);
+            }}
+            aria-label={volume > 0 ? "mute volume" : "unmute volume"}
+          >
+            <VolumeIcon volume={volume} />
+          </button>
+          <input
+            tabIndex={0}
+            id="volume"
+            className="range scale-100 [--range-shdw:theme(colors.light.link)] dark:[--range-shdw:theme(colors.dark.hover)]"
+            aria-label="volume"
+            type="range"
+            min={0}
+            max={100}
+            value={volume}
+            onChange={(e) => setVolume(parseInt(e.target.value))}
+          />
+        </div>
+      </div>
       <div className="mb-6 mt-2 flex gap-4">
         {/* Instrument */}
         <label className="form-control w-1/2 max-w-xs">
           <div className="label">
-            <span className="label-text text-light-heading dark:text-dark-body">
+            <span className="label-text font-medium text-light-heading dark:text-dark-body">
               Instrument
             </span>
           </div>
@@ -117,7 +156,7 @@ export default function GameSettings({
         {/* Tuning */}
         <label className="form-control w-1/2 max-w-xs">
           <div className="label">
-            <span className="label-text text-light-heading dark:text-dark-body">
+            <span className="label-text font-medium text-light-heading dark:text-dark-body">
               Tuning
             </span>
           </div>
@@ -153,7 +192,7 @@ export default function GameSettings({
       {/* Strings */}
       <div className="mb-8">
         <div className="label">
-          <span className="label-text mb-1.5 text-light-heading dark:text-dark-body">
+          <span className="label-text mb-1.5 font-medium text-light-heading dark:text-dark-body">
             Strings to Practice
           </span>
         </div>
@@ -196,7 +235,10 @@ export default function GameSettings({
           />
         </div>
         <div className="flex items-center gap-2">
-          <FaInfoCircle className="text-lg" />
+          <FaInfoCircle
+            className="text-lg"
+            aria-label="hard mode description"
+          />
           <p className="text-sm">
             In hard mode, you need to find each note on a specific string.
           </p>
@@ -250,5 +292,19 @@ export default function GameSettings({
         />
       </div>
     </>
+  );
+}
+
+function VolumeIcon({ volume }: { volume: number }) {
+  return volume === 0 ? (
+    <IoVolumeMute aria-label="volume muted" className="text-4xl" />
+  ) : volume < 25 ? (
+    <IoVolumeOff aria-label="volume very low" className="text-4xl" />
+  ) : volume < 50 ? (
+    <IoVolumeLow aria-label="volume low" className="text-4xl" />
+  ) : volume < 75 ? (
+    <IoVolumeMedium aria-label="volume medium" className="text-4xl" />
+  ) : (
+    <IoVolumeHigh aria-label="volume high" className="text-4xl" />
   );
 }

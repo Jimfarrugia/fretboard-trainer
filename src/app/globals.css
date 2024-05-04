@@ -23,3 +23,11 @@ button.active {
   background-color: var(--highlight-color) !important;
   color: var(--bg-color) !important;
 }
+
+.range::-moz-range-thumb {
+  background-color: var(--bg-color);
+}
+
+.range::-webkit-slider-thumb {
+  background-color: var(--bg-color);
+}
