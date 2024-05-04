@@ -3,6 +3,7 @@ import {
   generateFretboard,
   hideNoteLabels,
   translateNote,
+  playNoteAudio,
 } from "@/lib/helpers";
 import { useSettings } from "@/context/SettingsContext";
 import "./Fretboard.css";
@@ -75,6 +76,8 @@ export default function Fretboard({
       if (span) span.classList.add("clicked", "incorrect");
       setAllowSkip(true);
     }
+    // Play the note audio
+    playNoteAudio(instrument, note);
   };
 
   const labelText = (note: string, string: number, fret: number) => {
