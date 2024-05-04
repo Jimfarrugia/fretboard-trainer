@@ -49,24 +49,25 @@ export default function Fretboard({
     }
   }, [tuning]);
 
+  // Display the label for the clicked note and handle correct/incorrect answer
   const handleClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     string: number,
     fret: number,
   ) => {
     hideNoteLabels();
-    // Display the label for the clicked note and handle correct/incorrect answer
-    const { value } = e.target as HTMLButtonElement;
+    const { value: note } = e.target as HTMLButtonElement;
+    const noteWithoutOctaveNumber = note.replace(/\d/g, "");
     const span = e.currentTarget.querySelector("span");
     if (
-      (challenge.length === 1 && value === challenge) || // correct natural
-      (challenge.length > 1 && value.includes(challenge)) // correct accidental
+      (challenge.length === 1 && noteWithoutOctaveNumber === challenge) || // correct natural
+      (challenge.length > 1 && note.includes(challenge)) // correct accidental
     ) {
-      // set correct answer
+      // Set correct answer
       setCorrectAnswer({ challenge, string, fret });
-      // show button label
+      // Show button label
       if (span) span.classList.add("clicked", "correct");
-      // update game state
+      // Update game state
       setCurrentScore(currentScore + 1);
       setAllowSkip(false);
       newChallenge(challenge);
@@ -145,7 +146,12 @@ export default function Fretboard({
             <div className="nut">
               {strings.map((string, stringIndex) => {
                 const note = fretboard[stringIndex][0];
-                const noteLabelText = labelText(note, stringIndex + 1, 0);
+                const noteWithoutOctaveNumber = note.replace(/\d/g, "");
+                const noteLabelText = labelText(
+                  noteWithoutOctaveNumber,
+                  stringIndex + 1,
+                  0,
+                );
                 const stringEnabled = enabledStrings[stringIndex];
                 return (
                   <div key={`string-${stringIndex + 1}`} className="string">
@@ -178,8 +184,9 @@ export default function Fretboard({
                 <div key={`fret-${fretIndex + 1}`} className="fret">
                   {strings.map((string, stringIndex) => {
                     const note = fretboard[stringIndex][fretIndex + 1];
+                    const noteWithoutOctaveNumber = note.replace(/\d/g, "");
                     const noteLabelText = labelText(
-                      note,
+                      noteWithoutOctaveNumber,
                       stringIndex + 1,
                       fretIndex + 1,
                     );
