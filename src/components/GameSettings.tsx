@@ -39,15 +39,11 @@ export default function GameSettings({
   }, [instrument, setEnabledStrings]);
 
   const handleChangeInstrument = (newInstrument: Instrument) => {
-    if (instrument === "ukulele" && newInstrument === ("guitar" || "bass")) {
-      setTuning(defaultSettings.tuning);
-    }
-    if (newInstrument === "ukulele") {
-      const ukuleleTuning = tunings.find(
-        (tuning) => tuning.instrument === "ukulele",
+    // change to an appropriate tuning when instrument changes
+    const newTuning = tunings.find(
+      (tuning) => tuning.instrument === newInstrument,
       );
-      setTuning(ukuleleTuning!);
-    }
+    setTuning(newTuning!);
     setInstrument(newInstrument);
   };
 
