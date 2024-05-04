@@ -57,11 +57,6 @@ export const tunings: Tuning[] = [
     strings: ["E4", "B3", "G3", "D3", "A2", "E2"],
   },
   {
-    name: "E Standard",
-    instrument: "bass",
-    strings: ["G2", "D2", "A1", "E1"],
-  },
-  {
     name: "Open G",
     instrument: "guitar",
     strings: ["D4", "B3", "G3", "D3", "G2", "D2"],
@@ -84,7 +79,7 @@ export const tunings: Tuning[] = [
   {
     name: "Open D",
     instrument: "guitar",
-    strings: ["D4", "A3", "F#3", "D3", "A2", "D2"],
+    strings: ["D4", "A3", "F#/Gb3", "D3", "A2", "D2"],
   },
   {
     name: "DADGAD",
@@ -97,6 +92,11 @@ export const tunings: Tuning[] = [
     strings: ["D4", "A3", "F3", "C3", "G2", "C2"],
   },
   {
+    name: "C# Standard",
+    instrument: "guitar",
+    strings: ["C#/Db4", "G#/Ab3", "E", "B2", "F#/Gb2", "C#/Db2"],
+  },
+  {
     name: "C Standard",
     instrument: "guitar",
     strings: ["C4", "G3", "D#/Eb3", "A#/Bb2", "F2", "C2"],
@@ -105,6 +105,36 @@ export const tunings: Tuning[] = [
     name: "Drop B",
     instrument: "guitar",
     strings: ["C#/Db4", "G#/Ab3", "E3", "B2", "F#/Gb2", "B1"],
+  },
+  {
+    name: "E Standard",
+    instrument: "bass",
+    strings: ["G2", "D2", "A1", "E1"],
+  },
+  {
+    name: "Eb Standard",
+    instrument: "bass",
+    strings: ["F#/Gb2", "C#/Db2", "G#/Ab1", "D#/Eb1"],
+  },
+  {
+    name: "Drop D",
+    instrument: "bass",
+    strings: ["G2", "D2", "A1", "D1"],
+  },
+  {
+    name: "D Standard",
+    instrument: "bass",
+    strings: ["F2", "C2", "G1", "D1"],
+  },
+  {
+    name: "Drop C#",
+    instrument: "bass",
+    strings: ["F#/Gb2", "C#/Db2", "G#/Ab1", "C#/Db1"],
+  },
+  {
+    name: "C# Standard",
+    instrument: "bass",
+    strings: ["E2", "B1", "F#/Gb1", "C#/Db1"],
   },
   {
     name: "Standard",
