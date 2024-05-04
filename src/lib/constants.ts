@@ -54,77 +54,78 @@ export const tunings: Tuning[] = [
   {
     name: "E Standard",
     instruments: ["guitar", "bass"],
-    strings: ["E", "B", "G", "D", "A", "E"],
+    strings: ["E4", "B3", "G3", "D3", "A2", "E2"],
   },
+  // BASS => G2 - D2 - A1 - E1
   {
     name: "Open G",
     instruments: ["guitar", "bass"],
-    strings: ["D", "B", "G", "D", "G", "D"],
+    strings: ["D4", "B3", "G3", "D3", "G2", "D2"],
   },
   {
     name: "Eb Standard",
     instruments: ["guitar", "bass"],
-    strings: ["D#/Eb", "A#/Bb", "F#/Gb", "C#/Db", "G#/Ab", "D#/Eb"],
+    strings: ["D#/Eb4", "A#/Bb3", "F#/Gb3", "C#/Db3", "G#/Ab2", "D#/Eb2"],
   },
   {
     name: "Drop D",
     instruments: ["guitar", "bass"],
-    strings: ["E", "B", "G", "D", "A", "D"],
+    strings: ["E4", "B3", "G3", "D3", "A2", "D2"],
   },
   {
     name: "D Standard",
     instruments: ["guitar", "bass"],
-    strings: ["D", "A", "F", "C", "G", "D"],
+    strings: ["D4", "A3", "F3", "C3", "G2", "D2"],
   },
   {
     name: "Open D",
     instruments: ["guitar", "bass"],
-    strings: ["D", "A", "F#", "D", "A", "D"],
+    strings: ["D4", "A3", "F#3", "D3", "A2", "D2"],
   },
   {
     name: "DADGAD",
     instruments: ["guitar", "bass"],
-    strings: ["D", "A", "G", "D", "A", "D"],
+    strings: ["D4", "A3", "G3", "D3", "A2", "D2"],
   },
   {
     name: "Drop C",
     instruments: ["guitar", "bass"],
-    strings: ["D", "A", "F", "C", "G", "C"],
+    strings: ["D4", "A3", "F3", "C3", "G2", "C2"],
   },
   {
     name: "C Standard",
     instruments: ["guitar", "bass"],
-    strings: ["C", "G", "D#/Eb", "A#/Bb", "F", "C"],
+    strings: ["C4", "G3", "D#/Eb3", "A#/Bb2", "F2", "C2"],
   },
   {
     name: "Drop B",
     instruments: ["guitar", "bass"],
-    strings: ["C#/Db", "G#/Ab", "E", "B", "F#/Gb", "B"],
+    strings: ["C#/Db4", "G#/Ab3", "E3", "B2", "F#/Gb2", "B1"],
   },
   {
     name: "Standard",
     instruments: ["ukulele"],
-    strings: ["A", "E", "C", "G"],
+    strings: ["A4", "E4", "C4", "G4"],
   },
   {
     name: "Traditional Hawaiian",
     instruments: ["ukulele"],
-    strings: ["B", "F#/Gb", "D", "A"],
+    strings: ["B4", "F#/Gb4", "D4", "A4"],
   },
   {
     name: "Open G",
     instruments: ["ukulele"],
-    strings: ["G", "D", "B", "G"],
+    strings: ["G4", "D4", "B3", "G4"],
   },
   {
     name: "Baritone",
     instruments: ["ukulele"],
-    strings: ["E", "B", "G", "D"],
+    strings: ["E4", "B3", "G3", "D4"],
   },
   {
     name: "Bass",
     instruments: ["ukulele"],
-    strings: ["G", "D", "A", "E"],
+    strings: ["G3", "D3", "A2", "E2"],
   },
 ];
 
