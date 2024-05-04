@@ -15,6 +15,7 @@ import {
   capitalize,
   filterScores,
   translateNote,
+  playNoteAudio,
 } from "./helpers";
 import { notesWithSharps, notesWithSharpsAndFlats } from "./constants";
 import { Score, ScoreFilters } from "./types";
@@ -483,5 +484,95 @@ describe("translateNote", () => {
 
   it("replaces 'b' character with the word 'flat'", () => {
     expect(translateNote("Ab")).toBe("A flat");
+  });
+});
+
+describe("playNoteAudio", () => {
+  class MockAudioContext {
+    createGain() {
+      return {
+        connect: jest.fn(),
+        disconnect: jest.fn(),
+        gain: { value: 0 },
+      };
+    }
+    createMediaElementSource() {
+      return {
+        connect: jest.fn(),
+        mock: {
+          results: [
+            {
+              value: {
+                pause: jest.fn(),
+                remove: jest.fn(),
+              },
+            },
+          ],
+        },
+      };
+    }
+  }
+
+  class MockAudio {
+    volume = 1;
+    play() {}
+    pause() {}
+    remove() {}
+  }
+
+  beforeEach(() => {
+    (window as any).AudioContext = jest.fn(() => new MockAudioContext());
+    (window as any).Audio = jest.fn(() => new MockAudio());
+  });
+
+  afterEach(() => {
+    (window as any).AudioContext.mockRestore();
+    (window as any).Audio.mockRestore();
+  });
+
+  it("plays a natural note from the guitar soundfont", () => {
+    expect(() => playNoteAudio("guitar", "A4")).not.toThrow();
+  });
+
+  it("plays a flat note from the guitar soundfont", () => {
+    expect(() => playNoteAudio("guitar", "Ab4")).not.toThrow();
+  });
+
+  it("plays a natural note from the bass soundfont", () => {
+    expect(() => playNoteAudio("bass", "A4")).not.toThrow();
+  });
+
+  it("plays a flat note from the bass soundfont", () => {
+    expect(() => playNoteAudio("bass", "Ab4")).not.toThrow();
+  });
+
+  it("uses the guitar soundfont if the instrument argument is 'ukulele'", () => {
+    expect(() => playNoteAudio("ukulele", "Ab4")).not.toThrow();
+  });
+
+  it("pauses and removes the audio after 2 seconds", async () => {
+    jest.useFakeTimers();
+
+    const removeSpy = jest.fn();
+    const pauseSpy = jest.fn();
+
+    class MockAudio {
+      volume = 1;
+      play() {}
+      pause = pauseSpy;
+      remove = removeSpy;
+    }
+
+    jest
+      .spyOn(window, "Audio")
+      .mockImplementation(() => new (MockAudio as any)());
+
+    playNoteAudio("guitar", "A4");
+
+    jest.advanceTimersByTime(2000);
+    await Promise.resolve();
+
+    expect(pauseSpy).toHaveBeenCalled();
+    expect(removeSpy).toHaveBeenCalled();
   });
 });
