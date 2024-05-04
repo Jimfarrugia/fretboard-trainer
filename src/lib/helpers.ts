@@ -1,4 +1,4 @@
-import { Score, ScoreFilters } from "./types";
+import { Score, ScoreFilters, Instrument } from "./types";
 import { notesWithSharpsAndFlats } from "@/lib/constants";
 
 // Choose a random note from notes array
@@ -187,4 +187,33 @@ export const translateNote = (note: string) => {
   return note.length < 2
     ? note
     : note.replace("#", " sharp").replace("b", " flat");
+};
+
+// Play a audio of a note
+//* Note: all of the file names for accidental notes use flats only (eg. Ab.aac)
+export const playNoteAudio = (
+  instrument: Instrument, // eg. "guitar", "bass"
+  note: string, // eg. "A4", "A#/Bb4"
+  volume: number = 1, // 1 = 100% volume
+) => {
+  // Use the guitar soundfont if ukulele is selected
+  const dir = instrument === "ukulele" ? "guitar" : instrument;
+  // Get the filename from note
+  const filename = note.length > 2 ? note.substring(note.length - 3) : note;
+  // Create audio context
+  const audioContext = new AudioContext();
+  const gainNode = audioContext.createGain();
+  // Initialize audio and connect it to the audio context
+  const audio = new Audio(`/audio/${dir}/${filename}.aac`);
+  const source = audioContext.createMediaElementSource(audio);
+  source.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  gainNode.gain.value = 2;
+  audio.volume = volume;
+  audio.play();
+  // Cut off the audio after 2 seconds
+  setTimeout(() => {
+    audio.pause();
+    audio.remove();
+  }, 2000);
 };
