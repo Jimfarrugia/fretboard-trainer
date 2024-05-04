@@ -37,11 +37,20 @@ export function generateFretboard(strings: string[], totalFrets: number) {
   const fretboard = [];
   // Iterate over each string
   for (let string of strings) {
+    // This array will hold the notes for the current string
     const stringNotes = [string]; // Start with open string note
-    // Generate notes for each fret
+    // Get the octave number of the open string note
+    let octave = parseInt(string[string.length - 1]);
+    // Generate the notes for each fret
     for (let i = 1; i <= totalFrets; i++) {
-      stringNotes.push(getNextNote(stringNotes[i - 1]));
+      // Determine the next note
+      const nextNote = getNextNote(stringNotes[i - 1]);
+      // If the next note is C, increment the octave number
+      if (nextNote === "C") octave++;
+      // Append the octave number to nextNote and push to stringNotes
+      stringNotes.push(`${nextNote}${octave}`);
     }
+    // Push stringNotes to fretboard
     fretboard.push(stringNotes);
   }
   return fretboard;
