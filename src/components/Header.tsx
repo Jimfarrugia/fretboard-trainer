@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { IoSchoolOutline } from "react-icons/io5";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import ThemeToggle from "./ThemeToggle";
 import HeaderAuth from "./HeaderAuth";
+import Logo from "./Logo";
 
 export default function Header() {
   return (
@@ -15,8 +15,8 @@ export default function Header() {
         tabIndex={0}
         href="/"
       >
-        <h1 className="flex items-center gap-2 text-lg font-bold text-light-heading dark:text-dark-heading sm:text-xl">
-          <IoSchoolOutline aria-label="logo" className="text-xl sm:text-2xl" />
+        <h1 className="flex items-end gap-2 text-lg font-bold text-light-heading dark:text-dark-heading sm:text-xl">
+          <Logo />
           Fretboard Trainer
         </h1>
       </Link>
