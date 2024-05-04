@@ -43,8 +43,8 @@ export default function GameSettings({
       setTuning(defaultSettings.tuning);
     }
     if (newInstrument === "ukulele") {
-      const ukuleleTuning = tunings.find((tuning) =>
-        tuning.instruments.includes("ukulele"),
+      const ukuleleTuning = tunings.find(
+        (tuning) => tuning.instrument === "ukulele",
       );
       setTuning(ukuleleTuning!);
     }
@@ -55,8 +55,7 @@ export default function GameSettings({
     const selectedTuningName = e.target.value;
     const selectedTuning = tunings.find(
       (tuning) =>
-        tuning.name === selectedTuningName &&
-        tuning.instruments.includes(instrument),
+        tuning.name === selectedTuningName && tuning.instrument === instrument,
     );
     setTuning(selectedTuning!);
   };
@@ -133,7 +132,7 @@ export default function GameSettings({
             onChange={(e) => handleChangeTuning(e)}
           >
             {tunings.map((tuning) => {
-              return !tuning.instruments.includes(instrument) ? null : (
+              return tuning.instrument !== instrument ? null : (
                 <option
                   key={`tuning-${tuning.name.split(" ").join()}`}
                   value={tuning.name}
