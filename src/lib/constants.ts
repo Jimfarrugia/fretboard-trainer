@@ -94,7 +94,7 @@ export const tunings: Tuning[] = [
   {
     name: "C# Standard",
     instrument: "guitar",
-    strings: ["C#/Db4", "G#/Ab3", "E", "B2", "F#/Gb2", "C#/Db2"],
+    strings: ["C#/Db4", "G#/Ab3", "E3", "B2", "F#/Gb2", "C#/Db2"],
   },
   {
     name: "C Standard",
