@@ -191,7 +191,7 @@ export default function History() {
                         {score.points === highScore && score.points > 0 && (
                           <FaMedal
                             aria-label="high score"
-                            className="text-md text-light-highlight dark:text-dark-highlight"
+                            className="text-md text-gold"
                           />
                         )}
                       </div>
