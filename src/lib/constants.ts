@@ -171,4 +171,5 @@ export const defaultSettings = {
   flats: false,
   leftHanded: false,
   hardMode: false,
+  volume: 100,
 };

@@ -17,7 +17,9 @@ interface SettingsContextType {
   leftHanded: boolean;
   setLeftHanded: (leftHanded: boolean) => void;
   hardMode: boolean;
-  setHardMode: (leftHanded: boolean) => void;
+  setHardMode: (hardMode: boolean) => void;
+  volume: number;
+  setVolume: (volume: number) => void;
 }
 
 const SettingsContext = createContext<SettingsContextType>({
@@ -32,9 +34,11 @@ const SettingsContext = createContext<SettingsContextType>({
   flats: defaultSettings.flats,
   setFlats: (flats: boolean) => {},
   leftHanded: defaultSettings.leftHanded,
-  setLeftHanded: (flats: boolean) => {},
+  setLeftHanded: (leftHanded: boolean) => {},
   hardMode: defaultSettings.hardMode,
-  setHardMode: (flats: boolean) => {},
+  setHardMode: (hardMode: boolean) => {},
+  volume: defaultSettings.volume,
+  setVolume: (volume: number) => {},
 });
 
 export const useSettings = () => useContext(SettingsContext);
@@ -68,6 +72,10 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     "hardMode",
     defaultSettings.hardMode,
   );
+  const [volume, setVolume] = useLocalStorageState<number>(
+    "volume",
+    defaultSettings.volume,
+  );
 
   return (
     <SettingsContext.Provider
@@ -86,6 +94,8 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
         setLeftHanded,
         hardMode,
         setHardMode,
+        volume,
+        setVolume,
       }}
     >
       {children}

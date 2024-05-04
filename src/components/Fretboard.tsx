@@ -33,8 +33,15 @@ export default function Fretboard({
   setAllowSkip,
   newChallenge,
 }: FretboardProps) {
-  const { instrument, tuning, enabledStrings, flats, sharps, leftHanded } =
-    useSettings();
+  const {
+    instrument,
+    tuning,
+    enabledStrings,
+    flats,
+    sharps,
+    leftHanded,
+    volume,
+  } = useSettings();
   const [correctAnswer, setCorrectAnswer] = useState<CorrectAnswer | undefined>(
     undefined,
   );
@@ -76,7 +83,7 @@ export default function Fretboard({
       setAllowSkip(true);
     }
     // Play the note audio
-    playNoteAudio(instrument, note);
+    playNoteAudio(instrument, note, volume / 100);
   };
 
   const labelText = (note: string, string: number, fret: number) => {
