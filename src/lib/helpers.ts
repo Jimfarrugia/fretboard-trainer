@@ -208,7 +208,7 @@ export const playNoteAudio = (
   const source = audioContext.createMediaElementSource(audio);
   source.connect(gainNode);
   gainNode.connect(audioContext.destination);
-  gainNode.gain.value = 2;
+  gainNode.gain.value = 1.5;
   audio.volume = volume;
   audio.play();
   // Cut off the audio after 2 seconds
