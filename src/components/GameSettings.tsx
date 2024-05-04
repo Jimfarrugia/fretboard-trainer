@@ -142,9 +142,12 @@ export default function GameSettings({
                     .slice()
                     .reverse()
                     .map((note) => {
+                      const noteWithoutOctaveNumber = note.replace(/\d/g, "");
                       return flats && !sharps
-                        ? note.substring(note.length - 2)
-                        : note.substring(0, 2);
+                        ? noteWithoutOctaveNumber.substring(
+                            noteWithoutOctaveNumber.length - 2,
+                          )
+                        : noteWithoutOctaveNumber.substring(0, 2);
                     })
                     .join("-")})`}
                 </option>
