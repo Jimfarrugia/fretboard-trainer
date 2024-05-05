@@ -1,6 +1,6 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { Tuning, Instrument } from "@/lib/types";
-import { defaultSettings } from "@/lib/constants";
+import { defaultSettings, tunings } from "@/lib/constants";
 import { useLocalStorageState } from "@/lib/hooks";
 
 interface SettingsContextType {
@@ -76,6 +76,15 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     "volume",
     defaultSettings.volume,
   );
+
+  // If tuning is invalid, reset instrument, tuning, and enabledStrings to default.
+  useEffect(() => {
+    if (tuning && !tunings.includes(tuning)) {
+      setTuning(defaultSettings.tuning);
+      setInstrument(defaultSettings.instrument);
+      setEnabledStrings(defaultSettings.enabledStrings);
+    }
+  }, [tuning, setTuning, setInstrument, setEnabledStrings]);
 
   return (
     <SettingsContext.Provider
