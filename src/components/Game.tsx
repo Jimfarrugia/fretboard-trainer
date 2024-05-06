@@ -11,7 +11,6 @@ import {
   notesWithFlats,
   notesWithSharps,
   notesWithSharpsAndFlats,
-  defaultSettings,
 } from "@/lib/constants";
 import {
   randomNote,
