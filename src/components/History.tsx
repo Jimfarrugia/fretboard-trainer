@@ -3,7 +3,8 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { HiOutlineLightBulb } from "react-icons/hi";
-import { FaMedal } from "react-icons/fa6";
+import { FaMedal, FaTrashCan } from "react-icons/fa6";
+import { IoIosSend } from "react-icons/io";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import { MdSignalWifiConnectedNoInternet0 } from "react-icons/md";
 import { useScoreFilters, useOnlineStatus } from "@/lib/hooks";
@@ -171,37 +172,67 @@ export default function History() {
                   </button>
                 </th>
                 <th className="p-2 text-center">Hard Mode</th>
+                <th className="p-2 text-center"></th>
+                <th className="p-2 text-center"></th>
               </tr>
             </thead>
             <tbody>
-              {paginatedScores.map((score) => (
-                <tr
-                  key={`score-${score.timestamp}`}
-                  className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg"
-                >
-                  <td className="py-4 pr-2">
-                    {dateFromTimestamp(score.timestamp)}
-                  </td>
-                  <td className="px-2 py-4">{capitalize(score.instrument)}</td>
-                  <td className="px-2 py-4">{score.tuning}</td>
-                  <td className="px-2 py-4">
-                    <div className="mx-auto w-fit">
-                      <div className="flex items-center gap-1">
-                        {score.points}
-                        {score.points === highScore && score.points > 0 && (
-                          <FaMedal
-                            aria-label="high score"
-                            className="text-md text-gold"
-                          />
-                        )}
+              {paginatedScores.map((score) => {
+                const {
+                  published,
+                  timestamp,
+                  instrument,
+                  tuning,
+                  points,
+                  hardMode,
+                } = score;
+                return (
+                  <tr
+                    key={`score-${timestamp}`}
+                    className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg"
+                  >
+                    <td className="py-4 pr-2">
+                      {dateFromTimestamp(timestamp)}
+                    </td>
+                    <td className="px-2 py-4">{capitalize(instrument)}</td>
+                    <td className="px-2 py-4">{tuning}</td>
+                    <td className="px-2 py-4">
+                      <div className="mx-auto w-fit">
+                        <div className="flex items-center gap-1">
+                          {points}
+                          {points === highScore && points > 0 && (
+                            <FaMedal
+                              aria-label="high score"
+                              className="text-md text-gold"
+                            />
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="px-2 py-4 text-center">
-                    {score.hardMode ? "On" : "Off"}
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                    <td className="px-2 py-4 text-center">
+                      {hardMode ? "On" : "Off"}
+                    </td>
+                    <td className="px-2 py-4 text-center">
+                      {userId && !published && (
+                        <button
+                          className="btn btn-square btn-primary btn-sm border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover dark:hover:text-dark-bg focus-visible:dark:outline-dark-highlight"
+                          aria-label="publish score"
+                        >
+                          <IoIosSend className="text-xl" />
+                        </button>
+                      )}
+                    </td>
+                    <td className="px-2 py-4 text-center">
+                      <button
+                        className="btn btn-square btn-primary btn-sm border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-error dark:hover:text-dark-bg focus-visible:dark:outline-dark-highlight"
+                        aria-label="delete score"
+                      >
+                        <FaTrashCan className="text-lg" />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         )}
