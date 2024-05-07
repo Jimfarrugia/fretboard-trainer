@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { FaMedal, FaTrashCan } from "react-icons/fa6";
 import { IoIosSend } from "react-icons/io";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import { MdSignalWifiConnectedNoInternet0 } from "react-icons/md";
+import { Score } from "@/lib/types";
 import { useScoreFilters, useOnlineStatus } from "@/lib/hooks";
 import {
   dateFromTimestamp,
@@ -19,11 +20,20 @@ import {
 import { useScores } from "@/context/ScoresContext";
 import PaginationControls from "./PaginationControls";
 import ScoreFilterControls from "./ScoreFilterControls";
+import PublishScoreModal from "./PublishScoreModal";
+
+interface Modal extends HTMLElement {
+  showModal: () => void;
+}
 
 export default function History() {
   const session = useSession();
   const userId = session?.data?.user?.id;
   const { scores } = useScores();
+  const [selectedScore, setSelectedScore] = useState<Score | undefined>(
+    undefined,
+  );
+  const [isPublishScoreModalOpen, setIsPublishScoreModalOpen] = useState(false);
   const { isOnline } = useOnlineStatus();
 
   // Sorting
@@ -90,6 +100,14 @@ export default function History() {
 
   // High score
   const highScore = findHighScore(filteredScores);
+
+  // Modal
+  useEffect(() => {
+    const modal = document.getElementById("publish-score-modal") as Modal;
+    if (isPublishScoreModalOpen && modal) {
+      modal.showModal();
+    }
+  }, [isPublishScoreModalOpen]);
 
   return !sortedScores.length ? (
     <></>
@@ -218,16 +236,20 @@ export default function History() {
                       {hardMode ? "On" : "Off"}
                     </td>
                     {userId && isUnpublishedScoresOnPage && (
-                    <td className="px-2 py-4 text-center">
+                      <td className="px-2 py-4 text-center">
                         {!published && (
-                        <button
-                          className="btn btn-square btn-primary btn-sm border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover dark:hover:text-dark-bg focus-visible:dark:outline-dark-highlight"
-                          aria-label="publish score"
-                        >
-                          <IoIosSend className="text-xl" />
-                        </button>
-                      )}
-                    </td>
+                          <button
+                            className="btn btn-square btn-primary btn-sm border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover dark:hover:text-dark-bg focus-visible:dark:outline-dark-highlight"
+                            aria-label="publish score"
+                            onClick={() => {
+                              setSelectedScore(score);
+                              setIsPublishScoreModalOpen(true);
+                            }}
+                          >
+                            <IoIosSend className="text-xl" />
+                          </button>
+                        )}
+                      </td>
                     )}
                     <td className="px-2 py-4 text-center">
                       <button
@@ -250,6 +272,13 @@ export default function History() {
           setCurrentPage={setCurrentPage}
           pageNumbers={pageNumbers}
           totalPages={totalPages}
+        />
+      )}
+      {userId && isPublishScoreModalOpen && (
+        <PublishScoreModal
+          userId={userId}
+          score={selectedScore!}
+          setIsOpen={setIsPublishScoreModalOpen}
         />
       )}
     </>
