@@ -15,12 +15,14 @@ interface ScoresContextType {
   scores: Score[];
   addScore: (score: Score) => void;
   updateScore: (timestamp: string, newValues: Partial<Score>) => void;
+  removeScore: (timestamp: string) => void;
 }
 
 const ScoresContext = createContext<ScoresContextType>({
   scores: [],
   addScore: () => {},
   updateScore: () => {},
+  removeScore: () => {},
 });
 
 export const useScores = () => useContext(ScoresContext);
@@ -90,8 +92,20 @@ export function ScoresProvider({ children }: { children: React.ReactNode }) {
     setLocalStorageScores(updatedScores);
   };
 
+  // Remove a score from state and localStorage
+  const removeScore = (timestamp: string) => {
+    // remove the score with the matching timestamp
+    const updatedScores = scores.filter(
+      (score) => score.timestamp !== timestamp,
+    );
+    setScores(updatedScores);
+    setLocalStorageScores(updatedScores);
+  };
+
   return (
-    <ScoresContext.Provider value={{ scores, addScore, updateScore }}>
+    <ScoresContext.Provider
+      value={{ scores, addScore, updateScore, removeScore }}
+    >
       {children}
     </ScoresContext.Provider>
   );
