@@ -21,6 +21,7 @@ import { useScores } from "@/context/ScoresContext";
 import PaginationControls from "./PaginationControls";
 import ScoreFilterControls from "./ScoreFilterControls";
 import PublishScoreModal from "./PublishScoreModal";
+import DeleteScoreModal from "./DeleteScoreModal";
 
 interface Modal extends HTMLElement {
   showModal: () => void;
@@ -34,6 +35,7 @@ export default function History() {
     undefined,
   );
   const [isPublishScoreModalOpen, setIsPublishScoreModalOpen] = useState(false);
+  const [isDeleteScoreModalOpen, setIsDeleteScoreModalOpen] = useState(false);
   const { isOnline } = useOnlineStatus();
 
   // Sorting
@@ -101,13 +103,20 @@ export default function History() {
   // High score
   const highScore = findHighScore(filteredScores);
 
-  // Modal
+  // Modals
   useEffect(() => {
     const modal = document.getElementById("publish-score-modal") as Modal;
     if (isPublishScoreModalOpen && modal) {
       modal.showModal();
     }
   }, [isPublishScoreModalOpen]);
+
+  useEffect(() => {
+    const modal = document.getElementById("delete-score-modal") as Modal;
+    if (isDeleteScoreModalOpen && modal) {
+      modal.showModal();
+    }
+  }, [isDeleteScoreModalOpen]);
 
   return !sortedScores.length ? (
     <></>
@@ -255,6 +264,10 @@ export default function History() {
                       <button
                         className="btn btn-square btn-primary btn-sm border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-error dark:hover:text-dark-bg focus-visible:dark:outline-dark-highlight"
                         aria-label="delete score"
+                        onClick={() => {
+                          setSelectedScore(score);
+                          setIsDeleteScoreModalOpen(true);
+                        }}
                       >
                         <FaTrashCan className="text-lg" />
                       </button>
@@ -274,11 +287,18 @@ export default function History() {
           totalPages={totalPages}
         />
       )}
-      {userId && isPublishScoreModalOpen && (
+      {userId && selectedScore && isPublishScoreModalOpen && (
         <PublishScoreModal
           userId={userId}
-          score={selectedScore!}
+          score={selectedScore}
           setIsOpen={setIsPublishScoreModalOpen}
+        />
+      )}
+      {selectedScore && isDeleteScoreModalOpen && (
+        <DeleteScoreModal
+          userId={userId || ""}
+          score={selectedScore}
+          setIsOpen={setIsDeleteScoreModalOpen}
         />
       )}
     </>
