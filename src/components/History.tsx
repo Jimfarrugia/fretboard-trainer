@@ -262,7 +262,7 @@ export default function History() {
                     )}
                     <td className="px-2 py-4 text-center">
                       <button
-                        className="btn btn-square btn-primary btn-sm border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-error dark:hover:text-dark-bg focus-visible:dark:outline-dark-highlight"
+                        className="btn btn-square btn-primary btn-sm border-0 bg-light-darkerBg text-light-body hover:bg-error hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-error dark:hover:text-dark-bg focus-visible:dark:outline-dark-highlight"
                         aria-label="delete score"
                         onClick={() => {
                           setSelectedScore(score);
