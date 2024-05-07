@@ -84,7 +84,7 @@ export default function PublishScoreModal({
         <form method="dialog">
           <button
             type="submit"
-            className="btn btn-circle absolute right-2 top-2 scale-50 border-none bg-light-darkerBg text-light-heading hover:bg-error hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-bg dark:text-dark-link hover:dark:bg-error hover:dark:text-dark-darkerBg focus-visible:dark:outline-dark-highlight"
+            className="btn btn-circle absolute right-2 top-2 scale-50 border-none bg-light-darkerBg text-light-heading hover:bg-error hover:text-light-bg focus-visible:outline-4 focus-visible:outline-light-link dark:bg-dark-bg dark:text-dark-link hover:dark:bg-error hover:dark:text-dark-darkerBg focus-visible:dark:outline-dark-highlight"
             style={{ marginRight: "-0.5rem", marginTop: "-0.5rem" }}
             onClick={handleClose}
           >
@@ -180,7 +180,7 @@ function PublishForm({
           <div className="text-center">
             <button
               type="submit"
-              className="btn btn-primary border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
+              className="btn btn-primary border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg focus-visible:dark:outline-dark-highlight"
             >
               <IoIosSend className="text-lg" />
               {loading ? (
