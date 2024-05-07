@@ -17,7 +17,7 @@ import {
   hideNoteLabels,
   findHighScore,
   ordinal,
-} from "@/lib/helpers";
+} from "@/lib/utils";
 import { useScores } from "@/context/ScoresContext";
 import { useSession } from "next-auth/react";
 import { IoClose } from "react-icons/io5";

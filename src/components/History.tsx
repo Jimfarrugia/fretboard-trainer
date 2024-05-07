@@ -16,7 +16,7 @@ import {
   findHighScore,
   capitalize,
   filterScores,
-} from "@/lib/helpers";
+} from "@/lib/utils";
 import { useScores } from "@/context/ScoresContext";
 import PaginationControls from "./PaginationControls";
 import ScoreFilterControls from "./ScoreFilterControls";

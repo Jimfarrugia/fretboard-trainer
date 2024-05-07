@@ -1,15 +1,15 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { Score } from "@/lib/types";
 import {
+  mergeScores,
   parseLocalStorageScores,
   setLocalStorageScores,
   saveRemoteScoresLocally,
-} from "@/lib/helpers";
+} from "@/lib/utils";
 import { getUserScores } from "@/actions/getUserScores";
 import { pushLocalScores } from "@/actions/pushLocalScores";
 import { createScore } from "@/actions/createScore";
 import { useSession } from "next-auth/react";
-import { mergeScores } from "@/lib/helpers";
 
 interface ScoresContextType {
   scores: Score[];

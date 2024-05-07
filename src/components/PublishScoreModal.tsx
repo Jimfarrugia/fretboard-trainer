@@ -1,6 +1,6 @@
 import { IoClose } from "react-icons/io5";
 import { Score } from "@/lib/types";
-import { capitalize, dateFromTimestamp } from "@/lib/helpers";
+import { capitalize, dateFromTimestamp } from "@/lib/utils";
 import PublishScoreForm from "./PublishScoreForm";
 
 export default function PublishScoreModal({

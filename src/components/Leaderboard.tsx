@@ -6,7 +6,7 @@ import { FaMedal } from "react-icons/fa6";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { useScoreFilters, useOnlineStatus } from "@/lib/hooks";
 import { Score } from "@/lib/types";
-import { filterScores, dateFromTimestamp, capitalize } from "@/lib/helpers";
+import { filterScores, dateFromTimestamp, capitalize } from "@/lib/utils";
 import PaginationControls from "./PaginationControls";
 import ScoreFilterControls from "./ScoreFilterControls";
 

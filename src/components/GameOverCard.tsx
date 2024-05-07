@@ -5,7 +5,7 @@ import { IoClose } from "react-icons/io5";
 import { useScores } from "@/context/ScoresContext";
 import PublishScoreForm from "./PublishScoreForm";
 import { getScoreRanking } from "@/actions/getScoreRanking";
-import { ordinal } from "@/lib/helpers";
+import { ordinal } from "@/lib/utils";
 
 export default function GameOverCard({
   currentScore,

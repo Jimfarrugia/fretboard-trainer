@@ -11,7 +11,7 @@ import {
 import { useSettings } from "@/context/SettingsContext";
 import { tunings, instruments } from "@/lib/constants";
 import { Instrument } from "@/lib/types";
-import { capitalize } from "@/lib/helpers";
+import { capitalize } from "@/lib/utils";
 
 export default function GameSettings({
   setIsStartDisabled,

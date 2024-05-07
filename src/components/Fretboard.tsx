@@ -4,7 +4,7 @@ import {
   hideNoteLabels,
   translateNote,
   playNoteAudio,
-} from "@/lib/helpers";
+} from "@/lib/utils";
 import { useSettings } from "@/context/SettingsContext";
 import "./Fretboard.css";
 
