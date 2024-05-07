@@ -84,6 +84,9 @@ export default function History() {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) =>
     (i + 1).toString(),
   );
+  const isUnpublishedScoresOnPage = paginatedScores.some(
+    (score) => !score.published,
+  );
 
   // High score
   const highScore = findHighScore(filteredScores);
@@ -172,8 +175,10 @@ export default function History() {
                   </button>
                 </th>
                 <th className="p-2 text-center">Hard Mode</th>
-                <th className="p-2 text-center"></th>
-                <th className="p-2 text-center"></th>
+                {userId && isUnpublishedScoresOnPage && (
+                  <th className="p-2 text-center">{/* Publish */}</th>
+                )}
+                <th className="p-2 text-center">{/* Delete */}</th>
               </tr>
             </thead>
             <tbody>
@@ -212,8 +217,9 @@ export default function History() {
                     <td className="px-2 py-4 text-center">
                       {hardMode ? "On" : "Off"}
                     </td>
+                    {userId && isUnpublishedScoresOnPage && (
                     <td className="px-2 py-4 text-center">
-                      {userId && !published && (
+                        {!published && (
                         <button
                           className="btn btn-square btn-primary btn-sm border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover dark:hover:text-dark-bg focus-visible:dark:outline-dark-highlight"
                           aria-label="publish score"
@@ -222,6 +228,7 @@ export default function History() {
                         </button>
                       )}
                     </td>
+                    )}
                     <td className="px-2 py-4 text-center">
                       <button
                         className="btn btn-square btn-primary btn-sm border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-error dark:hover:text-dark-bg focus-visible:dark:outline-dark-highlight"
