@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { MdReplay } from "react-icons/md";
 import { IoIosSend } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
+import { useScores } from "@/context/ScoresContext";
 import PublishScoreForm from "./PublishScoreForm";
 import { getScoreRanking } from "@/actions/getScoreRanking";
 import { ordinal } from "@/lib/helpers";
@@ -21,6 +22,9 @@ export default function GameOverCard({
 }) {
   const [showForm, setShowForm] = useState(false);
   const [rank, setRank] = useState(0);
+  const {
+    scores: [score], // score = first element in the scores array
+  } = useScores();
 
   useEffect(() => {
     if (currentScore > 0) {
@@ -38,7 +42,7 @@ export default function GameOverCard({
       <div>
         <button
           type="button"
-          className="btn btn-circle absolute right-1 top-1 scale-50 border-none bg-light-darkerBg text-light-heading hover:bg-error hover:text-light-bg dark:bg-dark-bg dark:text-dark-link hover:dark:bg-error hover:dark:text-dark-darkerBg"
+          className="btn btn-circle absolute right-2 top-2 scale-50 border-none bg-light-darkerBg text-light-heading hover:bg-error hover:text-light-bg focus-visible:outline-4 focus-visible:outline-light-link dark:bg-dark-bg dark:text-dark-link hover:dark:bg-error hover:dark:text-dark-darkerBg focus-visible:dark:outline-dark-highlight"
           style={{ marginRight: "-0.5rem", marginTop: "-0.5rem" }}
           onClick={() => setGameOver(false)}
         >
@@ -46,11 +50,17 @@ export default function GameOverCard({
         </button>
       </div>
       {showForm ? (
-        <PublishScoreForm
-          userId={userId}
-          setShowForm={setShowForm}
-          startGame={startGame}
-        />
+        <>
+          <h3 className="mb-6 text-xl font-bold text-light-heading dark:text-dark-heading">
+            Publish Score
+          </h3>
+          <PublishScoreForm
+            userId={userId}
+            score={score}
+            setIsOpen={setShowForm}
+            startGame={startGame}
+          />
+        </>
       ) : (
         <>
           <p className="mb-6 text-xl font-bold">

@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useScores } from "@/context/ScoresContext";
 import { publishScore } from "@/actions/publishScore";
 import { updateUsername } from "@/actions/updateUsername";
+import { Score } from "@/lib/types";
 
 export interface SessionUser {
   createdAt?: Date;
@@ -19,22 +20,22 @@ export interface SessionUser {
 
 export default function PublishScoreForm({
   userId,
-  setShowForm,
+  score,
+  setIsOpen,
   startGame,
 }: {
   userId: string | undefined;
-  setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
-  startGame: () => void;
+  score: Score;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  startGame?: () => void;
 }) {
+  const { timestamp } = score;
   const session = useSession();
+  const { updateScore } = useScores();
   const [username, setUsername] = useState<string>("");
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const {
-    scores: [score], // score = first element in the scores array
-    updateScore,
-  } = useScores();
   const user = session?.data?.user as SessionUser;
 
   useEffect(() => {
@@ -56,11 +57,11 @@ export default function PublishScoreForm({
     e.preventDefault();
     if (userId) {
       setLoading(true);
-      publishScore(userId, username)
+      publishScore(userId, username, timestamp)
         .then(() => {
           setSuccess(true);
           setLoading(false);
-          updateScore(score.timestamp, { published: true });
+          updateScore(timestamp, { published: true });
           updateUsername(userId, username).catch((e) =>
             console.error("Failed to update the user's username.", e),
           );
@@ -77,22 +78,21 @@ export default function PublishScoreForm({
 
   return (
     <>
-      <h3 className="mb-6 text-xl font-bold text-light-heading dark:text-dark-heading">
-        {success ? "Score Published" : "Publish Score"}
-      </h3>
       {success ? (
         <>
-          <p className="mb-6">
+          <p className="mb-2">
             Your score has been published to the leaderboard!
           </p>
-          <button
-            type="button"
-            className="btn btn-primary border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
-            onClick={startGame}
-          >
-            <MdReplay className="text-lg" />
-            Play again
-          </button>
+          {startGame && (
+            <button
+              type="button"
+              className="btn btn-primary mt-4 border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
+              onClick={startGame}
+            >
+              <MdReplay className="text-lg" />
+              Play again
+            </button>
+          )}
         </>
       ) : (
         <>
@@ -118,14 +118,14 @@ export default function PublishScoreForm({
               <div className="flex justify-center gap-4 sm:gap-6">
                 <button
                   type="button"
-                  className="btn btn-primary border-0 bg-error text-light-bg hover:bg-light-hover hover:text-light-bg dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
-                  onClick={() => setShowForm(false)}
+                  className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-link dark:text-dark-darkerBg dark:hover:bg-dark-hover hover:dark:text-dark-darkerBg focus-visible:dark:outline-dark-highlight"
+                  onClick={() => setIsOpen(false)}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn btn-primary border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
+                  className="btn btn-primary border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg focus-visible:dark:outline-dark-highlight"
                 >
                   <IoIosSend className="text-lg" />
                   {loading ? (
