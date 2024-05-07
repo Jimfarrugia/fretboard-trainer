@@ -14,11 +14,13 @@ import { mergeScores } from "@/lib/helpers";
 interface ScoresContextType {
   scores: Score[];
   addScore: (score: Score) => void;
+  updateScore: (timestamp: string, newValues: Partial<Score>) => void;
 }
 
 const ScoresContext = createContext<ScoresContextType>({
   scores: [],
   addScore: () => {},
+  updateScore: () => {},
 });
 
 export const useScores = () => useContext(ScoresContext);
@@ -75,8 +77,21 @@ export function ScoresProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  // Update a score in state and localStorage
+  const updateScore = (timestamp: string, newValues: Partial<Score>) => {
+    // apply new values to the score with the matching timestamp
+    const updatedScores = scores.map((score) => {
+      if (score.timestamp === timestamp) {
+        return { ...score, ...newValues };
+      }
+      return score;
+    });
+    setScores(updatedScores);
+    setLocalStorageScores(updatedScores);
+  };
+
   return (
-    <ScoresContext.Provider value={{ scores, addScore }}>
+    <ScoresContext.Provider value={{ scores, addScore, updateScore }}>
       {children}
     </ScoresContext.Provider>
   );
