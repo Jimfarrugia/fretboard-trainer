@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import { MdReplay } from "react-icons/md";
 import { useSession } from "next-auth/react";
+import { useScores } from "@/context/ScoresContext";
 import { publishScore } from "@/actions/publishScore";
 import { updateUsername } from "@/actions/updateUsername";
 
@@ -30,6 +31,10 @@ export default function PublishScoreForm({
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const {
+    scores: [score], // score = first element in the scores array
+    updateScore,
+  } = useScores();
   const user = session?.data?.user as SessionUser;
 
   useEffect(() => {
@@ -55,6 +60,7 @@ export default function PublishScoreForm({
         .then(() => {
           setSuccess(true);
           setLoading(false);
+          updateScore(score.timestamp, { published: true });
           updateUsername(userId, username).catch((e) =>
             console.error("Failed to update the user's username.", e),
           );
