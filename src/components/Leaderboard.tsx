@@ -32,7 +32,7 @@ export default function Leaderboard({
     ? topScores
     : topScores && filterScores(topScores, filters);
 
-  // Determine gold/silver/bronze scores
+  // Determine gold/silver/bronze score points values
   const sortedPoints = filteredScores
     ?.map((obj) => obj.points)
     .sort((a, b) => b - a);
@@ -100,49 +100,49 @@ export default function Leaderboard({
               </tr>
             </thead>
             <tbody>
-              {paginatedScores?.map((score) => (
-                <tr
-                  key={`topscore-${score.timestamp}`}
-                  className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg"
-                >
-                  <td className="hidden py-4 pr-2 sm:table-cell">
-                    {dateFromTimestamp(score.timestamp)}
-                  </td>
-                  <td className="py-4 pr-2 sm:px-2">
-                    {score.username || "Anonymous"}
-                  </td>
-                  <td className="px-2 py-4">{capitalize(score.instrument)}</td>
-                  <td className=" px-2 py-4">{score.tuning}</td>
-                  <td className="px-2 py-4 text-center">
-                    <div className="mx-auto w-fit">
-                      <div className="flex items-center gap-1">
-                        {score.points}
-                        {score.points === goldScore && (
-                          <FaMedal
-                            aria-label="gold medal"
-                            className="text-md text-gold"
-                          />
-                        )}
-                        {score.points === silverScore && (
-                          <FaMedal
-                            aria-label="silver medal"
-                            className="text-md text-silver"
-                          />
-                        )}
-                        {score.points === bronzeScore && (
-                          <FaMedal
-                            aria-label="bronze medal"
-                            className="text-md text-bronze"
-                          />
-                        )}
+              {paginatedScores?.map((score) => {
+                const {
+                  timestamp,
+                  username,
+                  instrument,
+                  tuning,
+                  points,
+                  hardMode,
+                } = score;
+                return (
+                  <tr
+                    key={`topscore-${timestamp}`}
+                    className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg"
+                  >
+                    <td className="hidden py-4 pr-2 sm:table-cell">
+                      {dateFromTimestamp(timestamp)}
+                    </td>
+                    <td className="py-4 pr-2 sm:px-2">
+                      {username || "Anonymous"}
+                    </td>
+                    <td className="px-2 py-4">{capitalize(instrument)}</td>
+                    <td className=" px-2 py-4">{tuning}</td>
+                    <td className="px-2 py-4 text-center">
+                      <div className="mx-auto w-fit">
+                        <div className="flex items-center gap-1">
+                          {points}
+                          {points >= bronzeScore && (
+                            <Medal
+                              points={points}
+                              gold={goldScore}
+                              silver={silverScore}
+                              bronze={bronzeScore}
+                            />
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="px-2 py-4 text-center">
-                    {score.hardMode ? "On" : "Off"}
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                    <td className="px-2 py-4 text-center">
+                      {hardMode ? "On" : "Off"}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         )}
@@ -180,5 +180,33 @@ function LeaderboardHeader({ userId }: { userId: string | undefined }) {
         </p>
       )}
     </div>
+  );
+}
+
+function Medal({
+  points,
+  gold,
+  silver,
+  bronze,
+}: {
+  points: number;
+  gold: number;
+  silver: number;
+  bronze: number;
+}) {
+  const color =
+    points === gold
+      ? "gold"
+      : points === silver
+        ? "silver"
+        : points === bronze
+          ? "bronze"
+          : null;
+
+  return !color ? null : (
+    <FaMedal
+      aria-label={`${color} medal`}
+      className={`text-md text-${color}`}
+    />
   );
 }
