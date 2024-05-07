@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 import { useScores } from "@/context/ScoresContext";
-import { deleteScore } from "@/actions/deleteScore";
+import { deleteScore } from "@/actions";
 import { Score } from "@/lib/types";
 
 export default function DeleteScoreForm({

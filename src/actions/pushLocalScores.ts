@@ -2,7 +2,10 @@
 import { db } from "@/lib/db";
 import { Score } from "@/lib/types";
 
-export async function pushLocalScores(userId: string, localScores: Score[]) {
+export default async function pushLocalScores(
+  userId: string,
+  localScores: Score[],
+) {
   try {
     // Find all scores in the database where the timestamp matches the timestamp of a locally saved score
     const matchingScores = await db.score.findMany({

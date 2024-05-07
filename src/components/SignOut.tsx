@@ -1,4 +1,4 @@
-import signOut from "@/actions/signOut";
+import { signOut } from "@/actions";
 
 export default function SignOut({ underline = true }: { underline?: boolean }) {
   return (

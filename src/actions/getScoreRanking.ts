@@ -1,7 +1,7 @@
 "use server";
 import { db } from "@/lib/db";
 
-export async function getScoreRanking(points: number) {
+export default async function getScoreRanking(points: number) {
   try {
     // Get all published scores in order of highest points
     const scores = await db.score.findMany({

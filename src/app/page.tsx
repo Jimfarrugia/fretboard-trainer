@@ -2,7 +2,7 @@ import { BiError } from "react-icons/bi";
 import History from "@/components/History";
 import Leaderboard from "@/components/Leaderboard";
 import Game from "@/components/Game";
-import { getTopScores } from "@/actions/getTopScores";
+import { getTopScores } from "@/actions";
 
 export default async function Home() {
   const topScores = await getTopScores();

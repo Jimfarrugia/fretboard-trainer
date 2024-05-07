@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { Score } from "@/lib/types";
 
-export async function deleteScore(userId: string, score: Score) {
+export default async function deleteScore(userId: string, score: Score) {
   try {
     const { timestamp } = score;
 

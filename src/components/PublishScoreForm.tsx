@@ -3,8 +3,7 @@ import { IoIosSend } from "react-icons/io";
 import { MdReplay } from "react-icons/md";
 import { useSession } from "next-auth/react";
 import { useScores } from "@/context/ScoresContext";
-import { publishScore } from "@/actions/publishScore";
-import { updateUsername } from "@/actions/updateUsername";
+import { publishScore, updateUsername } from "@/actions";
 import { Score } from "@/lib/types";
 
 export interface SessionUser {

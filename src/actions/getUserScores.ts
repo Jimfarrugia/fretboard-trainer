@@ -1,7 +1,7 @@
 "use server";
 import { db } from "@/lib/db";
 
-export async function getUserScores(userId: string) {
+export default async function getUserScores(userId: string) {
   try {
     const userScores = await db.score.findMany({ where: { userId } });
     return userScores;

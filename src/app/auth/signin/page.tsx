@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { MdSignalWifiConnectedNoInternet0 } from "react-icons/md";
 import { useOnlineStatus } from "@/lib/hooks";
-import signInWithGoogle from "@/actions/signInWithGoogle";
+import { signInWithGoogle } from "@/actions";
 import googleLogo from "@/../public/google-logo.svg";
 
 export default function SignInPage() {

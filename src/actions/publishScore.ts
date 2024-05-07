@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 
 // Update a score to have 'published: true' so it shows in the leaderboard
 // Note: score.timestamp should be provided unless publishing the most recent score
-export async function publishScore(
+export default async function publishScore(
   userId: string,
   username: string,
   timestamp?: string,

@@ -6,9 +6,7 @@ import {
   setLocalStorageScores,
   saveRemoteScoresLocally,
 } from "@/lib/utils";
-import { getUserScores } from "@/actions/getUserScores";
-import { pushLocalScores } from "@/actions/pushLocalScores";
-import { createScore } from "@/actions/createScore";
+import { getUserScores, pushLocalScores, createScore } from "@/actions";
 import { useSession } from "next-auth/react";
 
 interface ScoresContextType {

@@ -1,7 +1,7 @@
 "use server";
 import { db } from "@/lib/db";
 
-export async function createScore(
+export default async function createScore(
   userId: string,
   score: {
     points: number;
