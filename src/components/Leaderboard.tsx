@@ -61,17 +61,17 @@ export default function Leaderboard({
   ) : (
     <>
       <LeaderboardHeader userId={userId} />
+      <ScoreFilterControls
+        scores={topScores}
+        filters={filters}
+        noActiveFilters={noActiveFilters}
+        resetFilters={resetFilters}
+        setGuitarFilter={setGuitarFilter}
+        setBassFilter={setBassFilter}
+        setUkuleleFilter={setUkuleleFilter}
+        setHardModeFilter={setHardModeFilter}
+      />
       <div className="overflow-x-auto sm:overflow-visible">
-        <ScoreFilterControls
-          scores={topScores}
-          filters={filters}
-          noActiveFilters={noActiveFilters}
-          resetFilters={resetFilters}
-          setGuitarFilter={setGuitarFilter}
-          setBassFilter={setBassFilter}
-          setUkuleleFilter={setUkuleleFilter}
-          setHardModeFilter={setHardModeFilter}
-        />
         {!paginatedScores?.length ? (
           <>
             <p className="py-4">
