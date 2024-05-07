@@ -145,24 +145,11 @@ export default function History() {
         setBassFilter={setBassFilter}
         setUkuleleFilter={setUkuleleFilter}
         setHardModeFilter={setHardModeFilter}
+        isEmpty={!paginatedScores?.length}
+        emptyText={"You have no scores which match these filters."}
       />
-      <div className="overflow-x-auto sm:overflow-visible">
-        {!paginatedScores?.length ? (
-          <>
-            <p className="py-4">
-              You have no scores which match these filters.
-            </p>
-            <p className="pb-4 pt-2">
-              <button
-                type="button"
-                className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link disabled:text-light-body disabled:opacity-40 dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg focus-visible:dark:outline-dark-highlight"
-                onClick={resetFilters}
-              >
-                Reset Filters
-              </button>
-            </p>
-          </>
-        ) : (
+      {paginatedScores.length > 0 && (
+        <div className="overflow-x-auto sm:overflow-visible">
           <table
             data-testid="history-table"
             className="w-full table-auto text-nowrap text-xs"
@@ -277,8 +264,8 @@ export default function History() {
               })}
             </tbody>
           </table>
-        )}
-      </div>
+        </div>
+      )}
       {totalPages > 1 && (
         <PaginationControls
           currentPage={currentPage}
