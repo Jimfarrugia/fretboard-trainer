@@ -203,9 +203,9 @@ export default function History() {
                 </th>
                 <th className="p-2 text-center">Hard Mode</th>
                 {userId && isUnpublishedScoresOnPage && (
-                  <th className="p-2 text-center">{/* Publish */}</th>
+                  <th className="p-2 text-center">Publish</th>
                 )}
-                <th className="p-2 text-center">{/* Delete */}</th>
+                <th className="p-2 text-center">Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -255,7 +255,7 @@ export default function History() {
                               setIsPublishScoreModalOpen(true);
                             }}
                           >
-                            <IoIosSend className="text-xl" />
+                            <IoIosSend aria-hidden className="text-xl" />
                           </button>
                         )}
                       </td>
@@ -269,7 +269,7 @@ export default function History() {
                           setIsDeleteScoreModalOpen(true);
                         }}
                       >
-                        <FaTrashCan className="text-lg" />
+                        <FaTrashCan aria-hidden className="text-lg" />
                       </button>
                     </td>
                   </tr>
