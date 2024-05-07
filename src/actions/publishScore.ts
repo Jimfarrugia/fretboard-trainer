@@ -2,12 +2,26 @@
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 
-// Update the user's most recent score to published=true and add the username
-export async function publishScore(userId: string, username: string) {
-  const score = await db.score.findFirst({
-    where: { userId },
-    orderBy: { createdAt: "desc" },
-  });
+// Update a score to have 'published: true' so it shows in the leaderboard
+// Note: score.timestamp should be provided unless publishing the most recent score
+export async function publishScore(
+  userId: string,
+  username: string,
+  timestamp?: string,
+) {
+  let score;
+
+  // If no timestamp is provided, get the most recent score
+  if (!timestamp) {
+    score = await db.score.findFirst({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+    });
+  } else {
+    score = await db.score.findFirst({
+      where: { userId, timestamp },
+    });
+  }
 
   if (!score) {
     throw new Error("No score found.");
