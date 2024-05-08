@@ -10,7 +10,7 @@ import {
 } from "react-icons/io5";
 import { useSettings } from "@/context/SettingsContext";
 import { tunings, instruments } from "@/lib/constants";
-import { Instrument } from "@/lib/types";
+import { Instrument, Tuning } from "@/lib/types";
 import { capitalize } from "@/lib/utils";
 
 export default function GameSettings({
@@ -47,6 +47,25 @@ export default function GameSettings({
     );
     setEnabledStrings(updatedEnabledStrings);
   }, [instrument, numberOfStrings, setEnabledStrings]);
+
+  const tuningOptionLabel = (tuning: Tuning) => {
+    const sharpNote = (note: string) => note.substring(0, 2);
+    const flatNote = (note: string) => note.substring(note.length - 2);
+    const stringNotes = tuning.strings
+      .slice()
+      .reverse()
+      .map((note: string) => {
+        const noteWithoutOctaveNumber = note.replace(/\d/g, "");
+        if (noteWithoutOctaveNumber.length === 1) {
+          return noteWithoutOctaveNumber;
+        }
+        return flats && !sharps
+          ? flatNote(noteWithoutOctaveNumber)
+          : sharpNote(noteWithoutOctaveNumber);
+      })
+      .join("-");
+    return `${tuning.name} (${stringNotes})`;
+  };
 
   const handleChangeInstrument = (newInstrument: Instrument) => {
     // change to an appropriate tuning when instrument changes
@@ -92,6 +111,7 @@ export default function GameSettings({
 
   return (
     <>
+      {/* Error Display */}
       {error && (
         <div
           role="alert"
@@ -101,6 +121,7 @@ export default function GameSettings({
           <span>{error}</span>
         </div>
       )}
+      {/* Volume */}
       <div className="my-4">
         <label htmlFor="volume" className="label mb-2">
           <span className="label-text font-medium text-light-heading dark:text-dark-body">
@@ -171,25 +192,14 @@ export default function GameSettings({
                   key={`tuning-${tuning.name.split(" ").join()}`}
                   value={tuning.name}
                 >
-                  {`${tuning.name} (${tuning.strings
-                    .slice()
-                    .reverse()
-                    .map((note) => {
-                      const noteWithoutOctaveNumber = note.replace(/\d/g, "");
-                      return flats && !sharps
-                        ? noteWithoutOctaveNumber.substring(
-                            noteWithoutOctaveNumber.length - 2,
-                          )
-                        : noteWithoutOctaveNumber.substring(0, 2);
-                    })
-                    .join("-")})`}
+                  {tuningOptionLabel(tuning)}
                 </option>
               );
             })}
           </select>
         </label>
       </div>
-      {/* Strings */}
+      {/* Enabled Strings */}
       <div className="mb-8">
         <div className="label">
           <span className="label-text mb-1.5 font-medium text-light-heading dark:text-dark-body">
@@ -220,18 +230,11 @@ export default function GameSettings({
       {/* Hard Mode */}
       <div className="mb-8 pl-1 text-sm">
         <div className="mb-3 flex items-center">
-          <label
-            htmlFor="hardMode"
-            className="me-2.5 font-medium text-light-heading dark:text-dark-body"
-          >
-            Hard Mode
-          </label>
-          <input
-            id="hardMode"
-            type="checkbox"
+          <Toggle
+            id={"hardMode"}
+            label={"Hard Mode"}
             checked={hardMode}
             onChange={(e) => handleChangeHardMode(e)}
-            className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:border-light-link hover:bg-light-link focus-visible:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight checked:dark:bg-dark-highlight hover:dark:border-dark-body hover:dark:bg-dark-body hover:checked:dark:border-dark-hover hover:checked:dark:bg-dark-hover focus-visible:dark:outline-dark-highlight"
           />
         </div>
         <div className="flex items-center gap-2">
@@ -246,49 +249,29 @@ export default function GameSettings({
       </div>
       {/* Left-handed mode */}
       <div className="mb-8 flex items-center pl-1 text-sm">
-        <label
-          htmlFor="leftHanded"
-          className="me-2.5 font-medium text-light-heading dark:text-dark-body"
-        >
-          Left-Handed Mode
-        </label>
-        <input
-          id="leftHanded"
-          type="checkbox"
+        <Toggle
+          id={"leftHanded"}
+          label={"Left-Handed Mode"}
           checked={leftHanded}
           onChange={(e) => setLeftHanded(e.target.checked)}
-          className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:border-light-link hover:bg-light-link focus-visible:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight checked:dark:bg-dark-highlight hover:dark:border-dark-body hover:dark:bg-dark-body hover:checked:dark:border-dark-hover hover:checked:dark:bg-dark-hover focus-visible:dark:outline-dark-highlight"
         />
       </div>
-      {/* Accidentals */}
+      {/* Use Sharps */}
       <div className="mb-8 flex items-center pl-1 text-sm">
-        <label
-          htmlFor="sharps"
-          className="me-2.5 font-medium text-light-heading dark:text-dark-body"
-        >
-          Use Sharps (#)
-        </label>
-        <input
-          id="sharps"
-          type="checkbox"
+        <Toggle
+          id={"sharps"}
+          label={"Use Sharps (#)"}
           checked={sharps}
           onChange={(e) => setSharps(e.target.checked)}
-          className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:border-light-link hover:bg-light-link focus-visible:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight checked:dark:bg-dark-highlight hover:dark:border-dark-body hover:dark:bg-dark-body hover:checked:dark:border-dark-hover hover:checked:dark:bg-dark-hover focus-visible:dark:outline-dark-highlight"
         />
       </div>
+      {/* Use Flats */}
       <div className="mb-2 flex items-center pl-1 text-sm">
-        <label
-          htmlFor="flats"
-          className="me-2.5 font-medium text-light-heading dark:text-dark-body"
-        >
-          Use Flats (b)
-        </label>
-        <input
-          id="flats"
-          type="checkbox"
+        <Toggle
+          id={"flats"}
+          label={"Use Flats (b)"}
           checked={flats}
           onChange={(e) => setFlats(e.target.checked)}
-          className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:border-light-link hover:bg-light-link focus-visible:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight checked:dark:bg-dark-highlight hover:dark:border-dark-body hover:dark:bg-dark-body hover:checked:dark:border-dark-hover hover:checked:dark:bg-dark-hover focus-visible:dark:outline-dark-highlight"
         />
       </div>
     </>
@@ -306,5 +289,35 @@ function VolumeIcon({ volume }: { volume: number }) {
     <IoVolumeMedium aria-label="volume medium" className="text-4xl" />
   ) : (
     <IoVolumeHigh aria-label="volume high" className="text-4xl" />
+  );
+}
+
+function Toggle({
+  id,
+  label,
+  checked,
+  onChange,
+}: {
+  id: string;
+  label: string;
+  checked: boolean;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+}) {
+  return (
+    <>
+      <label
+        htmlFor={id}
+        className="me-2.5 font-medium text-light-heading dark:text-dark-body"
+      >
+        {label}
+      </label>
+      <input
+        id={id}
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        className="toggle bg-light-darkerBg text-light-darkerBg [--tglbg:#ffffff] checked:border-light-link checked:bg-light-link hover:border-light-link hover:bg-light-link focus-visible:outline-light-link dark:bg-dark-heading dark:text-dark-heading dark:[--tglbg:#2C2E31] checked:dark:border-dark-highlight checked:dark:bg-dark-highlight hover:dark:border-dark-body hover:dark:bg-dark-body hover:checked:dark:border-dark-hover hover:checked:dark:bg-dark-hover focus-visible:dark:outline-dark-highlight"
+      />
+    </>
   );
 }
