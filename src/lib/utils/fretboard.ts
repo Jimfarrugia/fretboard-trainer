@@ -1,5 +1,29 @@
 import { notesWithSharpsAndFlats } from "@/lib/constants";
 
+// Remove the octave number from a note (eg. "A4" => "A", "A#/Bb4" => "A#/Bb")
+export const removeOctaveNumber = (note: string) => {
+  return note.replace(/\d/g, "");
+};
+
+// Get the sharp note name from an accidental note (eg. "A#/Bb4" => "A#")
+export const sharpNote = (note: string) =>
+  removeOctaveNumber(note).substring(0, 2);
+
+// Get the flat note name from an accidental note (eg. "A#/Bb4" => "Bb")
+export const flatNote = (note: string) =>
+  removeOctaveNumber(note).substring(note.length - 2);
+
+// Check if a note is the correct answer for the current challenge
+export const isCorrectNote = (note: string, challenge: string) => {
+  if (challenge.length === 1) {
+    // challenge is a natural
+    return removeOctaveNumber(note) === challenge;
+  } else {
+    // challenge is an accidental
+    return note.includes(challenge);
+  }
+};
+
 // Choose a random note from notes array
 export function randomNote(
   notes: string[],
@@ -15,20 +39,16 @@ export function randomNote(
   }
   // if note is an accidental, pick sharp or flat randomly
   const pickSharp = Math.floor(Math.random() * 2);
-  return pickSharp
-    ? randomNote.substring(0, 2) // first two chars (sharp)
-    : randomNote.substring(randomNote.length - 2); // last two chars (flat)
+  return pickSharp ? sharpNote(randomNote) : flatNote(randomNote);
 }
 
 // Get the next note based on current note
 export function getNextNote(currentNote: string) {
   const notes = notesWithSharpsAndFlats;
-  // remove octave number from note
-  const note = currentNote.replace(/\d/g, "");
   // get index of current note in notes array
-  const index = notes.indexOf(note);
+  const currentNoteIndex = notes.indexOf(removeOctaveNumber(currentNote));
   // add 1 to index to get next note
-  return notes[(index + 1) % notes.length];
+  return notes[(currentNoteIndex + 1) % notes.length];
 }
 
 // Generate a two dimensional array representing the notes of the fretboard

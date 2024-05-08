@@ -1,4 +1,8 @@
 import {
+  removeOctaveNumber,
+  sharpNote,
+  flatNote,
+  isCorrectNote,
   randomNote,
   getNextNote,
   generateFretboard,
@@ -19,6 +23,10 @@ import { Instrument } from "@/lib/types";
 
 export {
   // fretboard
+  removeOctaveNumber,
+  sharpNote,
+  flatNote,
+  isCorrectNote,
   randomNote,
   getNextNote,
   generateFretboard,
