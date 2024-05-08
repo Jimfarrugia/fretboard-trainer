@@ -1,11 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { BsStopwatch } from "react-icons/bs";
-import { FaRegCircleCheck } from "react-icons/fa6";
-import { FaMedal } from "react-icons/fa6";
-import Fretboard from "./Fretboard";
-import GameOverCard from "./GameOverCard";
-import GameSettings from "./GameSettings";
+import { FaRegCircleCheck, FaMedal } from "react-icons/fa6";
+import { IoClose } from "react-icons/io5";
+import { IoIosSettings } from "react-icons/io";
+import { useScores } from "@/context/ScoresContext";
+import { useSettings } from "@/context/SettingsContext";
 import {
   naturalNotes,
   notesWithFlats,
@@ -18,10 +19,9 @@ import {
   findHighScore,
   ordinal,
 } from "@/lib/utils";
-import { useScores } from "@/context/ScoresContext";
-import { useSession } from "next-auth/react";
-import { IoClose } from "react-icons/io5";
-import { useSettings } from "@/context/SettingsContext";
+import Fretboard from "./Fretboard";
+import GameOverCard from "./GameOverCard";
+import GameSettings from "./GameSettings";
 
 export default function Game() {
   const {
@@ -35,10 +35,10 @@ export default function Game() {
   } = useSettings();
   const [gameInProgress, setGameInProgress] = useState(false);
   const [allowSkip, setAllowSkip] = useState(false);
-  const [challenge, setChallenge] = useState("");
-  const [challengeString, setChallengeString] = useState<number | undefined>(
-    undefined,
-  );
+  const [challengeNote, setChallengeNote] = useState("");
+  const [challengeStringNumber, setChallengeStringNumber] = useState<
+    number | undefined
+  >(undefined);
   const [timer, setTimer] = useState(60);
   const [currentScore, setCurrentScore] = useState(0);
   const [newHighScore, setNewHighScore] = useState(false);
@@ -77,14 +77,14 @@ export default function Game() {
     if (hardMode) {
       // choose a random string for hard mode challenge
       const randomString = Math.floor(Math.random() * numberOfStrings) + 1;
-      setChallengeString(randomString);
+      setChallengeStringNumber(randomString);
       // disable all other strings
       const updatedEnabledStrings = enabledStrings.map((v, i) =>
         i === randomString - 1 ? true : false,
       );
       setEnabledStrings(updatedEnabledStrings);
     }
-    setChallenge(note);
+    setChallengeNote(note);
   };
 
   // Countdown the timer and end the game when time runs out
@@ -95,7 +95,7 @@ export default function Game() {
       hideNoteLabels();
       setGameInProgress(false);
       setAllowSkip(false);
-      setChallenge("");
+      setChallengeNote("");
     };
     if (gameInProgress && timer > 0) {
       interval = setInterval(() => {
@@ -146,7 +146,7 @@ export default function Game() {
     setCurrentScore(0);
     setNewHighScore(false);
     setTimer(gameLength);
-    newChallenge(challenge);
+    newChallenge(challengeNote);
   };
 
   // Update newHighScore if needed as current score changes
@@ -161,35 +161,21 @@ export default function Game() {
       <div
         className={`flex items-end ${gameInProgress || gameOver ? "justify-between" : "justify-around"} pb-2 ${gameOver && "opacity-25"}`}
       >
-        {/* timer */}
+        {/* Countdown Timer */}
         <div
           className={`flex ${!gameInProgress && !gameOver && "hidden"} items-center gap-1`}
         >
           <BsStopwatch aria-label="time left" className="text-xl" />
           <span>{timer}</span>
         </div>
-        {/* challenge/start btn */}
+        {/* Challenge / Start Button */}
         <div className="text-center text-xl font-bold">
           {gameInProgress ? (
-            <p data-testid="challenge-container">
-              {"Find "}
-              <span
-                data-testid="challenge-note"
-                className="text-light-link dark:text-dark-highlight"
-              >
-                {challenge}
-              </span>
-              {hardMode && (
-                <>
-                  <br className="sm:hidden" />
-                  <span className="text-sm sm:text-xl">{" on the "}</span>
-                  <span className="text-sm text-light-link dark:text-dark-highlight sm:text-xl">
-                    {ordinal(challengeString as number)}
-                  </span>
-                  <span className="text-sm sm:text-xl">{" string"}</span>
-                </>
-              )}
-            </p>
+            <Challenge
+              challengeNote={challengeNote}
+              challengeStringNumber={challengeStringNumber}
+              hardMode={hardMode}
+            />
           ) : gameOver ? (
             <p data-testid="game-over-text">{"Time's up!"}</p>
           ) : (
@@ -204,7 +190,7 @@ export default function Game() {
             </button>
           )}
         </div>
-        {/* current score */}
+        {/* Current Score */}
         <div
           className={`flex ${!gameInProgress && !gameOver && "hidden"} items-center gap-1`}
         >
@@ -212,7 +198,7 @@ export default function Game() {
           <FaRegCircleCheck aria-label="current score" className="text-xl" />
         </div>
       </div>
-      {/* Game Over Card */}
+      {/* Game-Over Card */}
       <div className="relative flex justify-center">
         {gameOver && (
           <GameOverCard
@@ -227,7 +213,7 @@ export default function Game() {
         <Fretboard
           gameInProgress={gameInProgress}
           gameOver={gameOver}
-          challenge={challenge}
+          challenge={challengeNote}
           currentScore={currentScore}
           setCurrentScore={setCurrentScore}
           setAllowSkip={setAllowSkip}
@@ -235,52 +221,89 @@ export default function Game() {
         />
       </div>
       <div className="flex items-start justify-between pb-4 pt-2">
-        {/* settings btn / quit btn */}
-        <div>
-          {gameInProgress ? (
-            <button
-              type="button"
-              aria-label="quit game"
-              className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg focus-visible:dark:outline-dark-highlight"
-              onClick={() => setQuitGame(true)}
-            >
-              Quit Game
-            </button>
-          ) : (
-            <button
-              type="button"
-              aria-label="show/hide settings"
-              className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg focus-visible:dark:outline-dark-highlight"
-              onClick={() => setShowSettings(!showSettings)}
-            >
-              {showSettings && <IoClose aria-hidden className="text-xl" />}
-              {showSettings ? "Hide Settings" : "Settings"}
-            </button>
-          )}
-        </div>
-        {/* skip btn */}
-        <div>
+        {/* Settings Button / Quit Button */}
+        {gameInProgress ? (
           <button
-            data-testid="skip-button"
             type="button"
-            aria-label="skip this note"
-            className={`${(gameInProgress && allowSkip) || "hidden"} btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg focus-visible:dark:outline-dark-highlight`}
-            onClick={() => {
-              hideNoteLabels();
-              newChallenge(challenge);
-            }}
+            className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg focus-visible:dark:outline-dark-highlight"
+            aria-label="quit game"
+            onClick={() => setQuitGame(true)}
           >
-            Skip
+            Quit Game
           </button>
-        </div>
-        {/* high score */}
+        ) : (
+          <button
+            type="button"
+            className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg focus-visible:dark:outline-dark-highlight"
+            aria-label={showSettings ? "hide settings" : "show settings"}
+            onClick={() => setShowSettings(!showSettings)}
+          >
+            {showSettings ? (
+              <>
+                <IoClose aria-hidden className="text-xl" />
+                {"Hide Settings"}
+              </>
+            ) : (
+              <>
+                <IoIosSettings aria-hidden className="text-xl" />
+                {"Settings"}
+              </>
+            )}
+          </button>
+        )}
+        {/* Skip Button */}
+        <button
+          type="button"
+          data-testid="skip-button"
+          aria-label="skip this note"
+          className={`${(gameInProgress && allowSkip) || "hidden"} btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg focus-visible:dark:outline-dark-highlight`}
+          onClick={() => {
+            hideNoteLabels();
+            newChallenge(challengeNote);
+          }}
+        >
+          Skip
+        </button>
+        {/* High Score */}
         <div className={`flex items-center gap-1 ${gameOver && "opacity-25"}`}>
           <span>{highScore}</span>
           <FaMedal aria-label="high score" className="text-xl" />
         </div>
       </div>
-      {/* Settings */}
+      {/* Game Settings */}
       {showSettings && <GameSettings setIsStartDisabled={setIsStartDisabled} />}
     </>
+  );
+}
+
+function Challenge({
+  challengeNote,
+  challengeStringNumber,
+  hardMode,
+}: {
+  challengeNote: string;
+  challengeStringNumber: number | undefined;
+  hardMode: boolean;
+}) {
+  return (
+    <p data-testid="challenge-container">
+      {"Find "}
+      <span
+        data-testid="challenge-note"
+        className="text-light-link dark:text-dark-highlight"
+      >
+        {challengeNote}
+      </span>
+      {hardMode && (
+        <>
+          <br className="sm:hidden" />
+          <span className="text-sm sm:text-xl">{" on the "}</span>
+          <span className="text-sm text-light-link dark:text-dark-highlight sm:text-xl">
+            {ordinal(challengeStringNumber as number)}
+          </span>
+          <span className="text-sm sm:text-xl">{" string"}</span>
+        </>
+      )}
+    </p>
   );
 }
