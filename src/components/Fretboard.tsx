@@ -4,6 +4,10 @@ import {
   hideNoteLabels,
   translateNote,
   playNoteAudio,
+  sharpNote,
+  flatNote,
+  isCorrectNote,
+  removeOctaveNumber,
 } from "@/lib/utils";
 import { useSettings } from "@/context/SettingsContext";
 import "./Fretboard.css";
@@ -64,12 +68,8 @@ export default function Fretboard({
   ) => {
     hideNoteLabels();
     const { value: note } = e.target as HTMLButtonElement;
-    const noteWithoutOctaveNumber = note.replace(/\d/g, "");
     const span = e.currentTarget.querySelector("span");
-    if (
-      (challenge.length === 1 && noteWithoutOctaveNumber === challenge) || // correct natural
-      (challenge.length > 1 && note.includes(challenge)) // correct accidental
-    ) {
+    if (isCorrectNote(note, challenge)) {
       // Set correct answer
       setCorrectAnswer({ challenge, string, fret });
       // Show button label
@@ -87,8 +87,6 @@ export default function Fretboard({
   };
 
   const labelText = (note: string, string: number, fret: number) => {
-    const noteAsSharp = note.substring(0, 2);
-    const noteAsFlat = note.substring(note.length - 2);
     /* 
       If the label is for the button that was clicked to achieve the last correct answer, 
       it will still be shown after the new challenge has been set
@@ -104,9 +102,9 @@ export default function Fretboard({
       correctAnswer.fret === fret // it was on this fret
     ) {
       // if it was sharp, display as a sharp
-      if (correctAnswer.challenge.includes("#")) return noteAsSharp;
+      if (correctAnswer.challenge.includes("#")) return sharpNote(note);
       // if it was flat, display as a flat
-      if (correctAnswer.challenge.includes("b")) return noteAsFlat;
+      if (correctAnswer.challenge.includes("b")) return flatNote(note);
     }
     //* The code below handles everything other than the edge case described above.
     switch (true) {
@@ -114,16 +112,16 @@ export default function Fretboard({
         return note;
       // if note is an accidental and challenge is a sharp, display note as a sharp
       case note.length > 1 && challenge.includes("#"):
-        return noteAsSharp;
+        return sharpNote(note);
       // if note is an accidental and challenge is a flat, display note as a flat
       case note.length > 1 && challenge.includes("b"):
-        return noteAsFlat;
+        return flatNote(note);
       // if note is an accidental and challenge is a natural and flats:true and sharps:false, display note as a flat
       case note.length > 1 && challenge.length === 1 && flats && !sharps:
-        return noteAsFlat;
+        return flatNote(note);
       // by default, display all accidentals as sharps
       default:
-        return note.length > 1 ? noteAsSharp : note;
+        return note.length > 1 ? sharpNote(note) : note;
     }
   };
 
