@@ -114,7 +114,7 @@ export default function Leaderboard({
                         <div className="flex items-center gap-1">
                           {points}
                           {points >= bronzeScore && (
-                            <Medal
+                            <MedalIcon
                               points={points}
                               gold={goldScore}
                               silver={silverScore}
@@ -148,7 +148,6 @@ export default function Leaderboard({
 
 function LeaderboardHeader({ userId }: { userId: string | undefined }) {
   const { isOnline } = useOnlineStatus();
-
   return (
     <div className="pb-8 pt-12 sm:flex sm:items-center sm:justify-between">
       <h2 className="mb-1 text-2xl font-bold text-light-heading dark:text-dark-heading sm:mb-0">
@@ -170,7 +169,7 @@ function LeaderboardHeader({ userId }: { userId: string | undefined }) {
   );
 }
 
-function Medal({
+function MedalIcon({
   points,
   gold,
   silver,
