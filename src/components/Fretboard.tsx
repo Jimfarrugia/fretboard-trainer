@@ -153,9 +153,8 @@ export default function Fretboard({
             <div className="nut">
               {strings.map((string, stringIndex) => {
                 const note = fretboard[stringIndex][0];
-                const noteWithoutOctaveNumber = note.replace(/\d/g, "");
                 const noteLabelText = labelText(
-                  noteWithoutOctaveNumber,
+                  removeOctaveNumber(note),
                   stringIndex + 1,
                   0,
                 );
@@ -165,23 +164,12 @@ export default function Fretboard({
                     <hr
                       className={`${stringEnabled ? "" : "opacity-40 dark:opacity-10"}`}
                     />
-                    <button
-                      className="focus-visible:outline focus-visible:outline-4 focus-visible:outline-light-link focus-visible:dark:outline-dark-highlight"
-                      aria-label={translateNote(noteLabelText)}
+                    <NoteButton
+                      noteLabelText={noteLabelText}
                       value={note}
                       disabled={!gameInProgress || !stringEnabled}
                       onClick={(e) => handleClick(e, stringIndex + 1, 0)}
-                    >
-                      <span
-                        onClick={(e) => {
-                          // trigger button if span is clicked
-                          e.stopPropagation();
-                          (e.target as HTMLElement).closest("button")?.click();
-                        }}
-                      >
-                        {noteLabelText}
-                      </span>
-                    </button>
+                    />
                   </div>
                 );
               })}
@@ -191,9 +179,8 @@ export default function Fretboard({
                 <div key={`fret-${fretIndex + 1}`} className="fret">
                   {strings.map((string, stringIndex) => {
                     const note = fretboard[stringIndex][fretIndex + 1];
-                    const noteWithoutOctaveNumber = note.replace(/\d/g, "");
                     const noteLabelText = labelText(
-                      noteWithoutOctaveNumber,
+                      removeOctaveNumber(note),
                       stringIndex + 1,
                       fretIndex + 1,
                     );
@@ -203,27 +190,14 @@ export default function Fretboard({
                         <hr
                           className={`${stringEnabled ? "" : "opacity-40 dark:opacity-10"}`}
                         />
-                        <button
-                          className="z-10 focus-visible:outline focus-visible:outline-4 focus-visible:outline-light-link focus-visible:dark:outline-dark-highlight"
-                          aria-label={translateNote(noteLabelText)}
+                        <NoteButton
+                          noteLabelText={noteLabelText}
                           value={note}
                           disabled={!gameInProgress || !stringEnabled}
                           onClick={(e) =>
                             handleClick(e, stringIndex + 1, fretIndex + 1)
                           }
-                        >
-                          <span
-                            onClick={(e) => {
-                              // trigger button if span is clicked
-                              e.stopPropagation();
-                              (e.target as HTMLElement)
-                                .closest("button")
-                                ?.click();
-                            }}
-                          >
-                            {noteLabelText}
-                          </span>
-                        </button>
+                        />
                       </div>
                     );
                   })}
@@ -234,5 +208,37 @@ export default function Fretboard({
         )}
       </div>
     </div>
+  );
+}
+
+function NoteButton({
+  noteLabelText,
+  value,
+  disabled,
+  onClick,
+}: {
+  noteLabelText: string;
+  value: string;
+  disabled: boolean;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}) {
+  return (
+    <button
+      className="focus-visible:outline focus-visible:outline-4 focus-visible:outline-light-link focus-visible:dark:outline-dark-highlight"
+      aria-label={translateNote(noteLabelText)}
+      value={value}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      <span
+        onClick={(e) => {
+          // trigger button if span is clicked
+          e.stopPropagation();
+          (e.target as HTMLElement).closest("button")?.click();
+        }}
+      >
+        {noteLabelText}
+      </span>
+    </button>
   );
 }
