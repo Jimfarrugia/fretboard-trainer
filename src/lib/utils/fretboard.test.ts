@@ -1,4 +1,8 @@
 import {
+  removeOctaveNumber,
+  sharpNote,
+  flatNote,
+  isCorrectNote,
   randomNote,
   getNextNote,
   generateFretboard,
@@ -6,6 +10,68 @@ import {
   translateNote,
 } from "@/lib/utils";
 import { notesWithSharps, notesWithSharpsAndFlats } from "@/lib/constants";
+
+describe("removeOctaveNumber", () => {
+  it("returns a natural note with the octave number removed", () => {
+    const note = "A4";
+    expect(removeOctaveNumber(note)).toBe("A");
+  });
+
+  it("returns an accidental note with the octave number removed", () => {
+    const note = "A#/Bb4";
+    expect(removeOctaveNumber(note)).toBe("A#/Bb");
+  });
+
+  it("returns a natural note as-is if it doesn't have an octave number", () => {
+    const note = "A";
+    expect(removeOctaveNumber(note)).toBe(note);
+  });
+
+  it("returns an accidental note as-is if it doesn't have an octave number", () => {
+    const note = "A#/Bb";
+    expect(removeOctaveNumber(note)).toBe(note);
+  });
+});
+
+describe("sharpNote", () => {
+  it("returns the sharp note name from an accidental note", () => {
+    const note = "A#/Bb";
+    expect(sharpNote(note)).toBe("A#");
+  });
+});
+
+describe("flatNote", () => {
+  it("returns the flat note name from an accidental note", () => {
+    const note = "A#/Bb";
+    expect(flatNote(note)).toBe("Bb");
+  });
+});
+
+describe("isCorrectNote", () => {
+  it("returns true if the natural note is the correct answer for the challenge", () => {
+    const note = "A4";
+    const challenge = "A";
+    expect(isCorrectNote(note, challenge)).toBe(true);
+  });
+
+  it("returns false if the natural note is not the correct answer for the challenge", () => {
+    const note = "A4";
+    const challenge = "B";
+    expect(isCorrectNote(note, challenge)).toBe(false);
+  });
+
+  it("returns true if the accidental note is the correct answer for the challenge", () => {
+    const note = "A#/Bb4";
+    const challenge = "Bb";
+    expect(isCorrectNote(note, challenge)).toBe(true);
+  });
+
+  it("returns false if the accidental note is not the correct answer for the challenge", () => {
+    const note = "A#/Bb4";
+    const challenge = "C#";
+    expect(isCorrectNote(note, challenge)).toBe(false);
+  });
+});
 
 describe("randomNote", () => {
   afterEach(() => jest.restoreAllMocks());
