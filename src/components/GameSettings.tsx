@@ -11,7 +11,12 @@ import {
 import { useSettings } from "@/context/SettingsContext";
 import { tunings, instruments } from "@/lib/constants";
 import { Instrument, Tuning } from "@/lib/types";
-import { capitalize } from "@/lib/utils";
+import {
+  capitalize,
+  sharpNote,
+  flatNote,
+  removeOctaveNumber,
+} from "@/lib/utils";
 
 export default function GameSettings({
   setIsStartDisabled,
@@ -49,19 +54,14 @@ export default function GameSettings({
   }, [instrument, numberOfStrings, setEnabledStrings]);
 
   const tuningOptionLabel = (tuning: Tuning) => {
-    const sharpNote = (note: string) => note.substring(0, 2);
-    const flatNote = (note: string) => note.substring(note.length - 2);
     const stringNotes = tuning.strings
       .slice()
       .reverse()
       .map((note: string) => {
-        const noteWithoutOctaveNumber = note.replace(/\d/g, "");
-        if (noteWithoutOctaveNumber.length === 1) {
-          return noteWithoutOctaveNumber;
+        if (note.length === 2) {
+          return removeOctaveNumber(note);
         }
-        return flats && !sharps
-          ? flatNote(noteWithoutOctaveNumber)
-          : sharpNote(noteWithoutOctaveNumber);
+        return flats && !sharps ? flatNote(note) : sharpNote(note);
       })
       .join("-");
     return `${tuning.name} (${stringNotes})`;
