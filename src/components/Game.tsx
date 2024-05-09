@@ -14,12 +14,7 @@ import {
   notesWithSharpsAndFlats,
   gameLength,
 } from "@/lib/constants";
-import {
-  randomNote,
-  hideNoteLabels,
-  findHighScore,
-  ordinal,
-} from "@/lib/utils";
+import { randomNote, hideNoteLabels, ordinal } from "@/lib/utils";
 import Fretboard from "./Fretboard";
 import GameOverCard from "./GameOverCard";
 import GameSettings from "./GameSettings";
@@ -45,10 +40,9 @@ export default function Game() {
   const [newHighScore, setNewHighScore] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [quitGame, setQuitGame] = useState(false);
-  const { scores, addScore } = useScores();
   const [showSettings, setShowSettings] = useState(false);
-  const highScore = findHighScore(scores);
   const [isStartDisabled, setIsStartDisabled] = useState(false);
+  const { highScore, addScore } = useScores();
   const session = useSession();
   const userId = session?.data?.user?.id;
   const numberOfStrings = tuning.strings.length;
