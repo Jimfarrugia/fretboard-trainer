@@ -189,7 +189,7 @@ export default function History() {
                   </button>
                 </th>
                 <th className="p-2 text-center">Hard Mode</th>
-                {userId && isUnpublishedScoresOnPage && (
+                {isOnline && userId && isUnpublishedScoresOnPage && (
                   <th className="p-2 text-center">Publish</th>
                 )}
                 <th className="p-2 text-center">Delete</th>
@@ -231,7 +231,7 @@ export default function History() {
                     <td className="px-2 py-4 text-center">
                       {hardMode ? "On" : "Off"}
                     </td>
-                    {userId && isUnpublishedScoresOnPage && (
+                    {isOnline && userId && isUnpublishedScoresOnPage && (
                       <td className="px-2 py-4 text-center">
                         {!published && (
                           <button
@@ -274,7 +274,7 @@ export default function History() {
           totalPages={totalPages}
         />
       )}
-      {userId && selectedScore && isPublishScoreModalOpen && (
+      {isOnline && userId && selectedScore && isPublishScoreModalOpen && (
         <PublishScoreModal
           userId={userId}
           score={selectedScore}

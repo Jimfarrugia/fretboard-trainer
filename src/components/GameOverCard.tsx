@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { MdReplay } from "react-icons/md";
 import { IoIosSend } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
-import { useScores } from "@/context/ScoresContext";
-import PublishScoreForm from "./PublishScoreForm";
 import { getScoreRanking } from "@/actions";
 import { ordinal } from "@/lib/utils";
+import { useScores } from "@/context/ScoresContext";
+import { useOnlineStatus } from "@/lib/hooks";
+import PublishScoreForm from "./PublishScoreForm";
 
 export default function GameOverCard({
   currentScore,
@@ -20,6 +21,7 @@ export default function GameOverCard({
   startGame: () => void;
   userId: string | undefined;
 }) {
+  const { isOnline } = useOnlineStatus();
   const [showForm, setShowForm] = useState(false);
   const [rank, setRank] = useState(0);
   const {
@@ -91,17 +93,26 @@ export default function GameOverCard({
                     : `You achieved the ${ordinal(rank)} highest score!`}
                 </p>
               )}
-              <p className="mb-6">
-                Would you like to publish your score to the leaderboard?
-              </p>
-              <button
-                type="button"
-                className="btn btn-primary border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
-                onClick={() => setShowForm(true)}
-              >
-                <IoIosSend className="text-lg" />
-                Publish Score
-              </button>
+              {isOnline ? (
+                <>
+                  <p className="mb-6">
+                    Would you like to publish your score to the leaderboard?
+                  </p>
+                  <button
+                    type="button"
+                    className="btn btn-primary border-0 bg-light-link text-light-bg hover:bg-light-hover hover:text-light-bg dark:bg-dark-highlight dark:text-dark-darkerBg dark:hover:bg-dark-link hover:dark:text-dark-bg"
+                    onClick={() => setShowForm(true)}
+                  >
+                    <IoIosSend className="text-lg" />
+                    Publish Score
+                  </button>
+                </>
+              ) : (
+                <p className="text-sm">
+                  You will be able to publish this score to the leaderboard from
+                  the History section when you are back online.
+                </p>
+              )}
             </>
           )}
         </>
