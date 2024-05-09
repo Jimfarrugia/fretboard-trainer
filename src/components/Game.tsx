@@ -29,18 +29,18 @@ export default function Game() {
     hardMode,
     setEnabledStrings,
   } = useSettings();
-  const [gameInProgress, setGameInProgress] = useState(false);
-  const [allowSkip, setAllowSkip] = useState(false);
+  const [isGameInProgress, setIsGameInProgress] = useState(false);
+  const [isSkippable, setIsSkippable] = useState(false);
   const [challengeNote, setChallengeNote] = useState("");
   const [challengeStringNumber, setChallengeStringNumber] = useState<
     number | undefined
   >(undefined);
   const [timer, setTimer] = useState(gameLength);
   const [currentScore, setCurrentScore] = useState(0);
-  const [newHighScore, setNewHighScore] = useState(false);
-  const [gameOver, setGameOver] = useState(false);
-  const [quitGame, setQuitGame] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
+  const [isNewHighScore, setIsNewHighScore] = useState(false);
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [isGameQuit, setIsGameQuit] = useState(false);
+  const [isSettingsVisible, setIsSettingsVisible] = useState(false);
   const [isStartDisabled, setIsStartDisabled] = useState(false);
   const { highScore, addScore } = useScores();
   const session = useSession();
@@ -87,27 +87,27 @@ export default function Game() {
     const endGame = () => {
       clearInterval(interval);
       hideNoteLabels();
-      setGameInProgress(false);
-      setAllowSkip(false);
+      setIsGameInProgress(false);
+      setIsSkippable(false);
       setChallengeNote("");
     };
-    if (gameInProgress && timer > 0) {
+    if (isGameInProgress && timer > 0) {
       interval = setInterval(() => {
         setTimer(timer - 1);
       }, 1000);
     } else if (timer === 0) {
       endGame();
-      setGameOver(true);
+      setIsGameOver(true);
     }
-    if (quitGame) {
+    if (isGameQuit) {
       endGame();
     }
     return () => clearInterval(interval);
-  }, [timer, gameInProgress, quitGame]);
+  }, [timer, isGameInProgress, isGameQuit]);
 
   // save the new score
   useEffect(() => {
-    if (gameOver) {
+    if (isGameOver) {
       const newScore = {
         points: currentScore,
         tuning: tuning.name,
@@ -118,59 +118,59 @@ export default function Game() {
       addScore(newScore);
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameOver]);
+  }, [isGameOver]);
 
   // Reset enabledStrings when a hardMode game ends
   useEffect(() => {
-    if (hardMode && (gameOver || quitGame)) {
+    if (hardMode && (isGameOver || isGameQuit)) {
       const updatedEnabledStrings = Array.from(
         { length: numberOfStrings },
         () => true,
       );
       setEnabledStrings(updatedEnabledStrings);
     }
-  }, [quitGame, gameOver, hardMode, numberOfStrings, setEnabledStrings]);
+  }, [isGameQuit, isGameOver, hardMode, numberOfStrings, setEnabledStrings]);
 
   // Start a new game
   const startGame = () => {
-    setGameOver(false);
-    setQuitGame(false);
-    setGameInProgress(true);
-    setShowSettings(false);
+    setIsGameOver(false);
+    setIsGameQuit(false);
+    setIsGameInProgress(true);
+    setIsSettingsVisible(false);
     setCurrentScore(0);
-    setNewHighScore(false);
+    setIsNewHighScore(false);
     setTimer(gameLength);
     newChallenge(challengeNote);
   };
 
-  // Update newHighScore if needed as current score changes
+  // Update isNewHighScore if needed as current score changes
   useEffect(() => {
     if (currentScore > highScore) {
-      setNewHighScore(true);
+      setIsNewHighScore(true);
     }
   }, [currentScore, highScore]);
 
   return (
     <>
       <div
-        className={`flex items-end ${gameInProgress || gameOver ? "justify-between" : "justify-around"} pb-2 ${gameOver && "opacity-25"}`}
+        className={`flex items-end ${isGameInProgress || isGameOver ? "justify-between" : "justify-around"} pb-2 ${isGameOver && "opacity-25"}`}
       >
         {/* Countdown Timer */}
         <div
-          className={`flex ${!gameInProgress && !gameOver && "hidden"} items-center gap-1`}
+          className={`flex ${!isGameInProgress && !isGameOver && "hidden"} items-center gap-1`}
         >
           <BsStopwatch aria-label="time left" className="text-xl" />
           <span>{timer}</span>
         </div>
         {/* Challenge / Start Button */}
         <div className="text-center text-xl font-bold">
-          {gameInProgress ? (
+          {isGameInProgress ? (
             <Challenge
               challengeNote={challengeNote}
               challengeStringNumber={challengeStringNumber}
               hardMode={hardMode}
             />
-          ) : gameOver ? (
+          ) : isGameOver ? (
             <p data-testid="game-over-text">{"Time's up!"}</p>
           ) : (
             <button
@@ -186,7 +186,7 @@ export default function Game() {
         </div>
         {/* Current Score */}
         <div
-          className={`flex ${!gameInProgress && !gameOver && "hidden"} items-center gap-1`}
+          className={`flex ${!isGameInProgress && !isGameOver && "hidden"} items-center gap-1`}
         >
           <span data-testid="current-score">{currentScore}</span>
           <FaRegCircleCheck aria-label="current score" className="text-xl" />
@@ -194,34 +194,34 @@ export default function Game() {
       </div>
       {/* Game-Over Card */}
       <div className="relative flex justify-center">
-        {gameOver && (
+        {isGameOver && (
           <GameOverCard
             currentScore={currentScore}
-            newHighScore={newHighScore}
-            setGameOver={setGameOver}
+            isNewHighScore={isNewHighScore}
+            setIsGameOver={setIsGameOver}
             startGame={startGame}
             userId={userId}
           />
         )}
         {/* Fretboard */}
         <Fretboard
-          gameInProgress={gameInProgress}
-          gameOver={gameOver}
+          isGameInProgress={isGameInProgress}
+          isGameOver={isGameOver}
           challenge={challengeNote}
           currentScore={currentScore}
           setCurrentScore={setCurrentScore}
-          setAllowSkip={setAllowSkip}
+          setIsSkippable={setIsSkippable}
           newChallenge={newChallenge}
         />
       </div>
       <div className="flex items-start justify-between pb-4 pt-2">
         {/* Settings Button / Quit Button */}
-        {gameInProgress ? (
+        {isGameInProgress ? (
           <button
             type="button"
             className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg focus-visible:dark:outline-dark-highlight"
             aria-label="quit game"
-            onClick={() => setQuitGame(true)}
+            onClick={() => setIsGameQuit(true)}
           >
             Quit Game
           </button>
@@ -229,10 +229,10 @@ export default function Game() {
           <button
             type="button"
             className="btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg focus-visible:dark:outline-dark-highlight"
-            aria-label={showSettings ? "hide settings" : "show settings"}
-            onClick={() => setShowSettings(!showSettings)}
+            aria-label={isSettingsVisible ? "hide settings" : "show settings"}
+            onClick={() => setIsSettingsVisible(!isSettingsVisible)}
           >
-            {showSettings ? (
+            {isSettingsVisible ? (
               <>
                 <IoClose aria-hidden className="text-xl" />
                 {"Hide Settings"}
@@ -250,7 +250,7 @@ export default function Game() {
           type="button"
           data-testid="skip-button"
           aria-label="skip this note"
-          className={`${(gameInProgress && allowSkip) || "hidden"} btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg focus-visible:dark:outline-dark-highlight`}
+          className={`${(isGameInProgress && isSkippable) || "hidden"} btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg focus-visible:dark:outline-dark-highlight`}
           onClick={() => {
             hideNoteLabels();
             newChallenge(challengeNote);
@@ -259,13 +259,17 @@ export default function Game() {
           Skip
         </button>
         {/* High Score */}
-        <div className={`flex items-center gap-1 ${gameOver && "opacity-25"}`}>
+        <div
+          className={`flex items-center gap-1 ${isGameOver && "opacity-25"}`}
+        >
           <span>{highScore}</span>
           <FaMedal aria-label="high score" className="text-xl" />
         </div>
       </div>
       {/* Game Settings */}
-      {showSettings && <GameSettings setIsStartDisabled={setIsStartDisabled} />}
+      {isSettingsVisible && (
+        <GameSettings setIsStartDisabled={setIsStartDisabled} />
+      )}
     </>
   );
 }

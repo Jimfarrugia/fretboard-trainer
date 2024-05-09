@@ -10,14 +10,14 @@ import PublishScoreForm from "./PublishScoreForm";
 
 export default function GameOverCard({
   currentScore,
-  newHighScore,
-  setGameOver,
+  isNewHighScore,
+  setIsGameOver,
   startGame,
   userId,
 }: {
   currentScore: number;
-  newHighScore: boolean;
-  setGameOver: (over: boolean) => void;
+  isNewHighScore: boolean;
+  setIsGameOver: (over: boolean) => void;
   startGame: () => void;
   userId: string | undefined;
 }) {
@@ -46,7 +46,7 @@ export default function GameOverCard({
           type="button"
           className="btn btn-circle absolute right-2 top-2 scale-50 border-none bg-light-darkerBg text-light-heading hover:bg-error hover:text-light-bg focus-visible:outline-4 focus-visible:outline-light-link dark:bg-dark-bg dark:text-dark-link hover:dark:bg-error hover:dark:text-dark-darkerBg focus-visible:dark:outline-dark-highlight"
           style={{ marginRight: "-0.5rem", marginTop: "-0.5rem" }}
-          onClick={() => setGameOver(false)}
+          onClick={() => setIsGameOver(false)}
         >
           <IoClose className="text-3xl" />
         </button>
@@ -72,7 +72,7 @@ export default function GameOverCard({
             </span>{" "}
             points.
           </p>
-          {newHighScore && (
+          {isNewHighScore && (
             <p className="mb-6">Congratulations on your new high score!</p>
           )}
           <button

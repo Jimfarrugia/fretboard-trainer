@@ -13,12 +13,12 @@ import { useSettings } from "@/context/SettingsContext";
 import "./Fretboard.css";
 
 interface FretboardProps {
-  gameInProgress: boolean;
-  gameOver: boolean;
+  isGameInProgress: boolean;
+  isGameOver: boolean;
   challenge: string;
   currentScore: number;
   setCurrentScore: (currentScore: number) => void;
-  setAllowSkip: (allowSkip: boolean) => void;
+  setIsSkippable: (isSkippable: boolean) => void;
   newChallenge: (previousChallenge: string) => void;
 }
 
@@ -29,12 +29,12 @@ interface CorrectAnswer {
 }
 
 export default function Fretboard({
-  gameInProgress,
-  gameOver,
+  isGameInProgress,
+  isGameOver,
   challenge,
   currentScore,
   setCurrentScore,
-  setAllowSkip,
+  setIsSkippable,
   newChallenge,
 }: FretboardProps) {
   const {
@@ -76,11 +76,11 @@ export default function Fretboard({
       if (span) span.classList.add("clicked", "correct");
       // Update game state
       setCurrentScore(currentScore + 1);
-      setAllowSkip(false);
+      setIsSkippable(false);
       newChallenge(challenge);
     } else {
       if (span) span.classList.add("clicked", "incorrect");
-      setAllowSkip(true);
+      setIsSkippable(true);
     }
     // Play the note audio
     playNoteAudio(instrument, note, volume / 100);
@@ -127,7 +127,7 @@ export default function Fretboard({
 
   return (
     <div
-      className={`fretboard-wrapper text-sm ${gameOver ? "opacity-25" : ""}`}
+      className={`fretboard-wrapper text-sm ${isGameOver ? "opacity-25" : ""}`}
     >
       <div
         data-testid="fretboard"
@@ -167,7 +167,7 @@ export default function Fretboard({
                     <NoteButton
                       noteLabelText={noteLabelText}
                       value={note}
-                      disabled={!gameInProgress || !stringEnabled}
+                      disabled={!isGameInProgress || !stringEnabled}
                       onClick={(e) => handleClick(e, stringIndex + 1, 0)}
                     />
                   </div>
@@ -193,7 +193,7 @@ export default function Fretboard({
                         <NoteButton
                           noteLabelText={noteLabelText}
                           value={note}
-                          disabled={!gameInProgress || !stringEnabled}
+                          disabled={!isGameInProgress || !stringEnabled}
                           onClick={(e) =>
                             handleClick(e, stringIndex + 1, fretIndex + 1)
                           }
