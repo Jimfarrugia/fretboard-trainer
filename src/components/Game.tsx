@@ -55,7 +55,7 @@ export default function Game() {
           ? notesWithFlats
           : naturalNotes;
 
-  const newChallenge = (previousChallenge: string) => {
+  const generateNewChallenge = (previousChallenge: string) => {
     // remove previous challenge note from eligible notes for next challenge
     const eligibleNotes = !previousChallenge
       ? notes
@@ -140,7 +140,7 @@ export default function Game() {
     setCurrentScore(0);
     setIsNewHighScore(false);
     setTimer(gameLength);
-    newChallenge(challengeNote);
+    generateNewChallenge(challengeNote);
   };
 
   // Update isNewHighScore if needed as current score changes
@@ -211,7 +211,7 @@ export default function Game() {
           currentScore={currentScore}
           setCurrentScore={setCurrentScore}
           setIsSkippable={setIsSkippable}
-          newChallenge={newChallenge}
+          generateNewChallenge={generateNewChallenge}
         />
       </div>
       <div className="flex items-start justify-between pb-4 pt-2">
@@ -253,7 +253,7 @@ export default function Game() {
           className={`${(isGameInProgress && isSkippable) || "hidden"} btn btn-primary border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover hover:dark:text-dark-bg focus-visible:dark:outline-dark-highlight`}
           onClick={() => {
             hideNoteLabels();
-            newChallenge(challengeNote);
+            generateNewChallenge(challengeNote);
           }}
         >
           Skip

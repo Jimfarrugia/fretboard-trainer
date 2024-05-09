@@ -19,7 +19,7 @@ interface FretboardProps {
   currentScore: number;
   setCurrentScore: (currentScore: number) => void;
   setIsSkippable: (isSkippable: boolean) => void;
-  newChallenge: (previousChallenge: string) => void;
+  generateNewChallenge: (previousChallenge: string) => void;
 }
 
 interface CorrectAnswer {
@@ -35,7 +35,7 @@ export default function Fretboard({
   currentScore,
   setCurrentScore,
   setIsSkippable,
-  newChallenge,
+  generateNewChallenge,
 }: FretboardProps) {
   const {
     instrument,
@@ -77,7 +77,7 @@ export default function Fretboard({
       // Update game state
       setCurrentScore(currentScore + 1);
       setIsSkippable(false);
-      newChallenge(challenge);
+      generateNewChallenge(challenge);
     } else {
       if (span) span.classList.add("clicked", "incorrect");
       setIsSkippable(true);
