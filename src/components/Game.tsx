@@ -12,6 +12,7 @@ import {
   notesWithFlats,
   notesWithSharps,
   notesWithSharpsAndFlats,
+  gameLength,
 } from "@/lib/constants";
 import {
   randomNote,
@@ -39,7 +40,7 @@ export default function Game() {
   const [challengeStringNumber, setChallengeStringNumber] = useState<
     number | undefined
   >(undefined);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(gameLength);
   const [currentScore, setCurrentScore] = useState(0);
   const [newHighScore, setNewHighScore] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -47,10 +48,9 @@ export default function Game() {
   const { scores, addScore } = useScores();
   const [showSettings, setShowSettings] = useState(false);
   const highScore = findHighScore(scores);
+  const [isStartDisabled, setIsStartDisabled] = useState(false);
   const session = useSession();
   const userId = session?.data?.user?.id;
-  const [isStartDisabled, setIsStartDisabled] = useState(false);
-  const gameLength = process.env.NODE_ENV !== "production" ? 10 : 30;
   const numberOfStrings = tuning.strings.length;
   const notes =
     sharps && flats

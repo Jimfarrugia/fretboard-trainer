@@ -173,3 +173,5 @@ export const defaultSettings = {
   hardMode: false,
   volume: 100,
 };
+
+export const gameLength = process.env.NODE_ENV !== "production" ? 10 : 30;
