@@ -8,11 +8,11 @@ import { IoIosSettings } from "react-icons/io";
 import { useScores } from "@/context/ScoresContext";
 import { useSettings } from "@/context/SettingsContext";
 import {
+  gameLength,
   naturalNotes,
   notesWithFlats,
   notesWithSharps,
   notesWithSharpsAndFlats,
-  gameLength,
 } from "@/lib/constants";
 import { randomNote, hideNoteLabels, ordinal } from "@/lib/utils";
 import Fretboard from "./Fretboard";
@@ -21,29 +21,29 @@ import GameSettings from "./GameSettings";
 
 export default function Game() {
   const {
+    flats,
+    sharps,
+    hardMode,
     tuning,
     instrument,
     enabledStrings,
-    sharps,
-    flats,
-    hardMode,
     setEnabledStrings,
   } = useSettings();
-  const [isGameInProgress, setIsGameInProgress] = useState(false);
-  const [isSkippable, setIsSkippable] = useState(false);
+  const session = useSession();
+  const { highScore, addScore } = useScores();
+  const [timer, setTimer] = useState(gameLength);
+  const [currentScore, setCurrentScore] = useState(0);
   const [challengeNote, setChallengeNote] = useState("");
   const [challengeStringNumber, setChallengeStringNumber] = useState<
     number | undefined
   >(undefined);
-  const [timer, setTimer] = useState(gameLength);
-  const [currentScore, setCurrentScore] = useState(0);
   const [isNewHighScore, setIsNewHighScore] = useState(false);
+  const [isSkippable, setIsSkippable] = useState(false);
+  const [isGameInProgress, setIsGameInProgress] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [isGameQuit, setIsGameQuit] = useState(false);
-  const [isSettingsVisible, setIsSettingsVisible] = useState(false);
   const [isStartDisabled, setIsStartDisabled] = useState(false);
-  const { highScore, addScore } = useScores();
-  const session = useSession();
+  const [isSettingsVisible, setIsSettingsVisible] = useState(false);
   const userId = session?.data?.user?.id;
   const numberOfStrings = tuning.strings.length;
   const notes =
@@ -192,8 +192,8 @@ export default function Game() {
           <FaRegCircleCheck aria-label="current score" className="text-xl" />
         </div>
       </div>
-      {/* Game-Over Card */}
       <div className="relative flex justify-center">
+        {/* Game-Over Card */}
         {isGameOver && (
           <GameOverCard
             currentScore={currentScore}
