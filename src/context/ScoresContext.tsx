@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { Score } from "@/lib/types";
 import {
+  findHighScore,
   mergeScores,
   parseLocalStorageScores,
   setLocalStorageScores,
@@ -11,6 +12,7 @@ import { useSession } from "next-auth/react";
 
 interface ScoresContextType {
   scores: Score[];
+  highScore: number;
   addScore: (score: Score) => void;
   updateScore: (timestamp: string, newValues: Partial<Score>) => void;
   removeScore: (timestamp: string) => void;
@@ -18,6 +20,7 @@ interface ScoresContextType {
 
 const ScoresContext = createContext<ScoresContextType>({
   scores: [],
+  highScore: 0,
   addScore: () => {},
   updateScore: () => {},
   removeScore: () => {},
@@ -100,9 +103,12 @@ export function ScoresProvider({ children }: { children: React.ReactNode }) {
     setLocalStorageScores(updatedScores);
   };
 
+  // Find the highest points value in scores
+  const highScore = findHighScore(scores);
+
   return (
     <ScoresContext.Provider
-      value={{ scores, addScore, updateScore, removeScore }}
+      value={{ scores, highScore, addScore, updateScore, removeScore }}
     >
       {children}
     </ScoresContext.Provider>
