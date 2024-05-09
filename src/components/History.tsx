@@ -283,6 +283,7 @@ export default function History() {
       )}
       {selectedScore && isDeleteScoreModalOpen && (
         <DeleteScoreModal
+          isOnline={isOnline}
           userId={userId || ""}
           score={selectedScore}
           setIsOpen={setIsDeleteScoreModalOpen}

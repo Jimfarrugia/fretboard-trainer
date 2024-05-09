@@ -5,10 +5,12 @@ import { deleteScore } from "@/actions";
 import { Score } from "@/lib/types";
 
 export default function DeleteScoreForm({
+  isOnline,
   userId,
   score,
   setIsOpen,
 }: {
+  isOnline: boolean | undefined;
   userId?: string;
   score: Score;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,7 +25,7 @@ export default function DeleteScoreForm({
     e.preventDefault();
     setLoading(true);
     // If user is signed in, delete the score from the database
-    if (userId) {
+    if (isOnline && userId) {
       deleteScore(userId, score)
         .then(() => {
           setSuccess(true);

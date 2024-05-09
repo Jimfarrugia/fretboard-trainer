@@ -4,10 +4,12 @@ import { capitalize, dateFromTimestamp } from "@/lib/utils";
 import DeleteScoreForm from "./DeleteScoreForm";
 
 export default function DeleteScoreModal({
+  isOnline,
   userId,
   score,
   setIsOpen,
 }: {
+  isOnline: boolean | undefined;
   userId?: string;
   score: Score;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -54,7 +56,12 @@ export default function DeleteScoreModal({
             </tr>
           </tbody>
         </table>
-        <DeleteScoreForm userId={userId} score={score} setIsOpen={setIsOpen} />
+        <DeleteScoreForm
+          isOnline={isOnline}
+          userId={userId}
+          score={score}
+          setIsOpen={setIsOpen}
+        />
       </div>
       <form method="dialog" className="modal-backdrop">
         <button onClick={() => setIsOpen(false)}>close</button>
