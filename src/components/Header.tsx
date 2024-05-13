@@ -20,7 +20,7 @@ export default function Header() {
           Fretboard Trainer
         </h1>
       </Link>
-      <div className="flex items-center gap-2 text-sm sm:gap-6">
+      <div className="flex items-center gap-4 text-sm sm:gap-6">
         <div
           data-testid="header-nav-links"
           className="hidden items-center gap-6 sm:flex"
@@ -49,9 +49,9 @@ export default function Header() {
             tabIndex={0}
             role="button"
             aria-label="Open dropdown"
-            className="btn btn-circle scale-75 border-none bg-light-darkerBg text-light-heading hover:bg-light-link hover:text-light-bg dark:bg-dark-darkerBg dark:text-dark-link hover:dark:bg-dark-hover hover:dark:text-dark-darkerBg"
+            className="btn btn-circle border-none bg-light-darkerBg text-light-heading hover:bg-light-link hover:text-light-bg dark:bg-dark-darkerBg dark:text-dark-link hover:dark:bg-dark-hover hover:dark:text-dark-darkerBg"
           >
-            <HiOutlineDotsVertical className="text-xl" />
+            <HiOutlineDotsVertical className="text-2xl" />
           </div>
           <ul
             data-testid="header-nav-dropdown-links"

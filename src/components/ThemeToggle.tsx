@@ -21,7 +21,7 @@ export default function ThemeToggle() {
   return (
     <button
       aria-label={`${resolvedTheme === "light" ? "dark" : "light"} mode`}
-      className="rounded-full text-xl text-light-link transition-colors hover:text-light-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-light-link dark:text-dark-link dark:hover:text-dark-hover focus-visible:dark:outline-dark-highlight"
+      className="rounded-full text-2xl text-light-link transition-colors hover:text-light-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-light-link dark:text-dark-link dark:hover:text-dark-hover focus-visible:dark:outline-dark-highlight"
       onClick={handleClick}
     >
       {resolvedTheme === "light" ? (
