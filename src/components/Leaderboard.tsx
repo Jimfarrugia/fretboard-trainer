@@ -74,7 +74,7 @@ export default function Leaderboard({
         emptyText={"There are no published scores which match these filters."}
       />
       {paginatedScores && paginatedScores.length > 0 && (
-        <div className="overflow-x-auto sm:overflow-visible">
+        <div className="overflow-x-auto rounded-sm focus-visible:outline focus-visible:outline-light-link focus-visible:dark:outline-dark-highlight sm:overflow-visible">
           <table className="w-full table-auto text-nowrap text-xs">
             <thead className="text-left text-light-heading dark:text-dark-heading">
               <tr className="border-b-2 border-light-darkerBg dark:border-dark-darkerBg">

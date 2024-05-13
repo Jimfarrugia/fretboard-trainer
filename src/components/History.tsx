@@ -149,7 +149,7 @@ export default function History() {
         emptyText={"You have no scores which match these filters."}
       />
       {paginatedScores.length > 0 && (
-        <div className="overflow-x-auto sm:overflow-visible">
+        <div className="overflow-x-auto rounded-sm focus-visible:outline focus-visible:outline-light-link focus-visible:dark:outline-dark-highlight sm:overflow-visible">
           <table
             data-testid="history-table"
             className="w-full table-auto text-nowrap text-xs"
@@ -233,7 +233,7 @@ export default function History() {
                     </td>
                     {isOnline && userId && isUnpublishedScoresOnPage && (
                       <td className="px-2 py-4 text-center">
-                        {!published && (
+                        {!published && points > 0 && (
                           <button
                             className="btn btn-square btn-primary btn-sm border-0 bg-light-darkerBg text-light-body hover:bg-light-hover hover:text-light-bg focus-visible:outline-light-link dark:bg-dark-darkerBg dark:text-dark-body dark:hover:bg-dark-hover dark:hover:text-dark-bg focus-visible:dark:outline-dark-highlight"
                             aria-label="publish score"
