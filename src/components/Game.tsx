@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import { BsStopwatch } from "react-icons/bs";
 import { FaRegCircleCheck, FaMedal } from "react-icons/fa6";
@@ -46,14 +46,12 @@ export default function Game() {
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
   const userId = session?.data?.user?.id;
   const numberOfStrings = tuning.strings.length;
-  const notes =
-    sharps && flats
-      ? notesWithSharpsAndFlats
-      : sharps
-        ? notesWithSharps
-        : flats
-          ? notesWithFlats
-          : naturalNotes;
+  const notes = useMemo(() => {
+    if (sharps && flats) return notesWithSharpsAndFlats;
+    if (sharps) return notesWithSharps;
+    if (flats) return notesWithFlats;
+    return naturalNotes;
+  }, [sharps, flats]);
 
   const generateNewChallenge = (previousChallenge: string) => {
     // remove previous challenge note from eligible notes for next challenge
