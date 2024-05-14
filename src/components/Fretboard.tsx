@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import React from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   generateFretboard,
   hideNoteLabels,
@@ -61,33 +62,45 @@ export default function Fretboard({
   }, [tuning]);
 
   // Display the label for the clicked note and handle correct/incorrect answer
-  const handleClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    string: number,
-    fret: number,
-  ) => {
-    hideNoteLabels();
-    const { value: note } = e.target as HTMLButtonElement;
-    const span = e.currentTarget.querySelector("span");
-    if (isCorrectNote(note, challenge)) {
-      // Set correct answer
-      setCorrectAnswer({ challenge, string, fret });
-      // Show button label
-      if (span) span.classList.add("clicked", "correct");
-      // Update game state
-      setCurrentScore(currentScore + 1);
-      setIsSkippable(false);
-      generateNewChallenge(challenge);
-    } else {
-      if (span) span.classList.add("clicked", "incorrect");
-      setIsSkippable(true);
-    }
-    // Play the note audio
-    playNoteAudio(instrument, note, volume / 100);
-  };
+  const handleClick = useCallback(
+    (
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+      string: number,
+      fret: number,
+    ) => {
+      hideNoteLabels();
+      const { value: note } = e.target as HTMLButtonElement;
+      const span = e.currentTarget.querySelector("span");
+      if (isCorrectNote(note, challenge)) {
+        // Set correct answer
+        setCorrectAnswer({ challenge, string, fret });
+        // Show button label
+        if (span) span.classList.add("clicked", "correct");
+        // Update game state
+        setCurrentScore(currentScore + 1);
+        setIsSkippable(false);
+        generateNewChallenge(challenge);
+      } else {
+        if (span) span.classList.add("clicked", "incorrect");
+        setIsSkippable(true);
+      }
+      // Play the note audio
+      playNoteAudio(instrument, note, volume / 100);
+    },
+    [
+      challenge,
+      currentScore,
+      instrument,
+      volume,
+      setCurrentScore,
+      setIsSkippable,
+      generateNewChallenge,
+    ],
+  );
 
-  const labelText = (note: string, string: number, fret: number) => {
-    /* 
+  const labelText = useCallback(
+    (note: string, string: number, fret: number) => {
+      /* 
       If the label is for the button that was clicked to achieve the last correct answer, 
       it will still be shown after the new challenge has been set
       and its label may change to use a different accidental to what the user was targeting.
@@ -95,35 +108,37 @@ export default function Fretboard({
       To fix, we check if this label is for the button that was clicked to achieve the last correct answer
       and if so, we display the label using the accidental that was used for the previous challenge.
     */
-    if (
-      correctAnswer && // there was a correct answer
-      correctAnswer.challenge.length > 1 && // it was an accidental
-      correctAnswer.string === string && // it was on this string
-      correctAnswer.fret === fret // it was on this fret
-    ) {
-      // if it was sharp, display as a sharp
-      if (correctAnswer.challenge.includes("#")) return sharpNote(note);
-      // if it was flat, display as a flat
-      if (correctAnswer.challenge.includes("b")) return flatNote(note);
-    }
-    //* The code below handles everything other than the edge case described above.
-    switch (true) {
-      case note.length === 1:
-        return note;
-      // if note is an accidental and challenge is a sharp, display note as a sharp
-      case note.length > 1 && challenge.includes("#"):
-        return sharpNote(note);
-      // if note is an accidental and challenge is a flat, display note as a flat
-      case note.length > 1 && challenge.includes("b"):
-        return flatNote(note);
-      // if note is an accidental and challenge is a natural and flats:true and sharps:false, display note as a flat
-      case note.length > 1 && challenge.length === 1 && flats && !sharps:
-        return flatNote(note);
-      // by default, display all accidentals as sharps
-      default:
-        return note.length > 1 ? sharpNote(note) : note;
-    }
-  };
+      if (
+        correctAnswer && // there was a correct answer
+        correctAnswer.challenge.length > 1 && // it was an accidental
+        correctAnswer.string === string && // it was on this string
+        correctAnswer.fret === fret // it was on this fret
+      ) {
+        // if it was sharp, display as a sharp
+        if (correctAnswer.challenge.includes("#")) return sharpNote(note);
+        // if it was flat, display as a flat
+        if (correctAnswer.challenge.includes("b")) return flatNote(note);
+      }
+      //* The code below handles everything other than the edge case described above.
+      switch (true) {
+        case note.length === 1:
+          return note;
+        // if note is an accidental and challenge is a sharp, display note as a sharp
+        case note.length > 1 && challenge.includes("#"):
+          return sharpNote(note);
+        // if note is an accidental and challenge is a flat, display note as a flat
+        case note.length > 1 && challenge.includes("b"):
+          return flatNote(note);
+        // if note is an accidental and challenge is a natural and flats:true and sharps:false, display note as a flat
+        case note.length > 1 && challenge.length === 1 && flats && !sharps:
+          return flatNote(note);
+        // by default, display all accidentals as sharps
+        default:
+          return note.length > 1 ? sharpNote(note) : note;
+      }
+    },
+    [correctAnswer, challenge, flats, sharps],
+  );
 
   return (
     <div
@@ -211,7 +226,7 @@ export default function Fretboard({
   );
 }
 
-function NoteButton({
+const NoteButton = React.memo(function NoteButton({
   noteLabelText,
   value,
   disabled,
@@ -241,4 +256,4 @@ function NoteButton({
       </span>
     </button>
   );
-}
+});
