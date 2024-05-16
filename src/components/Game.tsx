@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import { BsStopwatch } from "react-icons/bs";
 import { FaRegCircleCheck, FaMedal } from "react-icons/fa6";
@@ -53,31 +53,42 @@ export default function Game() {
     return naturalNotes;
   }, [sharps, flats]);
 
-  const generateNewChallenge = (previousChallenge: string) => {
-    // remove previous challenge note from eligible notes for next challenge
-    const eligibleNotes = !previousChallenge
-      ? notes
-      : notes.filter((note) => {
-          // IF using both sharps and flats AND previous challenge was a sharp/flat
-          // (notesWithSharpsAndFlats will be in use, so check if 'note' INCLUDES the previous challenge)
-          return sharps && flats && previousChallenge.length > 1
-            ? !note.includes(previousChallenge)
-            : note !== previousChallenge;
-        });
-    // choose a random eligible note for next challenge
-    const note = randomNote(eligibleNotes, sharps && flats);
-    if (hardMode) {
-      // choose a random string for hard mode challenge
-      const randomString = Math.floor(Math.random() * numberOfStrings) + 1;
-      setChallengeStringNumber(randomString);
-      // disable all other strings
-      const updatedEnabledStrings = enabledStrings.map((v, i) =>
-        i === randomString - 1 ? true : false,
-      );
-      setEnabledStrings(updatedEnabledStrings);
-    }
-    setChallengeNote(note);
-  };
+  const generateNewChallenge = useCallback(
+    (previousChallenge: string) => {
+      // remove previous challenge note from eligible notes for next challenge
+      const eligibleNotes = !previousChallenge
+        ? notes
+        : notes.filter((note) => {
+            // IF using both sharps and flats AND previous challenge was a sharp/flat
+            // (notesWithSharpsAndFlats will be in use, so check if 'note' INCLUDES the previous challenge)
+            return sharps && flats && previousChallenge.length > 1
+              ? !note.includes(previousChallenge)
+              : note !== previousChallenge;
+          });
+      // choose a random eligible note for next challenge
+      const note = randomNote(eligibleNotes, sharps && flats);
+      if (hardMode) {
+        // choose a random string for hard mode challenge
+        const randomString = Math.floor(Math.random() * numberOfStrings) + 1;
+        setChallengeStringNumber(randomString);
+        // disable all other strings
+        const updatedEnabledStrings = enabledStrings.map((v, i) =>
+          i === randomString - 1 ? true : false,
+        );
+        setEnabledStrings(updatedEnabledStrings);
+      }
+      setChallengeNote(note);
+    },
+    [
+      notes,
+      sharps,
+      flats,
+      hardMode,
+      numberOfStrings,
+      enabledStrings,
+      setEnabledStrings,
+    ],
+  );
 
   // Countdown the timer and end the game when time runs out
   useEffect(() => {
