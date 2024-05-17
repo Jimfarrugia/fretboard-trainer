@@ -27,6 +27,7 @@ The design of the page is responsive with a vertical fretboard layout for smalle
 - Plays the sound of the note that is selected.
 - Choose an instrument (guitar, bass, ukulele).
 - Select preferred tuning (standard, drop, open, etc).
+- Configure a custom tuning.
 - Multiple game modes; free-choice (regular) or string-specific (hard mode).
 - Decide which strings to include in the game.
 - Decide to include accidentals as sharps, flats, both or neither.
@@ -41,7 +42,6 @@ The design of the page is responsive with a vertical fretboard layout for smalle
 ## Planned Updates
 
 - Sign in using email and password.
-- Support custom tunings.
 - Support more instruments:
   - 7-string & 8-string Guitar
   - 5-string & 6-string Bass
