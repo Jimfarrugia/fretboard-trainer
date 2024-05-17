@@ -60,6 +60,25 @@ export const ordinal = (n: number) => {
   return n + (s[(v - 20) % 10] || s[v] || s[0]);
 };
 
+// Get the last character of a string
+export const lastChar = (str: string) => str.charAt(str.length - 1);
+
+// Create an array of selectable octave numbers for a note based on the sound clips that are available
+export const getAvailableOctaves = (note: string) => {
+  const noteWithoutOctave = removeOctaveNumber(note);
+  const widerRangeNotes = ["A", "B", "A#/Bb"];
+  if (widerRangeNotes.includes(noteWithoutOctave)) {
+    // there are sound clips available in octaves 0-7 for these notes
+    return Array.from({ length: 8 }, (_, index) => index);
+  }
+  if (noteWithoutOctave === "C") {
+    // there are sound clips available in octaves 1-8 for C
+    return Array.from({ length: 8 }, (_, index) => index + 1);
+  }
+  // the rest have sound clips available in octaves 1-7
+  return Array.from({ length: 7 }, (_, index) => index + 1);
+};
+
 // Play a audio of a note
 //* Note: all of the file names for accidental notes use flats only (eg. Ab.aac)
 export const playNoteAudio = (
