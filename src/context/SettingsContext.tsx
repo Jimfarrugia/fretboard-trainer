@@ -79,7 +79,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
 
   // If tuning is invalid, reset instrument, tuning, and enabledStrings to default.
   useEffect(() => {
-    if (tuning && !tunings.includes(tuning)) {
+    if (tuning && tuning.name !== "Custom" && !tunings.includes(tuning)) {
       setTuning(defaultSettings.tuning);
       setInstrument(defaultSettings.instrument);
       setEnabledStrings(defaultSettings.enabledStrings);
