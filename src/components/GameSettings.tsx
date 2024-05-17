@@ -9,13 +9,16 @@ import {
   IoVolumeHigh,
 } from "react-icons/io5";
 import { useSettings } from "@/context/SettingsContext";
-import { tunings, instruments } from "@/lib/constants";
+import { tunings, instruments, notesWithSharpsAndFlats } from "@/lib/constants";
 import { Instrument, Tuning } from "@/lib/types";
 import {
   capitalize,
   sharpNote,
   flatNote,
   removeOctaveNumber,
+  ordinal,
+  lastChar,
+  getAvailableOctaves,
 } from "@/lib/utils";
 
 export default function GameSettings({
@@ -78,11 +81,53 @@ export default function GameSettings({
 
   const handleChangeTuning = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedTuningName = e.target.value;
-    const selectedTuning = tunings.find(
-      (tuning) =>
-        tuning.name === selectedTuningName && tuning.instrument === instrument,
-    );
-    setTuning(selectedTuning!);
+    if (selectedTuningName === "Custom") {
+      const strings = tunings.find(
+        (tuning) => tuning.instrument === instrument,
+      )!.strings;
+      setTuning({
+        name: "Custom",
+        strings,
+        instrument,
+      });
+    } else {
+      const selectedTuning = tunings.find(
+        (tuning) =>
+          tuning.name === selectedTuningName &&
+          tuning.instrument === instrument,
+      );
+      setTuning(selectedTuning!);
+    }
+  };
+
+  const handleChangeCustomTuningNote = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    stringIndex: number,
+  ) => {
+    const selectedNote = e.target.value;
+    const octave = lastChar(tuning.strings[stringIndex]);
+    const updatedStrings = [...tuning.strings];
+    updatedStrings[stringIndex] = `${selectedNote}${octave}`;
+    setTuning({
+      name: "Custom",
+      strings: updatedStrings,
+      instrument,
+    });
+  };
+
+  const handleChangeCustomTuningOctave = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    stringIndex: number,
+  ) => {
+    const selectedOctave = e.target.value;
+    const note = removeOctaveNumber(tuning.strings[stringIndex]);
+    const updatedStrings = [...tuning.strings];
+    updatedStrings[stringIndex] = `${note}${selectedOctave}`;
+    setTuning({
+      name: "Custom",
+      strings: updatedStrings,
+      instrument,
+    });
   };
 
   const handleChangeEnabledStrings = (index: number) => {
@@ -186,6 +231,9 @@ export default function GameSettings({
             value={tuning.name}
             onChange={(e) => handleChangeTuning(e)}
           >
+            <option key="tuning-custom" value="Custom">
+              Custom
+            </option>
             {tunings.map((tuning) => {
               return tuning.instrument !== instrument ? null : (
                 <option
@@ -199,6 +247,69 @@ export default function GameSettings({
           </select>
         </label>
       </div>
+      {/* Custom Tuning */}
+      {tuning.name === "Custom" && (
+        <div className="mb-6">
+          <div className="label">
+            <span className="label-text font-medium text-light-heading dark:text-dark-body">
+              Configure Custom Tuning
+            </span>
+          </div>
+          {tuning.strings.map((openStringNote, stringIndex) => (
+            <div
+              key={`custom-tuning-string-${stringIndex + 1}-note`}
+              className="mb-2 flex flex-wrap gap-4"
+            >
+              {/* Note Selector */}
+              <label className="form-control w-1/3 max-w-xs sm:w-1/6">
+                <div className="label">
+                  <span className="label-text font-medium text-light-heading dark:text-dark-body">
+                    {ordinal(stringIndex + 1)} string
+                  </span>
+                </div>
+                <select
+                  className="select select-bordered border-light-link bg-light-bg text-light-link transition-colors hover:border-light-hover hover:text-light-hover focus:border-light-hover focus:text-light-hover focus:outline-none  focus-visible:outline-light-link dark:border-dark-heading dark:bg-dark-darkerBg dark:text-dark-link hover:dark:border-dark-hover hover:dark:text-dark-hover focus:dark:border-dark-hover focus:dark:text-dark-hover focus-visible:dark:outline-dark-highlight"
+                  value={removeOctaveNumber(openStringNote)}
+                  onChange={(e) => handleChangeCustomTuningNote(e, stringIndex)}
+                >
+                  {notesWithSharpsAndFlats.map((note, noteIndex) => (
+                    <option
+                      key={`string${stringIndex + 1}-note-${noteIndex}`}
+                      value={note}
+                    >
+                      {note}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              {/* Octave Selector */}
+              <label className="form-control w-1/3 max-w-xs sm:w-1/6">
+                <div className="label">
+                  <span className="label-text font-medium text-light-heading dark:text-dark-body">
+                    Octave
+                  </span>
+                </div>
+                <select
+                  className="select select-bordered border-light-link bg-light-bg text-light-link transition-colors hover:border-light-hover hover:text-light-hover focus:border-light-hover focus:text-light-hover focus:outline-none  focus-visible:outline-light-link dark:border-dark-heading dark:bg-dark-darkerBg dark:text-dark-link hover:dark:border-dark-hover hover:dark:text-dark-hover focus:dark:border-dark-hover focus:dark:text-dark-hover focus-visible:dark:outline-dark-highlight"
+                  value={openStringNote.charAt(openStringNote.length - 1)}
+                  onChange={(e) =>
+                    handleChangeCustomTuningOctave(e, stringIndex)
+                  }
+                >
+                  {getAvailableOctaves(openStringNote).map((octave) => (
+                    <option
+                      key={`string${stringIndex}-octave-${octave}`}
+                      value={octave}
+                    >
+                      {octave}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          ))}
+        </div>
+      )}
       {/* Enabled Strings */}
       <div className="mb-8">
         <div className="label">
